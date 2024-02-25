@@ -35,7 +35,7 @@ void play_Init() {
 
     launchEnemy();
 
-    player.setX(16 * 40);
+    player.setX(16 * (64 - 8));
     player.setY(24 * 16);
 
     gameState = GameState::Play;
@@ -54,12 +54,38 @@ void render(uint8_t currentPlane) {
     uint8_t imageIdx[4] = { 0, 0, 0, 0 };
 
     int8_t world_XOff = Constants::World_XOffset[player.getXMovement()];
-Serial.println(world_XOff);
+// Serial.println(world_XOff);
 
-    int16_t bg_Pos = bgPos / 16;
-    int16_t fg_Pos = fgPos / 16;
-    // int16_t bg_Pos = (bgPos % (96 * 16)) / 16;
-    // int16_t fg_Pos = (fgPos % (96 * 16)) / 16;
+    // int16_t bg_Pos = bgPos / 16;
+    // int16_t fg_Pos = fgPos / 16;
+
+
+
+    // bgPos = (bgPos - (Constants::Movement_X[scenery_XMovement] / 2));
+    // if (bgPos < 96 * 16) bgPos = bgPos + (96 * 16);
+    // if (bgPos > 96 * 16) bgPos = bgPos - (96 * 16);
+    
+    // fgPos = (fgPos - Constants::Movement_X[scenery_XMovement]);
+    // if (fgPos < 96 * 16) fgPos = fgPos + (96 * 16);
+    // if (fgPos > 96 * 16) fgPos = fgPos - (96 * 16);
+
+
+    int16_t bg_Pos = (bgPos % (96 * 16)) / 16;
+    int16_t fg_Pos = (fgPos % (96 * 16)) / 16;
+
+    uint8_t bgIdx =    ( bgPos / (96 * 16)) % 4;
+    int8_t fgIdx =     (fgPos / (96 * 16)) % 4;
+
+
+// Serial.print(fgPos);
+// Serial.print(" ");
+// Serial.print(fg_Pos);
+// Serial.print(" ");
+// Serial.print(fgPos / (96 * 16));
+// Serial.print(" ");
+// Serial.println(fgIdx);
+
+
 // Serial.print(fgPos);
 // Serial.print(" ");
 // Serial.print(fg_Pos - 96);
@@ -68,15 +94,32 @@ Serial.println(world_XOff);
 // Serial.print(" ");
 // Serial.print(fg_Pos + 96);
 // Serial.println(" ");
-    SpritesU::drawOverwriteFX(bg_Pos - 96 , 24, Images::BG_00, currentPlane);
-    SpritesU::drawOverwriteFX(bg_Pos, 24, Images::BG_00, currentPlane);
-    SpritesU::drawOverwriteFX(bg_Pos + 96, 24, Images::BG_00, currentPlane);
 
-    SpritesU::drawPlusMaskFX(fg_Pos - 96, 38, Images::FG_00, currentPlane);
+    SpritesU::drawOverwriteFX(bg_Pos - 96, 22, Images::BG_00, (((bgIdx + 8) % 4) * 3) + currentPlane);
+    SpritesU::drawOverwriteFX(bg_Pos, 22, Images::BG_00, (((bgIdx - 1 + 8) % 4) * 3) + currentPlane);
+    SpritesU::drawOverwriteFX(bg_Pos + 96, 22, Images::BG_00, (((bgIdx - 2 + 8) % 4) * 3) + currentPlane);
+    SpritesU::drawOverwriteFX(bg_Pos + 96 + 96, 22, Images::BG_00, (((bgIdx - 3 + 8) % 4) * 3) + currentPlane);
 
-    SpritesU::drawPlusMaskFX(fg_Pos, 38, Images::FG_00, currentPlane);
 
-    SpritesU::drawPlusMaskFX(fg_Pos + 96, 38, Images::FG_00, currentPlane);
+// Serial.print(fgIdx);
+// Serial.print(",");
+
+// Serial.print(((fgIdx + 8) % 4));
+// Serial.print(",");
+// Serial.print(((fgIdx - 1 + 8) % 4));
+// Serial.print(",");
+// Serial.print(((fgIdx - 2 + 8) % 4));
+// Serial.print(" =");
+
+// Serial.print(fgPos);
+// Serial.print(",");
+// Serial.println(fg_Pos);
+
+
+    SpritesU::drawPlusMaskFX(fg_Pos - 96, 30, Images::FG_00, (((fgIdx + 8) % 4) * 3) + currentPlane);
+    SpritesU::drawPlusMaskFX(fg_Pos, 30, Images::FG_00, (((fgIdx - 1 + 8) % 4) * 3) + currentPlane);
+    SpritesU::drawPlusMaskFX(fg_Pos + 96, 30, Images::FG_00, (((fgIdx - 2 + 8) % 4) * 3) + currentPlane);
+    SpritesU::drawPlusMaskFX(fg_Pos + 96 + 96, 30, Images::FG_00, (((fgIdx - 3 + 8) % 4) * 3) + currentPlane);
 
 
     // Render enemies ..

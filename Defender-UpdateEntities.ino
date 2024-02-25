@@ -111,12 +111,12 @@ void updatePlayer(uint8_t frameCount) {
 
 
     bgPos = (bgPos - (Constants::Movement_X[scenery_XMovement] / 2));
-    if (bgPos < 96 * 16) bgPos = bgPos + (96 * 16);
-    if (bgPos > 96 * 16) bgPos = bgPos - (96 * 16);
+    // if (bgPos < 96 * 16) bgPos = bgPos + (96 * 16);
+    // if (bgPos > 96 * 16) bgPos = bgPos - (96 * 16);
     
     fgPos = (fgPos - Constants::Movement_X[scenery_XMovement]);
-    if (fgPos < 96 * 16) fgPos = fgPos + (96 * 16);
-    if (fgPos > 96 * 16) fgPos = fgPos - (96 * 16);
+    // if (fgPos < 96 * 16) fgPos = fgPos + (96 * 16);
+    // if (fgPos > 96 * 16) fgPos = fgPos - (96 * 16);
 
 
 }

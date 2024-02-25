@@ -16,8 +16,8 @@ class Player {
 
         int16_t x = 40 * 16;
         int16_t y = Constants::Player_YMax - Constants::Player_Offset;
-        int16_t xScreen = 40 * 16;
-        int16_t yScreen = Constants::Player_YMax - Constants::Player_Offset;
+        int16_t xScreen = (64 - 4) * 16;
+        int16_t yScreen = 16 * 30;
         
 
     public:

@@ -145,5 +145,5 @@ convert_header(IMAGES + 'GameOver.png',                                         
 convert_header(IMAGES + 'Quit.png',                                                            BASE + 'Images.hpp', 'Quit', 4)
 
 
-convert_header(IMAGES + 'Scenery/BG_00.png',                                                   BASE + 'Images.hpp', 'BG_00', 4)
-convert_header(IMAGES + 'Scenery/FG_00.png',                                                   BASE + 'Images.hpp', 'FG_00', 4)
+convert_header(IMAGES + 'Scenery/BG_00.png',                                                   BASE + 'Images.hpp', 'BG_00', 4, 96, 40)
+convert_header(IMAGES + 'Scenery/FG_00.png',                                                   BASE + 'Images.hpp', 'FG_00', 4, 96, 24)
