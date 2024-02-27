@@ -25,7 +25,7 @@ class Player {
         PlayerMovement getMovement()                    { return this->playerMovement; }
         Direction getDirection()                        { return this->direction; }
         int8_t getXMovement()                           { return this->xMovement; }
-        int8_t getX_Screen()                            { return this->xScreen / 16; }        
+        // int8_t getX_Screen()                            { return this->xScreen / 16; }        
         int8_t getY_Screen()                            { return this->yScreen / 16; }        
         int16_t getX()                                  { return this->x; }        
         int16_t getY()                                  { return this->y; }        
@@ -38,62 +38,7 @@ class Player {
 
     public:
 
-        void shoot() {
-
-//            this->playerMovement = static_cast<PlayerMovement>(this->direction + (this->y <= 8 ? 13 : 0));
-
-            if (static_cast<int16_t>(this->y) >= static_cast<int16_t>(Constants::Player_YMax - Constants::Player_Offset)) {
-                this->y = this->y + Constants::Player_Offset;
-            }
-
-        }
-
         void accelerate(Direction direction) {
-
-            // switch (direction) {
-
-            //     case Direction::West:
-
-            //         switch (this->xMovement) {
-
-            //             case -14 ... -5:
-            //                 this->xMovement = this->xMovement - 2;
-            //                 break;
-
-            //             case -4 ... 4:
-            //                 this->xMovement = this->xMovement - 1;
-            //                 break;
-
-            //             case 5 ... 127:
-            //                 this->xMovement = this->xMovement - 2;
-            //                 break;
-
-            //         }
-
-            //         break;
-
-            //     case Direction::East:
-
-            //         switch (this->xMovement) {
-
-            //             case -127 ... -5:
-            //                 this->xMovement = this->xMovement + 2;
-            //                 break;
-
-            //             case -4 ... 4:
-            //                 this->xMovement = this->xMovement + 1;
-            //                 break;
-
-            //             case 5 ... 14:
-            //                 this->xMovement = this->xMovement + 2;
-            //                 break;
-
-            //         }
-
-            //         break;
-
-            // }
-
 
             switch (direction) {
 
@@ -119,8 +64,6 @@ class Player {
                 this->direction = Direction::East;
 
             }
-
-            // Serial.println(this->xMovement);
 
         }
 

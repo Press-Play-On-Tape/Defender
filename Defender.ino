@@ -44,8 +44,6 @@ bool particlesNeedRendering = false;
 bool scoresNeedRendering = false;
 
 uint8_t scorePerPass = 0;
-uint8_t launchEnemyCounter_Max = 255;
-uint8_t launchEnemyCounter = 255;
 uint8_t hudCounter = 0;
 uint8_t gameOverCounter = 0;
 uint8_t scoreMax = 0;
@@ -56,7 +54,6 @@ int16_t yWorld = 0;
 
 
 int16_t bgPos = 5000;
-int16_t mgPos = 5000;
 int16_t fgPos = 5000;
 
 int8_t scenery_XMovement = 0;
