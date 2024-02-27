@@ -102,35 +102,8 @@ IMAGES = '../images/'
 
 deleteFile(BASE + 'Images.hpp')
 
-convert_header(IMAGES + 'Player/Player_01_00.png',                                             BASE + 'Images.hpp', 'Player_01_00', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_01_01.png',                                             BASE + 'Images.hpp', 'Player_01_01', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_01_02.png',                                             BASE + 'Images.hpp', 'Player_01_02', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_01_03.png',                                             BASE + 'Images.hpp', 'Player_01_03', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_01_04.png',                                             BASE + 'Images.hpp', 'Player_01_04', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_01_05.png',                                             BASE + 'Images.hpp', 'Player_01_05', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_01_06.png',                                             BASE + 'Images.hpp', 'Player_01_06', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_01_07.png',                                             BASE + 'Images.hpp', 'Player_01_07', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_01_08.png',                                             BASE + 'Images.hpp', 'Player_01_08', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_01_09.png',                                             BASE + 'Images.hpp', 'Player_01_09', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_01_10.png',                                             BASE + 'Images.hpp', 'Player_01_10', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_01_11.png',                                             BASE + 'Images.hpp', 'Player_01_11', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_01_12.png',                                             BASE + 'Images.hpp', 'Player_01_12', 4, maskImage=True)
-
-convert_header(IMAGES + 'Player/Player_00_00.png',                                             BASE + 'Images.hpp', 'Player_00_00', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_00_01.png',                                             BASE + 'Images.hpp', 'Player_00_01', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_00_02.png',                                             BASE + 'Images.hpp', 'Player_00_02', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_00_03.png',                                             BASE + 'Images.hpp', 'Player_00_03', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_00_04.png',                                             BASE + 'Images.hpp', 'Player_00_04', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_00_05.png',                                             BASE + 'Images.hpp', 'Player_00_05', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_00_06.png',                                             BASE + 'Images.hpp', 'Player_00_06', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_00_07.png',                                             BASE + 'Images.hpp', 'Player_00_07', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_00_08.png',                                             BASE + 'Images.hpp', 'Player_00_08', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_00_09.png',                                             BASE + 'Images.hpp', 'Player_00_09', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_00_10.png',                                             BASE + 'Images.hpp', 'Player_00_10', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_00_11.png',                                             BASE + 'Images.hpp', 'Player_00_11', 4, maskImage=True)
-convert_header(IMAGES + 'Player/Player_00_12.png',                                             BASE + 'Images.hpp', 'Player_00_12', 4, maskImage=True)
-
-convert_header(IMAGES + 'Player/Player.png',                                                   BASE + 'Images.hpp', 'Player', 4, maskImage=True)
+convert_header(IMAGES + 'Player/Player.png',                                                   BASE + 'Images.hpp', 'Player', 4, 16, 16, maskImage=True)
+convert_header(IMAGES + 'Player/Player_Thrust.png',                                            BASE + 'Images.hpp', 'Player_Thrust', 4, 16, 8, maskImage=True)
 
 convert_header(IMAGES + 'HUD.png',                                                             BASE + 'Images.hpp', 'HUD', 4, 25, 64)
 
@@ -146,4 +119,5 @@ convert_header(IMAGES + 'Quit.png',                                             
 
 
 convert_header(IMAGES + 'Scenery/BG_00.png',                                                   BASE + 'Images.hpp', 'BG_00', 4, 96, 40)
-convert_header(IMAGES + 'Scenery/FG_00.png',                                                   BASE + 'Images.hpp', 'FG_00', 4, 96, 24)
+convert_header(IMAGES + 'Scenery/MG_00.png',                                                   BASE + 'Images.hpp', 'MG_00', 4, 96, 24)
+convert_header(IMAGES + 'Scenery/FG_00.png',                                                   BASE + 'Images.hpp', 'FG_00', 4, 58, 32)

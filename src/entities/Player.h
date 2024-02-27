@@ -11,19 +11,19 @@ class Player {
 
         PlayerMovement playerMovement = PlayerMovement::Up_Middle;
 
-        uint8_t direction = 6;
+        Direction direction = Direction::East;
         int8_t xMovement = 13;
 
         int16_t x = 40 * 16;
         int16_t y = Constants::Player_YMax - Constants::Player_Offset;
         int16_t xScreen = (64 - 4) * 16;
-        int16_t yScreen = 16 * 30;
+        int16_t yScreen = 16 * 16;
         
 
     public:
 
         PlayerMovement getMovement()                    { return this->playerMovement; }
-        uint8_t getDirection()                          { return this->direction; }
+        Direction getDirection()                        { return this->direction; }
         int8_t getXMovement()                           { return this->xMovement; }
         int8_t getX_Screen()                            { return this->xScreen / 16; }        
         int8_t getY_Screen()                            { return this->yScreen / 16; }        
@@ -32,7 +32,7 @@ class Player {
 
         void setMovement(PlayerMovement val)            { this->playerMovement = val; }
         void setXMovement(int8_t val)                   { this->xMovement = val; }
-        void setDirection(uint8_t val)                  { this->direction = val; }
+        void setDirection(Direction val)                { this->direction = val; }
         void setX(int16_t val)                          { this->x = val; }
         void setY(int16_t val)                          { this->y = val; }
 
@@ -40,7 +40,7 @@ class Player {
 
         void shoot() {
 
-            this->playerMovement = static_cast<PlayerMovement>(this->direction + (this->y <= 8 ? 13 : 0));
+//            this->playerMovement = static_cast<PlayerMovement>(this->direction + (this->y <= 8 ? 13 : 0));
 
             if (static_cast<int16_t>(this->y) >= static_cast<int16_t>(Constants::Player_YMax - Constants::Player_Offset)) {
                 this->y = this->y + Constants::Player_Offset;
@@ -109,7 +109,18 @@ class Player {
 
             }
 
-            Serial.println(this->xMovement);
+            if (this->xMovement < 13) {
+
+                this->direction = Direction::West;
+
+            }
+            else {
+
+                this->direction = Direction::East;
+
+            }
+
+            // Serial.println(this->xMovement);
 
         }
 

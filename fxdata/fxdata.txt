@@ -15,35 +15,6 @@ namespace Images
 
     include "images/Images.hpp"
 
-    uint24_t Player_Rotate[] = {
-        Player_00_00,
-        Player_00_01,
-        Player_00_02,
-        Player_00_03,
-        Player_00_04,
-        Player_00_05,
-        Player_00_06,
-        Player_00_07,
-        Player_00_08,
-        Player_00_09,
-        Player_00_10,
-        Player_00_11,
-        Player_00_12,
-        Player_01_00,
-        Player_01_01,
-        Player_01_02,
-        Player_01_03,
-        Player_01_04,
-        Player_01_05,
-        Player_01_06,
-        Player_01_07,
-        Player_01_08,
-        Player_01_09,
-        Player_01_10,
-        Player_01_11,
-        Player_01_12,
-    };
-
 namespace_end
 
 savesection  // Anything below here will be stored in the save block

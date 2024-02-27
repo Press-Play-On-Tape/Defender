@@ -56,6 +56,7 @@ int16_t yWorld = 0;
 
 
 int16_t bgPos = 5000;
+int16_t mgPos = 5000;
 int16_t fgPos = 5000;
 
 int8_t scenery_XMovement = 0;
