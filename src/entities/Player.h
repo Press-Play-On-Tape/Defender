@@ -14,9 +14,9 @@ class Player {
         Direction direction = Direction::East;
         int8_t xMovement = 13;
 
-        int16_t x = 40 * 16;
+        int16_t x = 5000 + (64 - 4) * 16;
         int16_t y = Constants::Player_YMax - Constants::Player_Offset;
-        int16_t xScreen = (64 - 4) * 16;
+        int16_t xScreen = 5000 + (64 - 4) * 16;
         int16_t yScreen = 16 * 16;
         
 
@@ -54,7 +54,7 @@ class Player {
 
             }
 
-            if (this->xMovement < 13) {
+            if (this->xMovement < 14) {
 
                 this->direction = Direction::West;
 

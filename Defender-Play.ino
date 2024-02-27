@@ -30,7 +30,7 @@ void play_Init() {
 
     }
 
-    player.setX(16 * (64 - 8));
+    player.setX(5000 + (64 - 4) * 16);
     player.setY(16 * 16);
 
     gameState = GameState::Play;
@@ -50,13 +50,21 @@ void render(uint8_t currentPlane) {
 
     int8_t world_XOff = Constants::World_XOffset[player.getXMovement()];
 
-    int16_t bg_Pos = (bgPos % (96 * 16)) / 16;
-    int16_t mg_Pos = (xWorld % (96 * 16)) / 16;
-    int16_t fg_Pos = (fgPos % (96 * 16)) / 16;
 
-    int8_t bgIdx =    ( bgPos / (96 * 16)) % 4;
-    int8_t mgIdx =     (xWorld / (96 * 16)) % 4;
-    int8_t fgIdx =     (fgPos / (96 * 16)) % 4;
+
+    int16_t diffX = xWorld - player.getX();
+
+
+
+
+
+    int16_t bg_Pos = ((bgPos + diffX) % (96 * 16)) / 16;
+    int16_t mg_Pos = ((xWorld + diffX) % (96 * 16)) / 16;
+    int16_t fg_Pos = ((fgPos + diffX) % (96 * 16)) / 16;
+
+    int8_t bgIdx =    ((bgPos + diffX) / (96 * 16)) % 4;
+    int8_t mgIdx =     ((xWorld + diffX) / (96 * 16)) % 4;
+    int8_t fgIdx =     ((fgPos + diffX) / (96 * 16)) % 4;
 
 
     SpritesU::drawOverwriteFX(bg_Pos - 96, 22, Images::BG_00, (((bgIdx + 8) % 4) * 3) + currentPlane);
@@ -100,7 +108,14 @@ void render(uint8_t currentPlane) {
             
     }
 
-    int16_t playerX = (player.getX() - xWorld) / 16;
+// Serial.print(xWorld);
+// Serial.print(" ");
+// Serial.println(player.getX());
+
+
+
+
+    uint8_t playerX_Offset = 68;
 
     switch (player.getDirection()) {
 
@@ -108,21 +123,23 @@ void render(uint8_t currentPlane) {
 
             switch (player.getXMovement()) {
 
-                case 13:
-                
-                    SpritesU::drawPlusMaskFX(playerX, player.getY_Screen(), Images::Player, 9 + currentPlane);
+                case 14:
+// Serial.println("1");                
+                    SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 9 + currentPlane);
                     break;
 
-                case 14:
+                case 15:
+// Serial.println("2");                
 
-                    SpritesU::drawPlusMaskFX(playerX - 8, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
-                    SpritesU::drawPlusMaskFX(playerX, player.getY_Screen(), Images::Player, 12 + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset - 8, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 12 + currentPlane);
                     break;
 
                 default:
+// Serial.println("3");                
 
-                    SpritesU::drawPlusMaskFX(playerX, player.getY_Screen(), Images::Player, 3 + currentPlane);
-                    SpritesU::drawPlusMaskFX(playerX - 16, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 3 + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset - 16, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
                     break;
                     
             }
@@ -132,21 +149,24 @@ void render(uint8_t currentPlane) {
 
             switch (player.getXMovement()) {
 
-                case 13:
+                case 14:
+// Serial.println("4");                
 
-                    SpritesU::drawPlusMaskFX(playerX, player.getY_Screen(), Images::Player, 9 + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 9 + currentPlane);
                     break;
 
-                case 12:
+                case 13:
+// Serial.println("5");                
 
-                    SpritesU::drawPlusMaskFX(playerX + 8, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
-                    SpritesU::drawPlusMaskFX(playerX, player.getY_Screen(), Images::Player, 6 + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset + 8, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 6 + currentPlane);
                     break;
 
                 default:
+// Serial.println("6");                
 
-                    SpritesU::drawPlusMaskFX(playerX, player.getY_Screen(), Images::Player, 0 + currentPlane);
-                    SpritesU::drawPlusMaskFX(playerX + 16, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 0 + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset + 16, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
                     break;
                     
             }

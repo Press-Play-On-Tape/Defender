@@ -49,9 +49,9 @@ uint8_t gameOverCounter = 0;
 uint8_t scoreMax = 0;
 
 
-int16_t xWorld = 0;
+int16_t xWorld = 5000;
 int16_t yWorld = 0;
-
+int16_t playerXOffset = 450;
 
 int16_t bgPos = 5000;
 int16_t fgPos = 5000;
