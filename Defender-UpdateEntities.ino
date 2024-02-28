@@ -65,9 +65,12 @@ Serial.println(playerXOffset);
         
     }
 
-    bgPos = (bgPos - (Constants::Movement_X[scenery_XMovement] / 2));
-    xWorld = (xWorld - Constants::Movement_X[scenery_XMovement]);
-    fgPos = (fgPos - Constants::Movement_X[scenery_XMovement] * 2);
+    // bgPos = (bgPos - (Constants::Movement_X[scenery_XMovement] / 2));
+    // xWorld = (xWorld - Constants::Movement_X[scenery_XMovement]);
+    // fgPos = (fgPos - Constants::Movement_X[scenery_XMovement] * 2);
 
 
+    bgPos = (bgPos + (Constants::Movement_X[scenery_XMovement] / 2));
+    //xWorld = (xWorld - Constants::Movement_X[scenery_XMovement]);
+    fgPos = (fgPos - Constants::Movement_X[scenery_XMovement] / 2);
 }
