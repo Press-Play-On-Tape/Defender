@@ -8,7 +8,7 @@
 #include "src/utils/Constants.h"
 #include "src/utils/Enums.h"
 #include "fxdata/fxdata.h"
-#include "fxdata/images/Tiles.h"
+#include "fxdata/images/Images.h"
 #include "src/entities/Entities.h"
 #include "src/utils/Random.h"
 
@@ -34,10 +34,9 @@ Cookie cookie;
 SoundSettings &soundSettings = cookie.soundSettings;
 Player player;
 Enemy enemies[Constants::EnemyCount];
-Score scores[Constants::ScoreCount];
 Particle particles[Constants::ParticlesMax];
 GameState gameState = GameState::SplashScreen_Start;
-
+Bullet bullets[Constants::BulletCount];
 uint8_t frameCount = 0;
 
 bool particlesNeedRendering = false;
@@ -51,7 +50,7 @@ uint8_t scoreMax = 0;
 
 int16_t xWorld = 5000;
 int16_t yWorld = 0;
-int16_t playerXOffset = 450;
+int16_t playerXOffset = 0;
 
 int16_t bgPos = 5000;
 int16_t fgPos = 5000;

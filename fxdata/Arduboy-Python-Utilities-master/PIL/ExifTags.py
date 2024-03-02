@@ -161,7 +161,7 @@ class Base(IntEnum):
     Humidity = 0x9401
     Pressure = 0x9402
     WaterDepth = 0x9403
-    Acceleration = 0x9404
+    Accceleration = 0x9404
     CameraElevationAngle = 0x9405
     XPTitle = 0x9C9B
     XPComment = 0x9C9C

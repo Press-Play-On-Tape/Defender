@@ -16,17 +16,15 @@ void play_Init() {
 
     }
 
-    for (Score &score : scores) {
-
-        score.setActive(false);
-        score.setX(0);
-        score.setY(0);
-
-    }
-
     for (Particle &particle : particles) {
 
         particle.setCounter(0);
+
+    }
+
+    for (Bullet &bullet : bullets) {
+
+        bullet.setActive(false);
 
     }
 
@@ -77,8 +75,55 @@ void render(uint8_t currentPlane) {
     SpritesU::drawPlusMaskFX(mg_Pos + 96, 30, Images::MG_00, (((mgIdx - 2 + 8) % 4) * 3) + currentPlane);
     SpritesU::drawPlusMaskFX(mg_Pos + 96 + 96, 30, Images::MG_00, (((mgIdx - 3 + 8) % 4) * 3) + currentPlane);
 
+
+
+
+
+    uint8_t playerX_Offset = 56 + (playerXOffset / 16);
+
+
+
+    for (Bullet &bullet : bullets) {
+
+        if (bullet.isActive()) {
+
+            int16_t xDiff = (bullet.getX() - player.getX()) / 16;
+
+            switch (bullet.getDirection()) {
+
+                case Direction::West:
+                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY_Screen(), Images::Player_Bullets, currentPlane);
+                    break;
+
+                case Direction::East:
+                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY_Screen(), Images::Player_Bullets, 3 + currentPlane);
+                    break;
+
+                
+            }
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+
     uint8_t thrust = 0;
     uint8_t thrust_frameCount = ((frameCount % 9 / 3));
+
+
+
+
+
+
+
+
 
     switch (player.getXMovement()) {
 
@@ -108,14 +153,6 @@ void render(uint8_t currentPlane) {
             
     }
 
-// Serial.print(xWorld);
-// Serial.print(" ");
-// Serial.println(player.getX());
-
-
-
-
-    uint8_t playerX_Offset = 68;
 
     switch (player.getDirection()) {
 
@@ -124,19 +161,17 @@ void render(uint8_t currentPlane) {
             switch (player.getXMovement()) {
 
                 case 14:
-// Serial.println("1");                
+
                     SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 9 + currentPlane);
                     break;
 
                 case 15:
-// Serial.println("2");                
 
                     SpritesU::drawPlusMaskFX(playerX_Offset - 8, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
                     SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 12 + currentPlane);
                     break;
 
                 default:
-// Serial.println("3");                
 
                     SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 3 + currentPlane);
                     SpritesU::drawPlusMaskFX(playerX_Offset - 16, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
@@ -150,20 +185,17 @@ void render(uint8_t currentPlane) {
             switch (player.getXMovement()) {
 
                 case 14:
-// Serial.println("4");                
 
                     SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 9 + currentPlane);
                     break;
 
                 case 13:
-// Serial.println("5");                
 
                     SpritesU::drawPlusMaskFX(playerX_Offset + 8, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
                     SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 6 + currentPlane);
                     break;
 
                 default:
-// Serial.println("6");                
 
                     SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 0 + currentPlane);
                     SpritesU::drawPlusMaskFX(playerX_Offset + 16, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
@@ -197,11 +229,11 @@ void render(uint8_t currentPlane) {
     // SpritesU::drawOverwriteFX(128- 25, 0, Images::HUD, ((hudCounter / 3) * 3) + currentPlane);
 
     uint16_t score = cookie.score / 10000;
-    SpritesU::drawOverwriteFX(128 - 21, 0, Images::Numbers_5x3_1D_WB, (score * 3) + currentPlane);
+    SpritesU::drawOverwriteFX(128 - 21, 0, Images::Numbers_5x3_1D_MB, (score * 3) + currentPlane);
     score = (cookie.score - (score * 10000)) / 100;
-    SpritesU::drawOverwriteFX(128 - 17, 0, Images::Numbers_5x3_2D_WB, (score * 3) + currentPlane);
+    SpritesU::drawOverwriteFX(128 - 17, 0, Images::Numbers_5x3_2D_MB, (score * 3) + currentPlane);
     score = cookie.score % 100;
-    SpritesU::drawOverwriteFX(128 - 9, 0, Images::Numbers_5x3_2D_WB, (score * 3) + currentPlane);
+    SpritesU::drawOverwriteFX(128 - 9, 0, Images::Numbers_5x3_2D_MB, (score * 3) + currentPlane);
 
 
     // Render particles and scores ..
@@ -224,18 +256,30 @@ void play_Update() {
         case GameState::Play:
 
             updatePlayer(frameCount);
+            updateBullets(player.getX());
 
             if (justPressed & B_BUTTON) { 
                 gameState = GameState::Play_Quit;
             }
 
+            if (justPressed & A_BUTTON) { 
+
+                fireBullet();
+
+            }
+
             if (frameCount % 4 == 0) {
 
                 if (pressed & LEFT_BUTTON) { 
-                    player.accelerate(Direction::West);
+                    player.acccelerate(Direction::West);
                 }
-                if (pressed & RIGHT_BUTTON) { 
-                    player.accelerate(Direction::East);
+                else if (pressed & RIGHT_BUTTON) { 
+                    player.acccelerate(Direction::East);
+                }
+                else if (frameCount % 8 == 0) {
+
+                    player.deccelerate();
+
                 }
 
             }
@@ -276,3 +320,40 @@ void play(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
 
 }
 
+
+void fireBullet() {
+
+    if (player.getXMovement() == 13) return;
+
+    for (Bullet &bullet : bullets) {
+
+        if (!bullet.isActive()) {
+
+            bullet.setActive(true);
+            bullet.setY(player.getY() + (8 * 16));
+
+            switch (player.getDirection()) {
+
+                case Direction::NorthEast:
+                case Direction::East:
+                case Direction::SouthEast:
+                    bullet.setX(player.getX() + (Constants::Player_Width * 16));
+                    bullet.setDirection(Direction::East);
+                    break;
+
+                case Direction::NorthWest:
+                case Direction::West:
+                case Direction::SouthWest:
+                    bullet.setX(player.getX() - (2 * 16));
+                    bullet.setDirection(Direction::West);
+                    break;
+                
+            }
+
+            break;
+
+        }
+
+    }
+
+}

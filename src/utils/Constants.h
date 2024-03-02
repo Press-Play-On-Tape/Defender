@@ -1,6 +1,6 @@
 #pragma once
 #include "../../fxdata/fxdata.h"
-#include "../../fxdata/images/Tiles.h"
+#include "../../fxdata/images/Images.h"
 
 #define DEBUG_PRINT    Serial.print
 #define DEBUG_PRINTLN  Serial.println
@@ -48,32 +48,15 @@ namespace Constants {
     constexpr int16_t Player_YMin = 8;
     constexpr int16_t Player_YMax = 900;
     constexpr int16_t Player_Offset = 144;
-    constexpr uint8_t Player_Width_Full = 5;
-    constexpr uint8_t Player_Width = 3;
+    constexpr uint8_t Player_Width = 14;
     constexpr uint8_t ParticlesMax = 25;
-    constexpr uint8_t ScoreCount = 5;
-    constexpr uint8_t ScoreFade = 24;
+    constexpr uint8_t BulletCount = 5;
 
 
-    // constexpr uint8_t PlayerOffset_X[13] = { -11, -9, -6, -4, -1, 0, 0, 0, 0, 0, 0, 0, 0 };
+    constexpr int16_t PLAYER_OFFSET_X_MIN = 46 * -16;
+    constexpr int16_t PLAYER_OFFSET_X_MID = 0;
+    constexpr int16_t PLAYER_OFFSET_X_MAX = 46 * 16;
 
-    // constexpr int8_t  Player_Movement_X[26] = { -18, -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15, 18, -18, -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15, 18 };
-    // constexpr int8_t  Player_Movement_Y[26] = { -18, -21, -24, -27, -30, -33, -36, -33, -30, -27, -24, -21, -18, 18, 21, 24, 27, 30, 33, 36, 33, 30, 27, 24, 21, 18 };
-    // constexpr uint8_t Player_AltDirection[26] = { 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13 };
-
-    // constexpr uint8_t Enemy_Movement_X[13] = { 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2 };
-    // constexpr int8_t  Enemy_Movement_Y[13] = { -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6 };
-    // constexpr uint8_t Enemy_AltDirection[13] = { 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
-
-    // constexpr uint8_t Bubble_Count = 4;
-    // constexpr uint8_t Bubble_Movement[3] = { 2, 3, 4 };
-    // constexpr uint8_t Bubble_X_Limit[3] = { 119, 115, 112 };
-    // constexpr uint8_t Bubble_Y_Limit[3] = { 54, 51, 47 };
-
-                                              // -
-    // constexpr int8_t Movement_X[29] = { -12, -11, -10,  -9,  -8,  -7,  -6,  -5,  -4, -3, -2, -2, -1, -1, 0, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-    // constexpr int8_t Movement_X[29] = { -16, -14, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16 };
-//    constexpr int8_t Movement_X[29] = { -20, -18, -16, -14, -12, -10, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20 };
     constexpr int8_t Movement_X[29] = { -24, -22, -20, -18, -16, -14, -12, -10, -8, -6, -4, -3, -2, -1, 0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24 };
     constexpr int8_t World_XOffset[29] = { 42, 39, 36, 33, 30, 27, 24, 21, 18, 15, 12, 9, 6, 3, 0, -3, -6, -9, -12, -15, -18, -21, -24, -27, -30, -33, -36, -39, -42 };
 
@@ -81,32 +64,5 @@ namespace Constants {
 
 
 namespace Images {
-
-   const uint8_t * const Tiles[] = {
-       Images::Tile_00_01,
-       Images::Tile_00_02,
-       Images::Tile_00_03,
-       Images::Tile_00_04,
-       Images::Tile_00_05,
-       Images::Tile_00_06,
-       Images::Tile_00_07,
-       Images::Tile_00_08,
-       Images::Tile_01_01,
-       Images::Tile_01_02,
-       Images::Tile_01_03,
-       Images::Tile_01_04,
-       Images::Tile_01_05,
-       Images::Tile_01_06,
-       Images::Tile_01_07,
-       Images::Tile_01_08,
-       Images::Tile_02_01,
-       Images::Tile_02_02,
-       Images::Tile_02_03,
-       Images::Tile_02_04,
-       Images::Tile_02_05,
-       Images::Tile_02_06,
-       Images::Tile_02_07,
-       Images::Tile_02_08,
-   };
     
 };

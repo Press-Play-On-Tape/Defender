@@ -97,38 +97,10 @@ def deleteFile(filename):
 BASE = './images/'
 IMAGES = '../images/'
 
-deleteFile(BASE + 'Tiles.h')
+deleteFile(BASE + 'Images.h')
 
-openFile(BASE + 'Tiles.h', 'Images')
+openFile(BASE + 'Images.h', 'Images')
 
-##convert_header_PROGMEM(IMAGES + '/Grids/Grid.png',                                      BASE + 'Tiles.h', 'Grid', 4, 102, 64)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_00_01.png',                                BASE + 'Tiles.h', 'Tile_00_01', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_00_02.png',                                BASE + 'Tiles.h', 'Tile_00_02', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_00_03.png',                                BASE + 'Tiles.h', 'Tile_00_03', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_00_04.png',                                BASE + 'Tiles.h', 'Tile_00_04', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_00_05.png',                                BASE + 'Tiles.h', 'Tile_00_05', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_00_06.png',                                BASE + 'Tiles.h', 'Tile_00_06', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_00_07.png',                                BASE + 'Tiles.h', 'Tile_00_07', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_00_08.png',                                BASE + 'Tiles.h', 'Tile_00_08', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_01_01.png',                                BASE + 'Tiles.h', 'Tile_01_01', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_01_02.png',                                BASE + 'Tiles.h', 'Tile_01_02', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_01_03.png',                                BASE + 'Tiles.h', 'Tile_01_03', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_01_04.png',                                BASE + 'Tiles.h', 'Tile_01_04', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_01_05.png',                                BASE + 'Tiles.h', 'Tile_01_05', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_01_06.png',                                BASE + 'Tiles.h', 'Tile_01_06', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_01_07.png',                                BASE + 'Tiles.h', 'Tile_01_07', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_01_08.png',                                BASE + 'Tiles.h', 'Tile_01_08', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_02_01.png',                                BASE + 'Tiles.h', 'Tile_02_01', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_02_02.png',                                BASE + 'Tiles.h', 'Tile_02_02', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_02_03.png',                                BASE + 'Tiles.h', 'Tile_02_03', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_02_04.png',                                BASE + 'Tiles.h', 'Tile_02_04', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_02_05.png',                                BASE + 'Tiles.h', 'Tile_02_05', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_02_06.png',                                BASE + 'Tiles.h', 'Tile_02_06', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_02_07.png',                                BASE + 'Tiles.h', 'Tile_02_07', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_02_08.png',                                BASE + 'Tiles.h', 'Tile_02_08', 4)
-convert_header_PROGMEM(IMAGES + '/Tiles/Tile_Exploding.png',                            BASE + 'Tiles.h', 'Tile_Exploding', 4, 15, 16)
-convert_header_PROGMEM(IMAGES + '/Enemy/Enemy.png',                                     BASE + 'Tiles.h', 'Enemy', 4)
+convert_header_PROGMEM(IMAGES + '/Player/Player_Bullets.png',                                      BASE + 'Images.h', 'Player_Bullets', 4, 8, 8)
 
-
-
-closeFile(BASE + 'Tiles.h')
+closeFile(BASE + 'Images.h')
