@@ -8,7 +8,7 @@ class Bullet {
 
     private:
 
-        Direction direction = Direction::East;
+        Direction direction = Direction::Right;
         int16_t x = 40;
         int16_t y = 47;
         bool active = false;
@@ -16,7 +16,6 @@ class Bullet {
     public:
 
         Direction getDirection()                        { return this->direction; }
-        int8_t getX_Screen()                            { return (this->x / 16) - 8; }        
         int8_t getY_Screen()                            { return (this->y / 16) - 2; }        
         int16_t getX()                                  { return this->x; }        
         int16_t getY()                                  { return this->y; }        
@@ -34,11 +33,11 @@ class Bullet {
 
             switch (this->direction) {
 
-                case Direction::East:
+                case Direction::Right:
                     this->x = this->x + 64;
                     break;
 
-                case Direction::West:
+                case Direction::Left:
                     this->x = this->x - 64;
                     break;
 

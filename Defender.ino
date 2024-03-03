@@ -37,24 +37,18 @@ Enemy enemies[Constants::EnemyCount];
 Particle particles[Constants::ParticlesMax];
 GameState gameState = GameState::SplashScreen_Start;
 Bullet bullets[Constants::BulletCount];
+World world;
+
 uint8_t frameCount = 0;
 
 bool particlesNeedRendering = false;
 bool scoresNeedRendering = false;
 
 uint8_t scorePerPass = 0;
-uint8_t hudCounter = 0;
-uint8_t gameOverCounter = 0;
 uint8_t scoreMax = 0;
+uint8_t titleCounter = 0;
 
-
-int16_t xWorld = 5000;
-int16_t yWorld = 0;
 int16_t playerXOffset = 0;
-
-int16_t bgPos = 5000;
-int16_t fgPos = 5000;
-
 int8_t scenery_XMovement = 0;
 
 void setup() {

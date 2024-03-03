@@ -33,36 +33,26 @@ void play_Init() {
 
     gameState = GameState::Play;
     cookie.score = 0;
-    scorePerPass = 0;
-    gameOverCounter = 0;
-    hudCounter = 0;
+
+    world.setX(5000);
+    world.setBackgroundX(5000);
+    world.setBackgroundY(5000);
+    world.setY(0);
 
 }
 
 void render(uint8_t currentPlane) {
 
-    uint8_t explodeCount = 0;
-    uint8_t xCoord[4] = { 0, 0, 0, 0 };
-    uint8_t yCoord[4] = { 0, 0, 0, 0 };
-    uint8_t imageIdx[4] = { 0, 0, 0, 0 };
-
-    int8_t world_XOff = Constants::World_XOffset[player.getXMovement()];
+    int16_t diffX = world.getX() - player.getX();
 
 
+    int16_t bg_Pos = ((world.getBackgroundX() + diffX) % (96 * 16)) / 16;
+    int16_t mg_Pos = ((world.getX() + diffX) % (96 * 16)) / 16;
+    int16_t fg_Pos = ((world.getForegroundX() + diffX) % (96 * 16)) / 16;
 
-    int16_t diffX = xWorld - player.getX();
-
-
-
-
-
-    int16_t bg_Pos = ((bgPos + diffX) % (96 * 16)) / 16;
-    int16_t mg_Pos = ((xWorld + diffX) % (96 * 16)) / 16;
-    int16_t fg_Pos = ((fgPos + diffX) % (96 * 16)) / 16;
-
-    int8_t bgIdx =    ((bgPos + diffX) / (96 * 16)) % 4;
-    int8_t mgIdx =     ((xWorld + diffX) / (96 * 16)) % 4;
-    int8_t fgIdx =     ((fgPos + diffX) / (96 * 16)) % 4;
+    int8_t bgIdx =    ((world.getBackgroundX() + diffX) / (96 * 16)) % 4;
+    int8_t mgIdx =     ((world.getX() + diffX) / (96 * 16)) % 4;
+    int8_t fgIdx =     ((world.getForegroundX() + diffX) / (96 * 16)) % 4;
 
 
     SpritesU::drawOverwriteFX(bg_Pos - 96, 22, Images::BG_00, (((bgIdx + 8) % 4) * 3) + currentPlane);
@@ -76,8 +66,6 @@ void render(uint8_t currentPlane) {
     SpritesU::drawPlusMaskFX(mg_Pos + 96 + 96, 30, Images::MG_00, (((mgIdx - 3 + 8) % 4) * 3) + currentPlane);
 
 
-
-    // SpritesU::drawOverwriteFX(128- 25, 0, Images::HUD, ((hudCounter / 3) * 3) + currentPlane);
 
     uint16_t score = cookie.score / 10000;
     SpritesU::drawOverwriteFX(128 - 21, 0, Images::Numbers_5x3_1D_MB, (score * 3) + currentPlane);
@@ -102,11 +90,11 @@ void render(uint8_t currentPlane) {
 
             switch (bullet.getDirection()) {
 
-                case Direction::West:
+                case Direction::Left:
                     SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY_Screen(), Images::Player_Bullets, currentPlane);
                     break;
 
-                case Direction::East:
+                case Direction::Right:
                     SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY_Screen(), Images::Player_Bullets, 3 + currentPlane);
                     break;
 
@@ -120,46 +108,12 @@ void render(uint8_t currentPlane) {
 
 
 
-
-
-
-
-
-    uint8_t thrust = 0;
-    uint8_t thrust_frameCount = ((frameCount % 9 / 3));
-
-    switch (player.getXMovement()) {
-
-        case 0 ... 3:
-            thrust = 2;
-            break;
-
-        case 4 ... 8:
-            thrust = 1;
-            break;
-
-        case 9 ... 13:
-            thrust = 0;
-            break;
-
-        case 14 ... 18:
-            thrust = 3;
-            break;
-
-        case 19 ... 24:
-            thrust = 4;
-            break;
-
-        case 25 ... 28:
-            thrust = 5;
-            break;
-            
-    }
-
+    uint8_t thrustImg = Constants::Thrust_Img[player.getXMovement()];
+    uint8_t thrustFrameCount = ((frameCount % 9 / 3));
 
     switch (player.getDirectionX()) {
 
-        case Direction::North ... Direction::SouthEast:
+        case Direction::Right:
 
             switch (player.getXMovement()) {
 
@@ -170,14 +124,14 @@ void render(uint8_t currentPlane) {
 
                 case 15:
 
-                    SpritesU::drawPlusMaskFX(playerX_Offset - 8, playerY + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset - 8, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
                     SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 12 + currentPlane);
                     break;
 
                 default:
 
                     SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 3 + currentPlane);
-                    SpritesU::drawPlusMaskFX(playerX_Offset - 16, playerY + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset - 16, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
                     break;
                     
             }
@@ -194,14 +148,14 @@ void render(uint8_t currentPlane) {
 
                 case 13:
 
-                    SpritesU::drawPlusMaskFX(playerX_Offset + 8, playerY + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset + 8, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
                     SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 6 + currentPlane);
                     break;
 
                 default:
 
                     SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 0 + currentPlane);
-                    SpritesU::drawPlusMaskFX(playerX_Offset + 16, playerY + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset + 16, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
                     break;
                     
             }
@@ -239,7 +193,6 @@ void render(uint8_t currentPlane) {
 void play_Update() {
 
     frameCount++;
-    hudCounter = (hudCounter + 1) % (3 * 19);
 
     uint8_t justPressed = getJustPressedButtons();
     uint8_t pressed = getPressedButtons();
@@ -264,10 +217,10 @@ void play_Update() {
             if (frameCount % 4 == 0) {
 
                 if (pressed & LEFT_BUTTON) { 
-                    player.acccelerateX(Direction::West);
+                    player.acccelerateX(Direction::Left);
                 }
                 else if (pressed & RIGHT_BUTTON) { 
-                    player.acccelerateX(Direction::East);
+                    player.acccelerateX(Direction::Right);
                 }
                 else if (frameCount % 8 == 0) {
 
@@ -276,10 +229,10 @@ void play_Update() {
                 }
 
                 if (pressed & UP_BUTTON) { 
-                    player.acccelerateY(Direction::North);
+                    player.acccelerateY(Direction::Up);
                 }
                 else if (pressed & DOWN_BUTTON) { 
-                    player.acccelerateY(Direction::South);
+                    player.acccelerateY(Direction::Down);
                 }
                 else if (frameCount % 8 == 0) {
 
@@ -305,9 +258,9 @@ void play_Update() {
 
         default:
 
-            if (gameOverCounter == 128 && justPressed & A_BUTTON) { 
+            // if (gameOverCounter == 128 && justPressed & A_BUTTON) { 
                 gameState = GameState::Title_Init;
-            }
+            // }
 
            break;
 
@@ -339,18 +292,14 @@ void fireBullet() {
 
             switch (player.getDirectionX()) {
 
-                case Direction::NorthEast:
-                case Direction::East:
-                case Direction::SouthEast:
+                case Direction::Right:
                     bullet.setX(player.getX() + (Constants::Player_Width * 16));
-                    bullet.setDirection(Direction::East);
+                    bullet.setDirection(Direction::Right);
                     break;
 
-                case Direction::NorthWest:
-                case Direction::West:
-                case Direction::SouthWest:
+                case Direction::Left:
                     bullet.setX(player.getX() - (2 * 16));
-                    bullet.setDirection(Direction::West);
+                    bullet.setDirection(Direction::Left);
                     break;
                 
             }

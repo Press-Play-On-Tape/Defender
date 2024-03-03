@@ -42,14 +42,11 @@ enum class GameState : uint8_t {
 };
 
 enum class Direction : uint8_t {
-    North,
-    NorthEast,
-    East,
-    SouthEast,
-    South,
-    SouthWest,
-    West,
-    NorthWest,
+    None,
+    Up,
+    Right,
+    Down,
+    Left
 };
 
 enum class Size : uint8_t {

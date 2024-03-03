@@ -19,8 +19,6 @@ class Enemy {
 
         Movement getMovement()                          { return this->movement; }
         Speed getSpeed()                                { return this->speed; }
-        int8_t getX_Screen()                            { return this->x / 16; }        
-        int8_t getY_Screen()                            { return this->y / 16; }        
         int16_t getX()                                  { return this->x; }        
         int16_t getY()                                  { return this->y; }        
         bool isActive()                                 { return this->active; }        
