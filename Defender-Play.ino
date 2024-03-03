@@ -77,6 +77,16 @@ void render(uint8_t currentPlane) {
 
 
 
+    // SpritesU::drawOverwriteFX(128- 25, 0, Images::HUD, ((hudCounter / 3) * 3) + currentPlane);
+
+    uint16_t score = cookie.score / 10000;
+    SpritesU::drawOverwriteFX(128 - 21, 0, Images::Numbers_5x3_1D_MB, (score * 3) + currentPlane);
+    score = (cookie.score - (score * 10000)) / 100;
+    SpritesU::drawOverwriteFX(128 - 17, 0, Images::Numbers_5x3_2D_MB, (score * 3) + currentPlane);
+    score = cookie.score % 100;
+    SpritesU::drawOverwriteFX(128 - 9, 0, Images::Numbers_5x3_2D_MB, (score * 3) + currentPlane);
+
+
 
 
     uint8_t playerX_Offset = 56 + (playerXOffset / 16);
@@ -217,16 +227,6 @@ void render(uint8_t currentPlane) {
             break;
 
     }
-
-
-    // SpritesU::drawOverwriteFX(128- 25, 0, Images::HUD, ((hudCounter / 3) * 3) + currentPlane);
-
-    uint16_t score = cookie.score / 10000;
-    SpritesU::drawOverwriteFX(128 - 21, 0, Images::Numbers_5x3_1D_MB, (score * 3) + currentPlane);
-    score = (cookie.score - (score * 10000)) / 100;
-    SpritesU::drawOverwriteFX(128 - 17, 0, Images::Numbers_5x3_2D_MB, (score * 3) + currentPlane);
-    score = cookie.score % 100;
-    SpritesU::drawOverwriteFX(128 - 9, 0, Images::Numbers_5x3_2D_MB, (score * 3) + currentPlane);
 
 
     // Render particles and scores ..
