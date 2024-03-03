@@ -32,24 +32,22 @@ decltype(a) a;
 
 Cookie cookie;
 SoundSettings &soundSettings = cookie.soundSettings;
+
 Player player;
 Enemy enemies[Constants::EnemyCount];
 Particle particles[Constants::ParticlesMax];
 GameState gameState = GameState::SplashScreen_Start;
 Bullet bullets[Constants::BulletCount];
 World world;
+Camera camera;
 
 uint8_t frameCount = 0;
-
 bool particlesNeedRendering = false;
 bool scoresNeedRendering = false;
-
 uint8_t scorePerPass = 0;
 uint8_t scoreMax = 0;
 uint8_t titleCounter = 0;
 
-int16_t playerXOffset = 0;
-int8_t scenery_XMovement = 0;
 
 void setup() {
 

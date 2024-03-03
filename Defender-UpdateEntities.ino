@@ -2,35 +2,41 @@
 
 void updatePlayer(uint8_t frameCount) {
 
-    switch (player.getXMovement()) {
+    player.incX(player.getAccelerationX());
+    player.incY(player.getAccelerationY());
 
-        case Constants::PLAYER_SPEED_MIN ... Constants::PLAYER_SPEED_MID - 1:
+}
 
-            player.setX(player.getX() + Constants::Movement_X[player.getXMovement()]);
+
+void updateCamera(uint8_t frameCount) {
+
+    switch (player.getAccelerationIdxX()) {
+
+        case Constants::Player_Acceleration_Left_Max ... Constants::Player_Acceleration_Left_Min:
 
             if (player.isDecceleratingX()) {
 
-                if (playerXOffset >= Constants::PLAYER_OFFSET_X_MID) {
+                if (camera.getX() >= Constants::Player_Offset_X_Mid) {
 
-                    playerXOffset =playerXOffset - Constants::Camera_Offset_X[player.getXMovement()];
+                    camera.incX(-Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
 
                 }
 
             }
             else {
 
-                if (playerXOffset <= Constants::PLAYER_OFFSET_X_MAX) {
+                if (camera.getX() <= Constants::Player_Offset_X_Max) {
 
-                    switch (player.getXMovement()) {
+                    switch (player.getAccelerationIdxX()) {
 
                         case 0 ...11:
-                            playerXOffset =playerXOffset + Constants::Camera_Offset_X[player.getXMovement()];
+                            camera.incX(Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
                             break;
 
                         case 12 ... 13:
 
-                            if (playerXOffset <= Constants::PLAYER_OFFSET_X_MID) {
-                                playerXOffset = playerXOffset + 2;
+                            if (camera.getX() <= Constants::Player_Offset_X_Mid) {
+                                camera.incX(2);
                             }
 
                             break;
@@ -43,45 +49,43 @@ void updatePlayer(uint8_t frameCount) {
 
             break;
 
-        case Constants::PLAYER_SPEED_MID:
+        case Constants::Player_Acceleration_Stationary:
 
-            if (playerXOffset < Constants::PLAYER_OFFSET_X_MID) {
-                playerXOffset = playerXOffset + 32;
+            if (camera.getX() < Constants::Player_Offset_X_Mid) {
+                camera.incX(32);
             }
-            else if (playerXOffset > Constants::PLAYER_OFFSET_X_MID) {
-                playerXOffset = playerXOffset - 32;
+            else if (camera.getX() > Constants::Player_Offset_X_Mid) {
+                camera.incX(-32);
             }
 
             break;
 
 
-        case Constants::PLAYER_SPEED_MID + 1 ... Constants::PLAYER_SPEED_MAX:
-
-            player.setX(player.getX() + Constants::Movement_X[player.getXMovement()]);
+        case Constants::Player_Acceleration_Right_Min ... Constants::Player_Acceleration_Right_Max:
 
             if (player.isDecceleratingX()) {
 
-                if (playerXOffset <= Constants::PLAYER_OFFSET_X_MID) {
+                if (camera.getX() <= Constants::Player_Offset_X_Mid) {
 
-                    playerXOffset =playerXOffset + Constants::Camera_Offset_X[player.getXMovement()];
+                    camera.incX(Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
 
                 }
 
             }
             else {
 
-                if (playerXOffset >= Constants::PLAYER_OFFSET_X_MIN) {
+                if (camera.getX() >= Constants::Player_Offset_X_Min) {
 
-                    switch (player.getXMovement()) {
+                    switch (player.getAccelerationIdxX()) {
 
                         case 18 ... 28:
-                            playerXOffset =playerXOffset - Constants::Camera_Offset_X[player.getXMovement()];
+                            camera.incX(-Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
                             break;
 
                         case 15 ... 16:
 
-                            if (playerXOffset <= Constants::PLAYER_OFFSET_X_MID) {
-                                playerXOffset = playerXOffset - 2;
+                            if (camera.getX() <= Constants::Player_Offset_X_Mid) {
+                                camera.incX(-2);
                             }
 
                             break;
@@ -95,74 +99,6 @@ void updatePlayer(uint8_t frameCount) {
             break;
 
     }
-
-
-
-
-
-
-
-// Serial.print(player.getYMovement());
-
-    switch (player.getYMovement()) {
-
-        case Constants::PLAYER_SPEED_MIN ... Constants::PLAYER_SPEED_MID - 1:
-            {
-                int8_t yInc = Constants::Movement_X[player.getYMovement()];
-
-                if (player.getY() + yInc >= 0) {        
-                    player.setY(player.getY() + Constants::Movement_Y[player.getYMovement()]);
-                }
-                else {
-                    player.setY(0);
-
-                }
-
-            }
-
-            break;
-
-
-        case Constants::PLAYER_SPEED_MID:
-
-            break;
-
-        case Constants::PLAYER_SPEED_MID + 1 ... Constants::PLAYER_SPEED_MAX:
-            {
-                int8_t yInc = Constants::Movement_Y[player.getYMovement()];
-
-                if (player.getY() + yInc <= 700) {        
-                    player.setY(player.getY() + Constants::Movement_Y[player.getYMovement()]);
-                }
-                else {
-                    player.setY(700);
-
-                }
-
-            }
-
-            break;
-
-    }
-
-
-
-    // Update the foreground and background positions relative to the world (middle ground) ..
-
-    if (player.getXMovement() < scenery_XMovement) {
-
-        scenery_XMovement--;
-        
-    }
-
-    else if (player.getXMovement() > scenery_XMovement) {
-
-        scenery_XMovement++;
-        
-    }
-
-    world.setBackgroundX(world.getBackgroundX() + (Constants::Movement_X[scenery_XMovement] / 2));
-    world.setForegroundX(world.getForegroundX() - (Constants::Movement_X[scenery_XMovement] / 2));
 
 }
 

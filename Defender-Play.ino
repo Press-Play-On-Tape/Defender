@@ -36,8 +36,7 @@ void play_Init() {
 
     world.setX(5000);
     world.setBackgroundX(5000);
-    world.setBackgroundY(5000);
-    world.setY(0);
+    world.setForegroundX(5000);
 
 }
 
@@ -45,6 +44,8 @@ void render(uint8_t currentPlane) {
 
     int16_t diffX = world.getX() - player.getX();
 
+
+    // Render background and middle ground ..
 
     int16_t bg_Pos = ((world.getBackgroundX() + diffX) % (96 * 16)) / 16;
     int16_t mg_Pos = ((world.getX() + diffX) % (96 * 16)) / 16;
@@ -67,6 +68,8 @@ void render(uint8_t currentPlane) {
 
 
 
+    // Render scoreboard ..
+
     uint16_t score = cookie.score / 10000;
     SpritesU::drawOverwriteFX(128 - 21, 0, Images::Numbers_5x3_1D_MB, (score * 3) + currentPlane);
     score = (cookie.score - (score * 10000)) / 100;
@@ -77,10 +80,10 @@ void render(uint8_t currentPlane) {
 
 
 
-    uint8_t playerX_Offset = 56 + (playerXOffset / 16);
+    // Render bullets ..
+
+    uint8_t playerX_Offset = 56 + (camera.getX() / 16);
     uint8_t playerY = player.getY() / 16;
-
-
 
     for (Bullet &bullet : bullets) {
 
@@ -108,21 +111,21 @@ void render(uint8_t currentPlane) {
 
 
 
-    uint8_t thrustImg = Constants::Thrust_Img[player.getXMovement()];
+    uint8_t thrustImg = Constants::Thrust_Img[player.getAccelerationIdxX()];
     uint8_t thrustFrameCount = ((frameCount % 9 / 3));
 
     switch (player.getDirectionX()) {
 
         case Direction::Right:
 
-            switch (player.getXMovement()) {
+            switch (player.getAccelerationIdxX()) {
 
-                case 14:
+                case Constants::Player_Acceleration_Stationary:
 
                     SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 9 + currentPlane);
                     break;
 
-                case 15:
+                case Constants::Player_Acceleration_Right_Min:
 
                     SpritesU::drawPlusMaskFX(playerX_Offset - 8, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
                     SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 12 + currentPlane);
@@ -139,14 +142,14 @@ void render(uint8_t currentPlane) {
 
         default:
 
-            switch (player.getXMovement()) {
+            switch (player.getAccelerationIdxX()) {
 
-                case 14:
+                case Constants::Player_Acceleration_Stationary:
 
                     SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 9 + currentPlane);
                     break;
 
-                case 13:
+                case Constants::Player_Acceleration_Left_Min:
 
                     SpritesU::drawPlusMaskFX(playerX_Offset + 8, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
                     SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 6 + currentPlane);
@@ -164,6 +167,8 @@ void render(uint8_t currentPlane) {
     }
 
 
+    // Render foregorund ..
+    
     SpritesU::drawPlusMaskFX(fg_Pos - 96, 28, Images::FG_00, (((fgIdx + 8) % 4) * 3) + currentPlane);
     SpritesU::drawPlusMaskFX(fg_Pos, 28, Images::FG_00, (((fgIdx - 1 + 8) % 4) * 3) + currentPlane);
     SpritesU::drawPlusMaskFX(fg_Pos + 96, 28, Images::FG_00, (((fgIdx - 2 + 8) % 4) * 3) + currentPlane);
@@ -202,6 +207,9 @@ void play_Update() {
         case GameState::Play:
 
             updatePlayer(frameCount);
+            updateCamera(frameCount);
+            world.update(player.getAccelerationIdxX());
+
             updateBullets(player.getX());
 
             if (justPressed & B_BUTTON) { 
@@ -223,9 +231,7 @@ void play_Update() {
                     player.acccelerateX(Direction::Right);
                 }
                 else if (frameCount % 8 == 0) {
-
                     player.deccelerateX();
-
                 }
 
                 if (pressed & UP_BUTTON) { 
@@ -235,9 +241,7 @@ void play_Update() {
                     player.acccelerateY(Direction::Down);
                 }
                 else if (frameCount % 8 == 0) {
-
                     player.deccelerateY();
-
                 }
 
             }
@@ -258,9 +262,9 @@ void play_Update() {
 
         default:
 
-            // if (gameOverCounter == 128 && justPressed & A_BUTTON) { 
+            if (justPressed & A_BUTTON) { 
                 gameState = GameState::Title_Init;
-            // }
+            }
 
            break;
 
@@ -281,7 +285,13 @@ void play(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
 
 void fireBullet() {
 
-    if (player.getXMovement() == 13) return;
+
+    // Cannot fire a bullet when facing the screen ..
+
+    if (player.getAccelerationIdxX() == Constants::Player_Acceleration_Stationary) return;
+
+
+    // Otherwise look for an inactive bullet and fire ..
 
     for (Bullet &bullet : bullets) {
 
