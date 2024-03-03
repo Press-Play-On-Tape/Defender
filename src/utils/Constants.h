@@ -39,21 +39,15 @@ struct Point_S8 {
 constexpr float CAMERA_OFFSET_X = 64;
 constexpr float CAMERA_OFFSET_X_DELTA = 8;
 constexpr float CAMERA_OFFSET_X_VEL_DELTA = 100;
-constexpr float CAMERA_OFFSET_Y = 28;
-constexpr float CAMERA_OFFSET_Y_DELTA_UP = 22;
-constexpr float CAMERA_OFFSET_Y_DELTA_DOWN = 24;
-constexpr float CAMERA_Y_HYSTERESIS = 7;
 
 constexpr float CAMERA_UPDATE_X_OMEGA = 25;
 constexpr float CAMERA_UPDATE_X_ZETA = 1;
 constexpr float CAMERA_UPDATE_X_ALPHA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_OMEGA;
 constexpr float CAMERA_UPDATE_X_BETA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_ZETA * 2;
 constexpr float CAMERA_UPDATE_X_DT = 0.004;
-constexpr float CAMERA_UPDATE_Y_FACTOR = 0.2;
 
 constexpr float PLAYER_MAX_MOVE_VEL_X = 4.0;
 constexpr float PLAYER_MAX_VEL_X = 4.0;
-constexpr float PLAYER_MAX_VEL_Y = 6.0;
 
 
 namespace Constants {
