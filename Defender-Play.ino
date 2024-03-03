@@ -80,6 +80,7 @@ void render(uint8_t currentPlane) {
 
 
     uint8_t playerX_Offset = 56 + (playerXOffset / 16);
+    uint8_t playerY = player.getY() / 16;
 
 
 
@@ -117,14 +118,6 @@ void render(uint8_t currentPlane) {
     uint8_t thrust = 0;
     uint8_t thrust_frameCount = ((frameCount % 9 / 3));
 
-
-
-
-
-
-
-
-
     switch (player.getXMovement()) {
 
         case 0 ... 3:
@@ -154,7 +147,7 @@ void render(uint8_t currentPlane) {
     }
 
 
-    switch (player.getDirection()) {
+    switch (player.getDirectionX()) {
 
         case Direction::North ... Direction::SouthEast:
 
@@ -162,19 +155,19 @@ void render(uint8_t currentPlane) {
 
                 case 14:
 
-                    SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 9 + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 9 + currentPlane);
                     break;
 
                 case 15:
 
-                    SpritesU::drawPlusMaskFX(playerX_Offset - 8, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
-                    SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 12 + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset - 8, playerY + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 12 + currentPlane);
                     break;
 
                 default:
 
-                    SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 3 + currentPlane);
-                    SpritesU::drawPlusMaskFX(playerX_Offset - 16, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 3 + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset - 16, playerY + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
                     break;
                     
             }
@@ -186,19 +179,19 @@ void render(uint8_t currentPlane) {
 
                 case 14:
 
-                    SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 9 + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 9 + currentPlane);
                     break;
 
                 case 13:
 
-                    SpritesU::drawPlusMaskFX(playerX_Offset + 8, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
-                    SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 6 + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset + 8, playerY + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 6 + currentPlane);
                     break;
 
                 default:
 
-                    SpritesU::drawPlusMaskFX(playerX_Offset, player.getY_Screen(), Images::Player, 0 + currentPlane);
-                    SpritesU::drawPlusMaskFX(playerX_Offset + 16, player.getY_Screen() + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 0 + currentPlane);
+                    SpritesU::drawPlusMaskFX(playerX_Offset + 16, playerY + 3, Images::Player_Thrust, (((thrust * 3) + thrust_frameCount) * 3) + currentPlane);
                     break;
                     
             }
@@ -271,14 +264,26 @@ void play_Update() {
             if (frameCount % 4 == 0) {
 
                 if (pressed & LEFT_BUTTON) { 
-                    player.acccelerate(Direction::West);
+                    player.acccelerateX(Direction::West);
                 }
                 else if (pressed & RIGHT_BUTTON) { 
-                    player.acccelerate(Direction::East);
+                    player.acccelerateX(Direction::East);
                 }
                 else if (frameCount % 8 == 0) {
 
-                    player.deccelerate();
+                    player.deccelerateX();
+
+                }
+
+                if (pressed & UP_BUTTON) { 
+                    player.acccelerateY(Direction::North);
+                }
+                else if (pressed & DOWN_BUTTON) { 
+                    player.acccelerateY(Direction::South);
+                }
+                else if (frameCount % 8 == 0) {
+
+                    player.deccelerateY();
 
                 }
 
@@ -332,7 +337,7 @@ void fireBullet() {
             bullet.setActive(true);
             bullet.setY(player.getY() + (8 * 16));
 
-            switch (player.getDirection()) {
+            switch (player.getDirectionX()) {
 
                 case Direction::NorthEast:
                 case Direction::East:

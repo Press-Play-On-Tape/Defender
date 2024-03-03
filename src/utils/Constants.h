@@ -57,7 +57,13 @@ namespace Constants {
     constexpr int16_t PLAYER_OFFSET_X_MID = 0;
     constexpr int16_t PLAYER_OFFSET_X_MAX = 46 * 16;
 
+    constexpr int16_t PLAYER_SPEED_MIN = 0;
+    constexpr int16_t PLAYER_SPEED_MID = 14;
+    constexpr int16_t PLAYER_SPEED_MAX = 28;
+
     constexpr int8_t Movement_X[29] = { -24, -22, -20, -18, -16, -14, -12, -10, -8, -6, -4, -3, -2, -1, 0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24 };
+    // constexpr int8_t Movement_Y[21] = { -16, -14, -12, -10, -8, -6, -4, -3, -2, -1, 0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16 };
+    constexpr int8_t Movement_Y[29] = { -32, -32, -32, -32, -32, -30, -28, -26, -23, -20, -16, -12, -8, -4, 0, 4, 8, 12, 16, 20, 23, 26, 28, 30, 32, 32, 32, 32, 32 };
     constexpr int8_t World_XOffset[29] = { 42, 39, 36, 33, 30, 27, 24, 21, 18, 15, 12, 9, 6, 3, 0, -3, -6, -9, -12, -15, -18, -21, -24, -27, -30, -33, -36, -39, -42 };
 
 };
