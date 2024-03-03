@@ -34,6 +34,8 @@ void play_Init() {
     gameState = GameState::Play;
     cookie.score = 0;
 
+    camera.setX(5000);
+
     world.setX(5000);
     world.setBackgroundX(5000);
     world.setForegroundX(5000);
@@ -77,12 +79,19 @@ void render(uint8_t currentPlane) {
     score = cookie.score % 100;
     SpritesU::drawOverwriteFX(128 - 9, 0, Images::Numbers_5x3_2D_MB, (score * 3) + currentPlane);
 
-
+Serial.print("W ");
+Serial.print(world.getX());
+Serial.print(", C ");
+Serial.print(camera.getX());
+Serial.print(", P ");
+Serial.print(player.getX());
+Serial.println(" ");
 
 
     // Render bullets ..
 
-    uint8_t playerX_Offset = 56 + (camera.getX() / 16);
+    // uint8_t playerX_Offset = 56 + (camera.getX() / 16);
+    uint8_t playerX_Offset = (player.getX() - camera.getX()) / 16;
     uint8_t playerY = player.getY() / 16;
 
     for (Bullet &bullet : bullets) {

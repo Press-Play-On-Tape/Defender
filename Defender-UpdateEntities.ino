@@ -5,10 +5,17 @@ void updatePlayer(uint8_t frameCount) {
     player.incX(player.getAccelerationX());
     player.incY(player.getAccelerationY());
 
+    camera.incX(player.getAccelerationX());
+
 }
 
 
 void updateCamera(uint8_t frameCount) {
+
+    int16_t x = player.getX() - camera.getX();
+
+Serial.print("x = ");
+Serial.println(x);
 
     switch (player.getAccelerationIdxX()) {
 
@@ -16,27 +23,29 @@ void updateCamera(uint8_t frameCount) {
 
             if (player.isDecceleratingX()) {
 
-                if (camera.getX() >= Constants::Player_Offset_X_Mid) {
-
-                    camera.incX(-Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
+                if (x >= Constants::Player_Offset_X_Mid) {
+Serial.println("A1");
+                    camera.incX(Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
 
                 }
 
             }
             else {
 
-                if (camera.getX() <= Constants::Player_Offset_X_Max) {
+                if (x <= Constants::Player_Offset_X_Max) {
 
                     switch (player.getAccelerationIdxX()) {
 
                         case 0 ...11:
-                            camera.incX(Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
+Serial.println("A2");
+                            camera.incX(-Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
                             break;
 
                         case 12 ... 13:
 
-                            if (camera.getX() <= Constants::Player_Offset_X_Mid) {
-                                camera.incX(2);
+                            if (x <= Constants::Player_Offset_X_Mid) {
+Serial.println("A3");
+                                camera.incX(-2);
                             }
 
                             break;
@@ -51,11 +60,13 @@ void updateCamera(uint8_t frameCount) {
 
         case Constants::Player_Acceleration_Stationary:
 
-            if (camera.getX() < Constants::Player_Offset_X_Mid) {
-                camera.incX(32);
-            }
-            else if (camera.getX() > Constants::Player_Offset_X_Mid) {
+            if (x < Constants::Player_Offset_X_Mid) {
+Serial.println("A4");
                 camera.incX(-32);
+            }
+            else if (x > Constants::Player_Offset_X_Mid) {
+Serial.println("A5");
+                camera.incX(32);
             }
 
             break;
@@ -65,27 +76,30 @@ void updateCamera(uint8_t frameCount) {
 
             if (player.isDecceleratingX()) {
 
-                if (camera.getX() <= Constants::Player_Offset_X_Mid) {
+                if (x <= Constants::Player_Offset_X_Mid) {
+Serial.println("A6");
 
-                    camera.incX(Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
+                    camera.incX(-Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
 
                 }
 
             }
             else {
 
-                if (camera.getX() >= Constants::Player_Offset_X_Min) {
+                if (x >= Constants::Player_Offset_X_Min) {
 
                     switch (player.getAccelerationIdxX()) {
 
                         case 18 ... 28:
-                            camera.incX(-Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
+Serial.println("A7");
+                            camera.incX(Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
                             break;
 
                         case 15 ... 16:
 
                             if (camera.getX() <= Constants::Player_Offset_X_Mid) {
-                                camera.incX(-2);
+Serial.println("A8");
+                                camera.incX(2);
                             }
 
                             break;

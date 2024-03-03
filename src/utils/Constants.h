@@ -49,9 +49,12 @@ namespace Constants {
     constexpr uint8_t BulletCount = 5;
 
 
-    constexpr int16_t Player_Offset_X_Min = 46 * -16;
-    constexpr int16_t Player_Offset_X_Mid = 0;
-    constexpr int16_t Player_Offset_X_Max = 46 * 16;
+    // constexpr int16_t Player_Offset_X_Min = 46 * -16;
+    // constexpr int16_t Player_Offset_X_Mid = 0;
+    // constexpr int16_t Player_Offset_X_Max = 46 * 16;
+    constexpr int16_t Player_Offset_X_Min = 0;
+    constexpr int16_t Player_Offset_X_Mid = 60 * 16;            // 960
+    constexpr int16_t Player_Offset_X_Max = 60 * 16 * 2;        // 1920
 
     constexpr int16_t Player_Acceleration_Left_Max = 0;
     constexpr int16_t Player_Acceleration_Left_Min = 13;
