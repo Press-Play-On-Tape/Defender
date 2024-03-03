@@ -1,135 +1,80 @@
-
+#include <ArduboyFX.h>  
+#include "src/utils/ArduboyG.h"
+#include "src/utils/Constants.h"
+#include "src/utils/Enums.h"
+#include "fxdata/fxdata.h"
+#include "src/entities/Entities.h"
+#include "src/utils/SpritesU.hpp"
 
 void updatePlayer(uint8_t frameCount) {
 
-    player.incX(player.getAccelerationX());
-    player.incY(player.getAccelerationY());
-
-    camera.incX(player.getAccelerationX());
+    player.incX(player.getVelocityX());
+    player.incY(player.getVelocityY());
 
 }
 
 
-void updateCamera(uint8_t frameCount) {
+void updateCamera(Player &player) {
 
-//     int16_t x = player.getX() - camera.getX();
+    /*
+    float tcamy = py - CAMERA_OFFSET_Y;
+    float tcamx = px - CAMERA_OFFSET_X;
+    float xmax = map_width * 16 - 129;
+    float ymax = map_height * 16 - 65;
 
-// Serial.print("x = ");
-// Serial.println(x);
+    tcamx += vx * (CAMERA_OFFSET_X_VEL_DELTA / PLAYER_MAX_MOVE_VEL_X);
 
-//     switch (player.getAccelerationIdxX()) {
+    if(player_facing_right)
+        tcamx += CAMERA_OFFSET_X_DELTA;
+    else
+        tcamx -= CAMERA_OFFSET_X_DELTA;
+    
+    {
+        float dy = tcamy - camy;
+        if(dy > CAMERA_Y_HYSTERESIS)
+            tcamy -= CAMERA_Y_HYSTERESIS;
+        else if(dy < -CAMERA_Y_HYSTERESIS)
+            tcamy += CAMERA_Y_HYSTERESIS;
+        else
+            tcamy = camy;
+    }
+    
+    if($pressed(UP_BUTTON))
+        tcamy -= CAMERA_OFFSET_Y_DELTA_UP;
+    if($pressed(DOWN_BUTTON))
+        tcamy += CAMERA_OFFSET_Y_DELTA_DOWN;
+    if(tcamx < 0) tcamx = 0;
+    if(tcamy < 0) tcamy = 0;
+    if(tcamx > xmax) tcamx = xmax;
+    if(tcamy > ymax) tcamy = ymax;
+    camy += (tcamy - camy) * CAMERA_UPDATE_Y_FACTOR;
 
-//         case Constants::Player_Acceleration_Left_Max ... Constants::Player_Acceleration_Left_Min:
+    float d2camx =
+        (tcamx - camx) * CAMERA_UPDATE_X_ALPHA -
+        dcamx * CAMERA_UPDATE_X_BETA;
+    camx += dcamx * CAMERA_UPDATE_X_DT;
+    dcamx += d2camx * CAMERA_UPDATE_X_DT;
 
-//             if (player.isDecceleratingX()) {
-
-//                 if (x >= Constants::Player_Offset_X_Mid) {
-// Serial.println("A1");
-//                     camera.incX(Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
-
-//                 }
-
-//             }
-//             else {
-
-//                 if (x <= Constants::Player_Offset_X_Max) {
-
-//                     switch (player.getAccelerationIdxX()) {
-
-//                         case 0 ...11:
-// Serial.println("A2");
-//                             camera.incX(-Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
-//                             break;
-
-//                         case 12 ... 13:
-
-//                             if (x <= Constants::Player_Offset_X_Mid) {
-// Serial.println("A3");
-//                                 camera.incX(-2);
-//                             }
-
-//                             break;
-
-//                     }
-
-//                 }
-
-//             }
-
-//             break;
-
-//         case Constants::Player_Acceleration_Stationary:
-
-//             if (x < Constants::Player_Offset_X_Mid) {
-// Serial.println("A4");
-//                 camera.incX(-32);
-//             }
-//             else if (x > Constants::Player_Offset_X_Mid) {
-// Serial.println("A5");
-//                 camera.incX(32);
-//             }
-
-//             break;
-
-
-//         case Constants::Player_Acceleration_Right_Min ... Constants::Player_Acceleration_Right_Max:
-
-//             if (player.isDecceleratingX()) {
-
-//                 if (x <= Constants::Player_Offset_X_Mid) {
-// Serial.println("A6");
-
-//                     camera.incX(-Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
-
-//                 }
-
-//             }
-//             else {
-
-//                 if (x >= Constants::Player_Offset_X_Min) {
-
-//                     switch (player.getAccelerationIdxX()) {
-
-//                         case 18 ... 28:
-// Serial.println("A7");
-//                             camera.incX(Constants::Camera_Offset_X[player.getAccelerationIdxX()]);
-//                             break;
-
-//                         case 15 ... 16:
-
-//                             if (camera.getX() <= Constants::Player_Offset_X_Mid) {
-// Serial.println("A8");
-//                                 camera.incX(2);
-//                             }
-
-//                             break;
-
-//                     }
-
-//                 }
-
-//             }
-
-//             break;
-
-//     }
+    */
 
     float tcamx = player.getX() - CAMERA_OFFSET_X;
-    float xmax = 1000 * 16 - 129;
+    //float xmax = 1000 * 16 - 129;
 
-    tcamx += player.getAccelerationX() * (CAMERA_OFFSET_X_VEL_DELTA / PLAYER_MAX_MOVE_VEL_X);
+    tcamx += player.getVelocityX() * (CAMERA_OFFSET_X_VEL_DELTA / PLAYER_MAX_MOVE_VEL_X);
 
     if (player.getDirectionX() == Direction::Right)
         tcamx += CAMERA_OFFSET_X_DELTA;
     else
         tcamx -= CAMERA_OFFSET_X_DELTA;
     
-    if(tcamx < 0) tcamx = 0;
-    if(tcamx > xmax) tcamx = xmax;
+    //if (tcamx < 0) tcamx = 0;
+    //if(tcamx > xmax) tcamx = xmax;
 
     float d2camx =
         (tcamx - camera.getX()) * CAMERA_UPDATE_X_ALPHA -
         camera.getVelocityX() * CAMERA_UPDATE_X_BETA;
+
+    Serial.println(camera.getVelocityX() * CAMERA_UPDATE_X_DT);
 
     camera.incX(camera.getVelocityX() * CAMERA_UPDATE_X_DT);
     camera.incVelocityX(d2camx * CAMERA_UPDATE_X_DT);

@@ -9,7 +9,7 @@ class World {
     private:
 
         int16_t x = 0;
-        int8_t sceneryAccelerationIdxX = 0;
+        int8_t sceneryVelocityIdxX = 0;
 
         int16_t backgroundX = 0;
         int16_t foregroundX = 0;
@@ -26,22 +26,22 @@ class World {
 
     public:
 
-        bool update(uint8_t playerAccelerationIdxX) {
+        bool update(uint8_t playerVelocityIdxX) {
 
-            if (playerAccelerationIdxX < this->sceneryAccelerationIdxX) {
+            if (playerVelocityIdxX < this->sceneryVelocityIdxX) {
 
-                this->sceneryAccelerationIdxX--;
+                this->sceneryVelocityIdxX--;
                 
             }
 
-            else if (playerAccelerationIdxX > this->sceneryAccelerationIdxX) {
+            else if (playerVelocityIdxX > this->sceneryVelocityIdxX) {
 
-                this->sceneryAccelerationIdxX++;
+                this->sceneryVelocityIdxX++;
                 
             }
 
-            this->backgroundX = this->backgroundX + (Constants::Acceleration_X[this->sceneryAccelerationIdxX] / 2);
-            this->foregroundX = this->foregroundX - (Constants::Acceleration_X[this->sceneryAccelerationIdxX] / 2);
+            this->backgroundX = this->backgroundX + (Constants::Velocity_X[this->sceneryVelocityIdxX] / 2);
+            this->foregroundX = this->foregroundX - (Constants::Velocity_X[this->sceneryVelocityIdxX] / 2);
             
         }
 };

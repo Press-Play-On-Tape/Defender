@@ -79,13 +79,15 @@ void render(uint8_t currentPlane) {
     score = cookie.score % 100;
     SpritesU::drawOverwriteFX(128 - 9, 0, Images::Numbers_5x3_2D_MB, (score * 3) + currentPlane);
 
-Serial.print("W ");
-Serial.print(world.getX());
-Serial.print(", C ");
-Serial.print(camera.getX());
-Serial.print(", P ");
-Serial.print(player.getX());
-Serial.println(" ");
+// Serial.print("W ");
+// Serial.print(world.getX());
+// Serial.print(", C ");
+// Serial.print(camera.getX());
+// Serial.print(", P ");
+// Serial.print(player.getX());
+// Serial.print(" =  ");
+// Serial.print(player.getX()- camera.getX());
+// Serial.println(" ");
 
 
     // Render bullets ..
@@ -120,21 +122,21 @@ Serial.println(" ");
 
 
 
-    uint8_t thrustImg = Constants::Thrust_Img[player.getAccelerationIdxX()];
+    uint8_t thrustImg = Constants::Thrust_Img[player.getVelocityIdxX()];
     uint8_t thrustFrameCount = ((frameCount % 9 / 3));
 
     switch (player.getDirectionX()) {
 
         case Direction::Right:
 
-            switch (player.getAccelerationIdxX()) {
+            switch (player.getVelocityIdxX()) {
 
-                case Constants::Player_Acceleration_Stationary:
+                case Constants::Player_Velocity_Stationary:
 
                     SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 9 + currentPlane);
                     break;
 
-                case Constants::Player_Acceleration_Right_Min:
+                case Constants::Player_Velocity_Right_Min:
 
                     SpritesU::drawPlusMaskFX(playerX_Offset - 8, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
                     SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 12 + currentPlane);
@@ -151,14 +153,14 @@ Serial.println(" ");
 
         default:
 
-            switch (player.getAccelerationIdxX()) {
+            switch (player.getVelocityIdxX()) {
 
-                case Constants::Player_Acceleration_Stationary:
+                case Constants::Player_Velocity_Stationary:
 
                     SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 9 + currentPlane);
                     break;
 
-                case Constants::Player_Acceleration_Left_Min:
+                case Constants::Player_Velocity_Left_Min:
 
                     SpritesU::drawPlusMaskFX(playerX_Offset + 8, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
                     SpritesU::drawPlusMaskFX(playerX_Offset, playerY, Images::Player, 6 + currentPlane);
@@ -216,8 +218,8 @@ void play_Update() {
         case GameState::Play:
 
             updatePlayer(frameCount);
-            updateCamera(frameCount);
-            world.update(player.getAccelerationIdxX());
+            updateCamera(player);
+            world.update(player.getVelocityIdxX());
 
             updateBullets(player.getX());
 
@@ -297,7 +299,7 @@ void fireBullet() {
 
     // Cannot fire a bullet when facing the screen ..
 
-    if (player.getAccelerationIdxX() == Constants::Player_Acceleration_Stationary) return;
+    if (player.getVelocityIdxX() == Constants::Player_Velocity_Stationary) return;
 
 
     // Otherwise look for an inactive bullet and fire ..

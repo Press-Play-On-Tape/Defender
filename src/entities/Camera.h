@@ -33,7 +33,7 @@ class Camera {
         
         }
 
-        bool update(uint8_t playerAccelerationIdxX) {
+        bool update(uint8_t playerVelocityIdxX) {
             
         }
 };

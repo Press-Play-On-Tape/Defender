@@ -36,18 +36,18 @@ struct Point_S8 {
 };
 
 
-constexpr float CAMERA_OFFSET_X = 64;
-constexpr float CAMERA_OFFSET_X_DELTA = 8;
-constexpr float CAMERA_OFFSET_X_VEL_DELTA = 100;
+constexpr float CAMERA_OFFSET_X = 64 * 16;
+constexpr float CAMERA_OFFSET_X_DELTA = 8 * 16;
+constexpr float CAMERA_OFFSET_X_VEL_DELTA = 100 * 16;
 
-constexpr float CAMERA_UPDATE_X_OMEGA = 25;
+constexpr float CAMERA_UPDATE_X_OMEGA = 5;
 constexpr float CAMERA_UPDATE_X_ZETA = 1;
 constexpr float CAMERA_UPDATE_X_ALPHA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_OMEGA;
 constexpr float CAMERA_UPDATE_X_BETA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_ZETA * 2;
 constexpr float CAMERA_UPDATE_X_DT = 0.004;
 
-constexpr float PLAYER_MAX_MOVE_VEL_X = 4.0;
-constexpr float PLAYER_MAX_VEL_X = 4.0;
+constexpr float PLAYER_MAX_MOVE_VEL_X = 4.0 * 16;
+constexpr float PLAYER_MAX_VEL_X = 4.0 * 16;
 
 
 namespace Constants {
@@ -71,19 +71,19 @@ namespace Constants {
     constexpr int16_t Player_Offset_X_Mid = 60 * 16;            // 960
     constexpr int16_t Player_Offset_X_Max = 60 * 16 * 2;        // 1920
 
-    constexpr int16_t Player_Acceleration_Left_Max = 0;
-    constexpr int16_t Player_Acceleration_Left_Min = 13;
-    constexpr int16_t Player_Acceleration_Up_Max = 0;
-    constexpr int16_t Player_Acceleration_Up_Min = 13;
-    constexpr int16_t Player_Acceleration_Stationary = 14;
-    constexpr int16_t Player_Acceleration_Right_Min = 15;
-    constexpr int16_t Player_Acceleration_Right_Max = 28;
-    constexpr int16_t Player_Acceleration_Down_Min = 15;
-    constexpr int16_t Player_Acceleration_Down_Max = 28;
+    constexpr int16_t Player_Velocity_Left_Max = 0;
+    constexpr int16_t Player_Velocity_Left_Min = 13;
+    constexpr int16_t Player_Velocity_Up_Max = 0;
+    constexpr int16_t Player_Velocity_Up_Min = 13;
+    constexpr int16_t Player_Velocity_Stationary = 14;
+    constexpr int16_t Player_Velocity_Right_Min = 15;
+    constexpr int16_t Player_Velocity_Right_Max = 28;
+    constexpr int16_t Player_Velocity_Down_Min = 15;
+    constexpr int16_t Player_Velocity_Down_Max = 28;
 
-//    constexpr int8_t Acceleration_X[29] = { -24, -22, -20, -18, -16, -14, -12, -10, -8, -6, -4, -3, -2, -1, 0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24 };
-    constexpr int8_t Acceleration_X[29] = { -32, -32, -32, -32, -32, -30, -28, -26, -23, -20, -16, -12, -8, -4, 0, 4, 8, 12, 16, 20, 23, 26, 28, 30, 32, 32, 32, 32, 32 };
-    constexpr int8_t Acceleration_Y[29] = { -32, -32, -32, -32, -32, -30, -28, -26, -23, -20, -16, -12, -8, -4, 0, 4, 8, 12, 16, 20, 23, 26, 28, 30, 32, 32, 32, 32, 32 };
+//    constexpr int8_t Velocity_X[29] = { -24, -22, -20, -18, -16, -14, -12, -10, -8, -6, -4, -3, -2, -1, 0, 1, 2, 3, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24 };
+    constexpr int8_t Velocity_X[29] = { -32, -32, -32, -32, -32, -30, -28, -26, -23, -20, -16, -12, -8, -4, 0, 4, 8, 12, 16, 20, 23, 26, 28, 30, 32, 32, 32, 32, 32 };
+    constexpr int8_t Velocity_Y[29] = { -32, -32, -32, -32, -32, -30, -28, -26, -23, -20, -16, -12, -8, -4, 0, 4, 8, 12, 16, 20, 23, 26, 28, 30, 32, 32, 32, 32, 32 };
     constexpr int8_t Camera_Offset_X[29] = { 26, 26, 18, 18, 12, 12, 8, 8, 6, 6, 4, 4, 2, 2, 0, 2, 2, 4, 4, 6, 6, 8, 8, 12, 12, 18, 18, 26, 26 };
 
     constexpr int8_t Thrust_Img[29] = { 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4,4, 5, 5, 5, 5 };
