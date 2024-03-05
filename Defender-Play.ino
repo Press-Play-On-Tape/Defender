@@ -10,9 +10,17 @@ void play_Init() {
 
     for (Enemy &enemy : enemies) {
 
-        enemy.setActive(false);
-        enemy.setX(0);
-        enemy.setY(0);
+        enemy.setActive(true);
+        enemy.setX(random(-10000, 10000));
+        enemy.setY(random(0, 800));
+        enemy.setSpeed(static_cast<Speed>(random(0, 3)));
+        
+        if (random(0, 2) == 0) {
+            enemy.setDirection(Direction::Left);
+        }
+        else {
+            enemy.setDirection(Direction::Right);
+        }
 
     }
 
@@ -178,6 +186,39 @@ void render(uint8_t currentPlane) {
     }
 
 
+
+    // Render enemies ..
+
+
+    for (Enemy &enemy : enemies) {
+
+        if (enemy.isActive()) {
+
+            //uint8_t thrustImg = Constants::Thrust_Img[player.getVelocityIdxX()];
+            //uint8_t thrustFrameCount = ((frameCount % 9 / 3));
+
+            switch (enemy.getDirection()) {
+
+                case Direction::Right:
+
+                    SpritesU::drawPlusMaskFX((camera.getX() - enemy.getX()) / 16, enemy.getY() / 16, Images::Enemy, 0 + currentPlane);
+                    // SpritesU::drawPlusMaskFX(playerX_Offset - 16, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
+                    break;
+
+                default:
+
+                    SpritesU::drawPlusMaskFX((camera.getX() - enemy.getX()) / 16, enemy.getY() / 16, Images::Enemy, 12 + currentPlane);
+                    // SpritesU::drawPlusMaskFX(playerX_Offset + 16, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
+                    break;
+
+            }
+
+        }
+
+    }
+
+
+
     // Render foregorund ..
     
     SpritesU::drawPlusMaskFX(fg_Pos - 96, 28, Images::FG_00, (((fgIdx + 8) % 4) * 3) + currentPlane);
@@ -222,6 +263,7 @@ void play_Update() {
             world.update(player.getVelocityIdxX());
 
             updateBullets(player.getX());
+            updateEnemies();
 
             if (justPressed & B_BUTTON) { 
                 gameState = GameState::Play_Quit;

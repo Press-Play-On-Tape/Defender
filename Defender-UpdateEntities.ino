@@ -95,3 +95,13 @@ void updateBullets(int16_t player_x) {
     }
     
 }
+
+void updateEnemies() {
+
+    for (Enemy &enemy : enemies) {
+
+        enemy.update();
+
+    }
+
+}

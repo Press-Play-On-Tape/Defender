@@ -6,8 +6,8 @@ using uint24_t = __uint24;
 
 // Initialize FX hardware using  FX::begin(FX_DATA_PAGE); in the setup() function.
 
-constexpr uint16_t FX_DATA_PAGE  = 0xfe41;
-constexpr uint24_t FX_DATA_BYTES = 110277;
+constexpr uint16_t FX_DATA_PAGE  = 0xfe35;
+constexpr uint24_t FX_DATA_BYTES = 113351;
 
 constexpr uint16_t FX_SAVE_PAGE  = 0xfff0;
 constexpr uint24_t FX_SAVE_BYTES = 2;
@@ -26,19 +26,20 @@ namespace Images
 {
   constexpr uint24_t Player = 0x001951;
   constexpr uint24_t Player_Thrust = 0x001D13;
-  constexpr uint24_t HUD = 0x0023D5;
-  constexpr uint24_t PPOT = 0x0052B7;
-  constexpr uint24_t Sound_Volume = 0x0082B9;
-  constexpr uint24_t Sound_Checkbox = 0x008AFB;
-  constexpr uint24_t Title = 0x008B09;
-  constexpr uint24_t Numbers_5x3_1D_WB = 0x014B0B;
-  constexpr uint24_t Numbers_5x3_2D_WB = 0x014B67;
-  constexpr uint24_t Numbers_5x3_1D_MB = 0x01539D;
-  constexpr uint24_t Numbers_5x3_2D_MB = 0x0153F9;
-  constexpr uint24_t GameOver = 0x015C2F;
-  constexpr uint24_t Quit = 0x0162FD;
-  constexpr uint24_t BG_00 = 0x01677F;
-  constexpr uint24_t MG_00 = 0x017E01;
-  constexpr uint24_t FG_00 = 0x019903;
+  constexpr uint24_t Enemy = 0x0023D5;
+  constexpr uint24_t HUD = 0x002FD7;
+  constexpr uint24_t PPOT = 0x005EB9;
+  constexpr uint24_t Sound_Volume = 0x008EBB;
+  constexpr uint24_t Sound_Checkbox = 0x0096FD;
+  constexpr uint24_t Title = 0x00970B;
+  constexpr uint24_t Numbers_5x3_1D_WB = 0x01570D;
+  constexpr uint24_t Numbers_5x3_2D_WB = 0x015769;
+  constexpr uint24_t Numbers_5x3_1D_MB = 0x015F9F;
+  constexpr uint24_t Numbers_5x3_2D_MB = 0x015FFB;
+  constexpr uint24_t GameOver = 0x016831;
+  constexpr uint24_t Quit = 0x016EFF;
+  constexpr uint24_t BG_00 = 0x017381;
+  constexpr uint24_t MG_00 = 0x018A03;
+  constexpr uint24_t FG_00 = 0x01A505;
 }
 

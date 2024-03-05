@@ -104,6 +104,7 @@ deleteFile(BASE + 'Images.hpp')
 
 convert_header(IMAGES + 'Player/Player.png',                                                   BASE + 'Images.hpp', 'Player', 4, 16, 16, maskImage=True)
 convert_header(IMAGES + 'Player/Player_Thrust.png',                                            BASE + 'Images.hpp', 'Player_Thrust', 4, 16, 8, maskImage=True)
+convert_header(IMAGES + 'Enemy/Enemy.png',                                                     BASE + 'Images.hpp', 'Enemy', 4, 32, 16, maskImage=True)
 
 convert_header(IMAGES + 'HUD.png',                                                             BASE + 'Images.hpp', 'HUD', 4, 25, 64)
 
