@@ -9,23 +9,23 @@ class Enemy {
     private:
 
         Direction direction = Direction::Left;
-        Speed speed = Speed::Slow;
-        int16_t x = 0;
-        int16_t y = 0;
+        float speed = 0;
+        float x = 0;
+        float y = 0;
         bool active = false;
         
     public:
 
         Direction getDirection()                        { return this->direction; }
-        Speed getSpeed()                                { return this->speed; }
-        int16_t getX()                                  { return this->x; }        
-        int16_t getY()                                  { return this->y; }        
+        float getSpeed()                                { return this->speed; }
+        float getX()                                    { return this->x; }        
+        float getY()                                    { return this->y; }        
         bool isActive()                                 { return this->active; }        
 
         void setDirection(Direction val)                { this->direction = val; }
-        void setSpeed(Speed val)                        { this->speed = val; }
-        void setX(int16_t val)                          { this->x = val; }
-        void setY(int16_t val)                          { this->y = val; }
+        void setSpeed(float val)                        { this->speed = val; }
+        void setX(float val)                            { this->x = val; }
+        void setY(float val)                            { this->y = val; }
         void setActive(bool val)                        { this->active = val; }
 
     public:
@@ -36,42 +36,12 @@ class Enemy {
 
                 case Direction::Left:
 
-                    switch (this->speed) {
-
-                        case Speed::Slow:
-                            this->x = this->x - 24;
-                            break;
-
-                        case Speed::Medium:
-                            this->x = this->x - 32;
-                            break;
-
-                        case Speed::Fast:
-                            this->x = this->x - 48;
-                            break;
-                            
-                    }
-
+                    this->x = this->x - this->speed;
                     break;
 
                 case Direction::Right:
 
-                    switch (this->speed) {
-
-                        case Speed::Slow:
-                            this->x = this->x + 24;
-                            break;
-
-                        case Speed::Medium:
-                            this->x = this->x + 32;
-                            break;
-
-                        case Speed::Fast:
-                            this->x = this->x + 48;
-                            break;
-                            
-                    }
-                    
+                    this->x = this->x + this->speed;
                     break;
             
                 default:

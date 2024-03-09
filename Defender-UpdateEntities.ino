@@ -8,6 +8,9 @@
 
 void updatePlayer(uint8_t frameCount) {
 
+// Serial.print("P: ");
+// Serial.print(player.getVelocityX());
+// Serial.print(" ");
     player.incX(player.getVelocityX());
     player.incY(player.getVelocityY());
 
@@ -74,7 +77,11 @@ void updateCamera(Player &player) {
         (tcamx - camera.getX()) * CAMERA_UPDATE_X_ALPHA -
         camera.getVelocityX() * CAMERA_UPDATE_X_BETA;
 
-    Serial.println(camera.getVelocityX() * CAMERA_UPDATE_X_DT);
+    // Serial.println(camera.getVelocityX() * CAMERA_UPDATE_X_DT);
+
+// Serial.print("C: ");
+// Serial.print(camera.getVelocityX() * CAMERA_UPDATE_X_DT);
+// Serial.println(" ");
 
     camera.incX(camera.getVelocityX() * CAMERA_UPDATE_X_DT);
     camera.incVelocityX(d2camx * CAMERA_UPDATE_X_DT);

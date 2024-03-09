@@ -104,9 +104,10 @@ deleteFile(BASE + 'Images.hpp')
 
 convert_header(IMAGES + 'Player/Player.png',                                                   BASE + 'Images.hpp', 'Player', 4, 16, 16, maskImage=True)
 convert_header(IMAGES + 'Player/Player_Thrust.png',                                            BASE + 'Images.hpp', 'Player_Thrust', 4, 16, 8, maskImage=True)
-convert_header(IMAGES + 'Enemy/Enemy.png',                                                     BASE + 'Images.hpp', 'Enemy', 4, 32, 16, maskImage=True)
+convert_header(IMAGES + 'Player/Bullets.png',                                                  BASE + 'Images.hpp', 'Bullets', 4, 20, 8)
+convert_header(IMAGES + 'Enemy/Enemy.png',                                                     BASE + 'Images.hpp', 'Enemy', 4, 21, 16, maskImage=True)
 
-convert_header(IMAGES + 'HUD.png',                                                             BASE + 'Images.hpp', 'HUD', 4, 25, 64)
+convert_header(IMAGES + 'HUD.png',                                                             BASE + 'Images.hpp', 'HUD', 4)
 
 convert_header(IMAGES + 'PPOT.png',                                                            BASE + 'Images.hpp', 'PPOT', 4, 128, 64)
 convert_header(IMAGES + 'Sound_Volume.png',                                                    BASE + 'Images.hpp', 'Sound_Volume', 4, 22, 16)

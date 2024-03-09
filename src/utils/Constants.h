@@ -36,18 +36,20 @@ struct Point_S8 {
 };
 
 
-constexpr float CAMERA_OFFSET_X = 64 * 16;
-constexpr float CAMERA_OFFSET_X_DELTA = 8 * 16;
-constexpr float CAMERA_OFFSET_X_VEL_DELTA = 100 * 16;
+// constexpr float CAMERA_OFFSET_X = 64;
+constexpr float CAMERA_OFFSET_X = 58;
+constexpr float CAMERA_OFFSET_X_DELTA = 8;
+constexpr float CAMERA_OFFSET_X_VEL_DELTA = 100;
 
 constexpr float CAMERA_UPDATE_X_OMEGA = 5;
 constexpr float CAMERA_UPDATE_X_ZETA = 1;
 constexpr float CAMERA_UPDATE_X_ALPHA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_OMEGA;
 constexpr float CAMERA_UPDATE_X_BETA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_ZETA * 2;
-constexpr float CAMERA_UPDATE_X_DT = 0.004;
+//constexpr float CAMERA_UPDATE_X_DT = 0.004;
+constexpr float CAMERA_UPDATE_X_DT = 0.007;
 
-constexpr float PLAYER_MAX_MOVE_VEL_X = 4.0 * 16;
-constexpr float PLAYER_MAX_VEL_X = 4.0 * 16;
+constexpr float PLAYER_MAX_MOVE_VEL_X = 4.0;
+constexpr float PLAYER_MAX_VEL_X = 4.0;
 
 
 namespace Constants {
@@ -63,6 +65,7 @@ namespace Constants {
     constexpr uint8_t ParticlesMax = 25;
     constexpr uint8_t BulletCount = 5;
 
+    constexpr uint8_t HUD_Left = 40;
 
     // constexpr int16_t Player_Offset_X_Min = 46 * -16;
     // constexpr int16_t Player_Offset_X_Mid = 0;

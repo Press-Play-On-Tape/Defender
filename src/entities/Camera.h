@@ -8,32 +8,32 @@ class Camera {
 
     private:
 
-        int16_t x = 0;
-        int16_t vx = 0;
+        float x = 0;
+        float vx = 0;
         
     public:
 
-        int16_t getX()                                  { return this->x; }        
-        int16_t getVelocityX()                          { return this->vx; }        
+        float getX()                                  { return this->x; }        
+        float getVelocityX()                          { return this->vx; }        
 
-        void setX(int16_t val)                          { this->x = val; }
-        void setVelocityX(int16_t val)                  { this->vx = val; }
+        void setX(float val)                          { this->x = val; }
+        void setVelocityX(float val)                  { this->vx = val; }
 
     public:
 
-        void incX(int8_t val) {
+        void incX(float val) {
         
             this->x = this->x + val;
         
         }
 
-        void incVelocityX(int8_t val) {
+        void incVelocityX(float val) {
         
             this->vx = this->vx + val;
         
         }
 
-        bool update(uint8_t playerVelocityIdxX) {
+        bool update(float playerVelocityIdxX) {
             
         }
 };

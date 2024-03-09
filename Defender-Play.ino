@@ -6,21 +6,40 @@
 #include "src/entities/Entities.h"
 #include "src/utils/SpritesU.hpp"
 
+void launchEnemy(Enemy &enemy) {
+
+        enemy.setActive(true);
+    enemy.setX(random(-3000, 3000));
+    // enemy.setX(500 + (56 - 4));
+    enemy.setY(random(0, 54));
+    enemy.setSpeed(static_cast<float>(random(2, 4)));
+    
+    if (random(0, 2) == 0) {
+        enemy.setDirection(Direction::Left);
+    }
+    else {
+        enemy.setDirection(Direction::Right);
+    }
+
+}
+
+
+void launchEnemy(Enemy &enemy, float xOffset) {
+
+        enemy.setActive(true);
+    enemy.setX(enemy.getX() + xOffset);
+    // enemy.setX(500 + (56 - 4));
+    enemy.setY(random(0, 54));
+    enemy.setSpeed(static_cast<float>(random(1, 3)));
+
+}
+
+
 void play_Init() {
 
     for (Enemy &enemy : enemies) {
 
-        enemy.setActive(true);
-        enemy.setX(random(-10000, 10000));
-        enemy.setY(random(0, 800));
-        enemy.setSpeed(static_cast<Speed>(random(0, 3)));
-        
-        if (random(0, 2) == 0) {
-            enemy.setDirection(Direction::Left);
-        }
-        else {
-            enemy.setDirection(Direction::Right);
-        }
+        launchEnemy(enemy);
 
     }
 
@@ -36,34 +55,35 @@ void play_Init() {
 
     }
 
-    player.setX(5000 + (64 - 4) * 16);
-    player.setY(16 * 16);
+    // player.setX(500 + (64 - 4));
+    player.setX(500 + (56 - 4));
+    player.setY(16);
 
     gameState = GameState::Play;
     cookie.score = 0;
 
-    camera.setX(5000);
+    camera.setX(500);
 
-    world.setX(5000);
-    world.setBackgroundX(5000);
-    world.setForegroundX(5000);
+    world.setX(500);
+    world.setBackgroundX(500);
+    world.setForegroundX(500);
 
 }
 
 void render(uint8_t currentPlane) {
 
-    int16_t diffX = world.getX() - player.getX();
+    float diffX = world.getX() - player.getX();
 
 
     // Render background and middle ground ..
 
-    int16_t bg_Pos = ((world.getBackgroundX() + diffX) % (96 * 16)) / 16;
-    int16_t mg_Pos = ((world.getX() + diffX) % (96 * 16)) / 16;
-    int16_t fg_Pos = ((world.getForegroundX() + diffX) % (96 * 16)) / 16;
+    int16_t bg_Pos = static_cast<int32_t>(world.getBackgroundX() + diffX) % (96);
+    int16_t mg_Pos = static_cast<int32_t>(world.getX() + diffX) % (96);
+    int16_t fg_Pos = static_cast<int32_t>(world.getForegroundX() + diffX) % (96);
 
-    int8_t bgIdx =    ((world.getBackgroundX() + diffX) / (96 * 16)) % 4;
-    int8_t mgIdx =     ((world.getX() + diffX) / (96 * 16)) % 4;
-    int8_t fgIdx =     ((world.getForegroundX() + diffX) / (96 * 16)) % 4;
+    int8_t bgIdx =   static_cast<int32_t>((world.getBackgroundX() + diffX) / 96) % 4;
+    int8_t mgIdx =   static_cast<int32_t>((world.getX() + diffX) / 96) % 4;
+    int8_t fgIdx =   static_cast<int32_t>((world.getForegroundX() + diffX) / 96) % 4;
 
 
     SpritesU::drawOverwriteFX(bg_Pos - 96, 22, Images::BG_00, (((bgIdx + 8) % 4) * 3) + currentPlane);
@@ -87,6 +107,74 @@ void render(uint8_t currentPlane) {
     score = cookie.score % 100;
     SpritesU::drawOverwriteFX(128 - 9, 0, Images::Numbers_5x3_2D_MB, (score * 3) + currentPlane);
 
+
+    // Ammo
+
+    uint8_t i = 0;
+    for (Bullet &bullet : bullets) {
+        if (!bullet.isActive()) {
+            i++;
+        }
+    }
+    SpritesU::drawOverwriteFX(2, 1, Images::Bullets, (i * 3) + currentPlane);
+
+
+    // HUD
+
+    // SpritesU::drawOverwriteFX(38, 0, Images::HUD, currentPlane);
+
+    if (currentPlane == 0) {
+        SpritesU::fillRect(Constants::HUD_Left, 6, 48, 1, WHITE);
+    }
+
+    uint8_t y = static_cast<uint8_t>(player.getY()) / 10;
+    SpritesU::fillRect(Constants::HUD_Left - 1 + (48 / 2), y, 2, 2, WHITE);
+
+
+
+
+
+//    for (Enemy &enemy : enemies) {
+    if (currentPlane == 0) {
+
+        for (uint8_t i = 0; i < Constants::EnemyCount; i++) {
+
+            Enemy &enemy = enemies[i];
+
+            if (enemy.isActive()) {
+            
+                float diffX = enemy.getX() - player.getX();
+                uint8_t y = static_cast<uint8_t>(enemy.getY()) / 10;
+
+                if (diffX > -1530 && diffX < 1530) {
+                    // Serial.print(player.getX());
+                    // Serial.print(" ");
+                    // Serial.print(enemy.getX());
+                    // Serial.print(" ");
+                    // Serial.print(diffX);
+                    // Serial.print(" > ");
+                    // Serial.print(Constants::HUD_Left + (48 / 2) + (diffX / 64));
+                    // Serial.print(",");
+                    // Serial.println(y);
+                    // Serial.println(currentPlane);
+                    SpritesU::fillRect(Constants::HUD_Left + (48 / 2) + (diffX / 64), y, 2, 2, WHITE);
+                }
+
+                if (diffX < -2500) {
+                    launchEnemy(enemy, 5000);
+                }
+
+                if (diffX > 2500) {
+                    launchEnemy(enemy, -5000);
+                }
+
+
+            }
+
+        }
+
+    }
+
 // Serial.print("W ");
 // Serial.print(world.getX());
 // Serial.print(", C ");
@@ -101,23 +189,23 @@ void render(uint8_t currentPlane) {
     // Render bullets ..
 
     // uint8_t playerX_Offset = 56 + (camera.getX() / 16);
-    uint8_t playerX_Offset = (player.getX() - camera.getX()) / 16;
-    uint8_t playerY = player.getY() / 16;
+    uint8_t playerX_Offset = (player.getX() - camera.getX());
+    uint8_t playerY = player.getY();
 
     for (Bullet &bullet : bullets) {
 
         if (bullet.isActive()) {
 
-            int16_t xDiff = (bullet.getX() - player.getX()) / 16;
+            int16_t xDiff = (bullet.getX() - player.getX());
 
             switch (bullet.getDirection()) {
 
                 case Direction::Left:
-                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY_Screen(), Images::Player_Bullets, currentPlane);
+                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY(), Images::Player_Bullets, currentPlane);
                     break;
 
                 case Direction::Right:
-                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY_Screen(), Images::Player_Bullets, 3 + currentPlane);
+                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY(), Images::Player_Bullets, 3 + currentPlane);
                     break;
 
                 
@@ -197,17 +285,33 @@ void render(uint8_t currentPlane) {
             //uint8_t thrustImg = Constants::Thrust_Img[player.getVelocityIdxX()];
             //uint8_t thrustFrameCount = ((frameCount % 9 / 3));
 
+            // switch (enemy.getDirection()) {
+
+            //     case Direction::Right:
+
+            //         SpritesU::drawPlusMaskFX((camera.getX() - enemy.getX()) / 16, enemy.getY() / 16, Images::Enemy, 0 + currentPlane);
+            //         // SpritesU::drawPlusMaskFX(playerX_Offset - 16, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
+            //         break;
+
+            //     default:
+
+            //         SpritesU::drawPlusMaskFX((camera.getX() - enemy.getX()) / 16, enemy.getY() / 16, Images::Enemy, 12 + currentPlane);
+            //         // SpritesU::drawPlusMaskFX(playerX_Offset + 16, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
+            //         break;
+
+            // }
+
             switch (enemy.getDirection()) {
 
                 case Direction::Right:
 
-                    SpritesU::drawPlusMaskFX((camera.getX() - enemy.getX()) / 16, enemy.getY() / 16, Images::Enemy, 0 + currentPlane);
+                    SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY(), Images::Enemy, 12 + currentPlane);
                     // SpritesU::drawPlusMaskFX(playerX_Offset - 16, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
                     break;
 
                 default:
 
-                    SpritesU::drawPlusMaskFX((camera.getX() - enemy.getX()) / 16, enemy.getY() / 16, Images::Enemy, 12 + currentPlane);
+                    SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY() , Images::Enemy, 0 + currentPlane);
                     // SpritesU::drawPlusMaskFX(playerX_Offset + 16, playerY + 3, Images::Player_Thrust, (((thrustImg * 3) + thrustFrameCount) * 3) + currentPlane);
                     break;
 
@@ -351,17 +455,17 @@ void fireBullet() {
         if (!bullet.isActive()) {
 
             bullet.setActive(true);
-            bullet.setY(player.getY() + (8 * 16));
+            bullet.setY(player.getY() + 6);
 
             switch (player.getDirectionX()) {
 
                 case Direction::Right:
-                    bullet.setX(player.getX() + (Constants::Player_Width * 16));
+                    bullet.setX(player.getX() + Constants::Player_Width);
                     bullet.setDirection(Direction::Right);
                     break;
 
                 case Direction::Left:
-                    bullet.setX(player.getX() - (2 * 16));
+                    bullet.setX(player.getX() - 2);
                     bullet.setDirection(Direction::Left);
                     break;
                 

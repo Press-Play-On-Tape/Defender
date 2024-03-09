@@ -16,8 +16,8 @@ class Player {
         uint8_t velocityIdxX = 14;
         uint8_t velocityIdxY = 14;
 
-        int16_t x = 0;
-        int16_t y = 0;
+        float x = 0;
+        float y = 0;
         bool deccelerateXFlag = false;
         bool deccelerateYFlag = false;
         
@@ -28,30 +28,36 @@ class Player {
         Direction getDirectionY()                       { return this->directionY; }
         uint8_t getVelocityIdxX()                       { return this->velocityIdxX; }
         uint8_t getVelocityIdxY()                       { return this->velocityIdxY; }
-        int16_t getX()                                  { return this->x; }        
-        int16_t getY()                                  { return this->y; }        
+        float getX()                                    { return this->x; }        
+        float getY()                                    { return this->y; }        
         bool isDecceleratingX()                         { return this->deccelerateXFlag; }
         bool getDeccelerateY()                          { return this->deccelerateYFlag; }
 
         void setVelocityIdxX(uint8_t val)               { this->velocityIdxX = val; }
         void setDirectionX(Direction val)               { this->directionX = val; }
         void setDirectionY(Direction val)               { this->directionY = val; }
-        void setX(int16_t val)                          { this->x = val; }
-        void setY(int16_t val)                          { this->y = val; }
+        void setX(float val)                            { this->x = val; }
+        void setY(float val)                            { this->y = val; }
 
     public:
 
-        int8_t getVelocityX()                           { return Constants::Velocity_X[this->velocityIdxX]; }
-        int8_t getVelocityY()                           { return Constants::Velocity_Y[this->velocityIdxY]; }
+        float getVelocityX()                           { 
+            // Serial.print("Vi: ");
+            // Serial.print(Constants::Velocity_X[this->velocityIdxX]);
+            // Serial.print("Vx: ");
+            // Serial.println(static_cast<float>(Constants::Velocity_X[this->velocityIdxX]) / 16);
+            return static_cast<float>(Constants::Velocity_X[this->velocityIdxX]) / 16; }
 
-        void incX(int16_t val)                          { this->x = this->x + val; }
+        float getVelocityY()                           { return Constants::Velocity_Y[this->velocityIdxY] / 16; }
 
-        void incY(int16_t val) { 
+        void incX(float val)                           { this->x = this->x + val; }
+
+        void incY(float val) { 
             
             this->y = this->y + val; 
 
             if (this->y < 0) this->y = 0;
-            if (this->y > 700) this->y = 700;
+            if (this->y > 43) this->y = 43;
 
         }
 
