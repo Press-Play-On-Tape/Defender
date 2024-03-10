@@ -41,12 +41,7 @@ class Player {
 
     public:
 
-        float getVelocityX()                           { 
-            // Serial.print("Vi: ");
-            // Serial.print(Constants::Velocity_X[this->velocityIdxX]);
-            // Serial.print("Vx: ");
-            // Serial.println(static_cast<float>(Constants::Velocity_X[this->velocityIdxX]) / 16);
-            return static_cast<float>(Constants::Velocity_X[this->velocityIdxX]) / 16; }
+        float getVelocityX()                           { return static_cast<float>(Constants::Velocity_X[this->velocityIdxX]) / 16; }
 
         float getVelocityY()                           { return Constants::Velocity_Y[this->velocityIdxY] / 16; }
 

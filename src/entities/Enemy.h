@@ -3,6 +3,7 @@
 #include <Arduboy2.h>
 #include "../utils/Enums.h"
 #include "../../fxdata/fxdata.h"
+#include "Player.h"
 
 class Enemy {
 
@@ -38,7 +39,7 @@ class Enemy {
 
     public:
 
-        void update() {
+        void update(Player &player) {
 
             switch (this->enemyType) {
 
@@ -47,13 +48,14 @@ class Enemy {
                     switch (this->direction) {
 
                         case Direction::Left:
-
-                            this->x = this->x - this->speed;
+// Serial.println(-player.getVelocityX() / 2);
+                            this->x = this->x - this->speed + (player.getDirectionX() == Direction::Right ? player.getVelocityX() / 2 : 0);
                             break;
 
                         case Direction::Right:
+// Serial.println(player.getVelocityX() / 2);
 
-                            this->x = this->x + this->speed;
+                            this->x = this->x + this->speed - (player.getDirectionX() == Direction::Left ? player.getVelocityX() / 2 : 0);
                             break;
                     
                         default:
@@ -72,7 +74,7 @@ class Enemy {
 
                 this->imageIdx++;
 
-                if (this->imageIdx == 4) {
+                if (this->imageIdx == 12) {
 
                     this->active = false;
                     
@@ -91,8 +93,8 @@ class Enemy {
                 case EnemyType::Mine:
                     rect.x = this->getX() + 1;
                     rect.y = this->getY() + 1;
-                    rect.width = 9;
-                    rect.height = 9;
+                    rect.width = 7;
+                    rect.height = 7;
                     break;
 
                 case EnemyType::Plane:
@@ -100,6 +102,13 @@ class Enemy {
                     rect.y = this->getY() + 1;
                     rect.width = 19;
                     rect.height = 10;
+                    break;
+
+                case EnemyType::Heart:
+                    rect.x = this->getX() + 1;
+                    rect.y = this->getY() + 1;
+                    rect.width = 5;
+                    rect.height = 8;
                     break;
                     
             }

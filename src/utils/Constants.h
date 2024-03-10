@@ -41,7 +41,7 @@ constexpr float CAMERA_OFFSET_X = 58;
 constexpr float CAMERA_OFFSET_X_DELTA = 8;
 constexpr float CAMERA_OFFSET_X_VEL_DELTA = 100;
 
-constexpr float CAMERA_UPDATE_X_OMEGA = 5;
+constexpr float CAMERA_UPDATE_X_OMEGA = 45;
 constexpr float CAMERA_UPDATE_X_ZETA = 1;
 constexpr float CAMERA_UPDATE_X_ALPHA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_OMEGA;
 constexpr float CAMERA_UPDATE_X_BETA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_ZETA * 2;
@@ -58,7 +58,7 @@ namespace Constants {
     constexpr uint8_t CellHeight = 6;
     constexpr uint8_t MapTileWidth = 18;
     constexpr uint8_t MapTileHeight = 10;
-    constexpr uint8_t EnemyCount = 10;
+    constexpr uint8_t EnemyCount = 1;
     constexpr uint8_t EnemyWidth = 4;
 
     constexpr uint8_t Player_Width = 14;

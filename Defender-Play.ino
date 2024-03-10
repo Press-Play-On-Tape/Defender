@@ -11,7 +11,7 @@ void launchEnemy(Enemy &enemy) {
     enemy.setActive(true);
     enemy.setX(random(-3000, 3000));
     // enemy.setX(500 + (56 - 4));
-    enemy.setY(random(0, 54));
+    enemy.setY(random(0, 42));
     enemy.setSpeed(static_cast<float>(random(2, 4)));
     
     if (random(0, 2) == 0) {
@@ -29,7 +29,7 @@ void launchEnemy(Enemy &enemy, float xOffset) {
     enemy.setActive(true);
     enemy.setX(enemy.getX() + xOffset);
     // enemy.setX(500 + (56 - 4));
-    enemy.setY(random(0, 54));
+    enemy.setY(random(0, 42));
     enemy.setSpeed(static_cast<float>(random(1, 3)));
 
 }
@@ -43,13 +43,16 @@ void play_Init() {
 
         launchEnemy(enemy);
 
-        if (i < 4) {
+        if (i < 1) {
+            enemy.setEnemyType(EnemyType::Heart);
+        }
+        else if (i < 6) {
             enemy.setEnemyType(EnemyType::Mine);
         }
         else {        
             enemy.setEnemyType(EnemyType::Plane);
         }
-
+enemy.setEnemyType(EnemyType::Mine);
     }
 
     for (Particle &particle : particles) {
@@ -81,8 +84,8 @@ void play_Init() {
 
 void render(uint8_t currentPlane) {
 
-    float diffX = world.getX() - player.getX();
-
+    float diffX = world.getX() - camera.getX();// + camera.getX();
+  
 
     // Render background and middle ground ..
 
@@ -117,27 +120,20 @@ void render(uint8_t currentPlane) {
     SpritesU::drawOverwriteFX(128 - 9, 0, Images::Numbers_5x3_2D_MB, (score * 3) + currentPlane);
 
 
-    // Ammo
+    // Health
 
-    uint8_t i = 0;
-
-    for (Bullet &bullet : bullets) {
-
-        if (!bullet.isActive()) {
-            i++;
-        }
-
-    }
-
-    SpritesU::drawOverwriteFX(2, 1, Images::Bullets, (i * 3) + currentPlane);
+    uint8_t i = health / 16;
+    if ((healthBlink / 16) % 2 == 0)
+    SpritesU::drawOverwriteFX(2, 1, Images::Health, (i * 3) + currentPlane);
 
 
     // HUD
 
     uint8_t y = static_cast<uint8_t>(player.getY()) / 10;
 
-    SpritesU::fillRect(Constants::HUD_Left, 6, 48, 1, ArduboyG::color(DARK_GRAY));
-    SpritesU::fillRect(Constants::HUD_Left - 1 + (48 / 2), y, 2, 2, ArduboyG::color(WHITE));
+    SpritesU::fillRect(Constants::HUD_Left, 6, 48, 1, a.color(DARK_GRAY));
+    SpritesU::fillRect(Constants::HUD_Left - 1 + (48 / 2), 0, 1, 6, a.color(DARK_GRAY));
+    SpritesU::fillRect(Constants::HUD_Left - 2 + (48 / 2), y, 3, 2, a.color(WHITE));
 
     for (Enemy &enemy : enemies) {
 
@@ -147,7 +143,7 @@ void render(uint8_t currentPlane) {
             uint8_t y = static_cast<uint8_t>(enemy.getY()) / 10;
 
             if (diffX > -1530 && diffX < 1530) {
-                SpritesU::fillRect(Constants::HUD_Left + (48 / 2) + (diffX / 64), y, 2, 2, ArduboyG::color(LIGHT_GRAY));
+                SpritesU::fillRect(Constants::HUD_Left + (48 / 2) + (diffX / 64), y, 2, 2, a.color(LIGHT_GRAY));
             }
 
             if (diffX < -2500) {
@@ -157,7 +153,6 @@ void render(uint8_t currentPlane) {
             if (diffX > 2500) {
                 launchEnemy(enemy, -5000);
             }
-
 
         }
 
@@ -267,12 +262,12 @@ void render(uint8_t currentPlane) {
 
                         case Direction::Right:
 
-                            SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY(), Images::Enemy_00, (12 + (enemy.getImageIdx() * 3)) + currentPlane);
+                            SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY(), Images::Enemy_00, (12 + enemy.getImageIdx()) + currentPlane);
                             break;
 
                         default:
 
-                            SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY() , Images::Enemy_00, (enemy.getImageIdx() * 3) + currentPlane);
+                            SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY() , Images::Enemy_00, enemy.getImageIdx() + currentPlane);
                             break;
 
                     }
@@ -280,8 +275,21 @@ void render(uint8_t currentPlane) {
                     break;
 
                 case EnemyType::Mine:
+Serial.print(world.getX());
+Serial.print(" ");
+Serial.print(camera.getX());
+Serial.print(" ");
+Serial.print(enemy.getX());
+Serial.print(" ");
+Serial.print(player.getX());
+Serial.println(" ");
         
-                    SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY(), Images::Enemy_01, (enemy.getImageIdx() * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY(), Images::Enemy_01, enemy.getImageIdx() + currentPlane);
+                    break;
+
+                case EnemyType::Heart:
+        
+                    SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY(), Images::Enemy_02, (((frameCount / 12) % 4) * 3) + currentPlane);
                     break;
                     
             }
@@ -294,10 +302,10 @@ void render(uint8_t currentPlane) {
 
     // Render foregorund ..
     
-    SpritesU::drawPlusMaskFX(fg_Pos - 96, 28, Images::FG_00, (((fgIdx + 8) % 4) * 3) + currentPlane);
-    SpritesU::drawPlusMaskFX(fg_Pos, 28, Images::FG_00, (((fgIdx - 1 + 8) % 4) * 3) + currentPlane);
-    SpritesU::drawPlusMaskFX(fg_Pos + 96, 28, Images::FG_00, (((fgIdx - 2 + 8) % 4) * 3) + currentPlane);
-    SpritesU::drawPlusMaskFX(fg_Pos + 96 + 96, 28, Images::FG_00, (((fgIdx - 3 + 8) % 4) * 3) + currentPlane);
+    SpritesU::drawPlusMaskFX(fg_Pos - 96, 36, Images::FG_00, (((fgIdx + 8) % 4) * 3) + currentPlane);
+    SpritesU::drawPlusMaskFX(fg_Pos, 36, Images::FG_00, (((fgIdx - 1 + 8) % 4) * 3) + currentPlane);
+    SpritesU::drawPlusMaskFX(fg_Pos + 96, 36, Images::FG_00, (((fgIdx - 2 + 8) % 4) * 3) + currentPlane);
+    SpritesU::drawPlusMaskFX(fg_Pos + 96 + 96, 36, Images::FG_00, (((fgIdx - 3 + 8) % 4) * 3) + currentPlane);
 
 
     switch (gameState) {
@@ -371,6 +379,9 @@ void play_Update() {
                 }
 
             }
+
+            if (healthBlink > 0) healthBlink--;
+            // Serial.println(healthBlink);
 
             break;
 

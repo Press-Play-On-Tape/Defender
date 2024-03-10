@@ -6,8 +6,8 @@ using uint24_t = __uint24;
 
 // Initialize FX hardware using  FX::begin(FX_DATA_PAGE); in the setup() function.
 
-constexpr uint16_t FX_DATA_PAGE  = 0xfe63;
-constexpr uint24_t FX_DATA_BYTES = 101391;
+constexpr uint16_t FX_DATA_PAGE  = 0xfe69;
+constexpr uint24_t FX_DATA_BYTES = 99943;
 
 constexpr uint16_t FX_SAVE_PAGE  = 0xfff0;
 constexpr uint24_t FX_SAVE_BYTES = 2;
@@ -27,21 +27,23 @@ namespace Images
   constexpr uint24_t Player = 0x001951;
   constexpr uint24_t Player_Thrust = 0x001D13;
   constexpr uint24_t Bullets = 0x0023D5;
-  constexpr uint24_t Enemy_00 = 0x00253F;
-  constexpr uint24_t Enemy_01 = 0x002D21;
-  constexpr uint24_t HUD = 0x002F63;
-  constexpr uint24_t PPOT = 0x003001;
-  constexpr uint24_t Sound_Volume = 0x006003;
-  constexpr uint24_t Sound_Checkbox = 0x006845;
-  constexpr uint24_t Title = 0x006853;
-  constexpr uint24_t Numbers_5x3_1D_WB = 0x012855;
-  constexpr uint24_t Numbers_5x3_2D_WB = 0x0128B1;
-  constexpr uint24_t Numbers_5x3_1D_MB = 0x0130E7;
-  constexpr uint24_t Numbers_5x3_2D_MB = 0x013143;
-  constexpr uint24_t GameOver = 0x013979;
-  constexpr uint24_t Quit = 0x014047;
-  constexpr uint24_t BG_00 = 0x0144C9;
-  constexpr uint24_t MG_00 = 0x015B4B;
-  constexpr uint24_t FG_00 = 0x01764D;
+  constexpr uint24_t Health = 0x00253F;
+  constexpr uint24_t Enemy_00 = 0x00275D;
+  constexpr uint24_t Enemy_01 = 0x002F3F;
+  constexpr uint24_t Enemy_02 = 0x0030F1;
+  constexpr uint24_t HUD = 0x00316B;
+  constexpr uint24_t PPOT = 0x003209;
+  constexpr uint24_t Sound_Volume = 0x00620B;
+  constexpr uint24_t Sound_Checkbox = 0x006A4D;
+  constexpr uint24_t Title = 0x006A5B;
+  constexpr uint24_t Numbers_5x3_1D_WB = 0x012A5D;
+  constexpr uint24_t Numbers_5x3_2D_WB = 0x012AB9;
+  constexpr uint24_t Numbers_5x3_1D_MB = 0x0132EF;
+  constexpr uint24_t Numbers_5x3_2D_MB = 0x01334B;
+  constexpr uint24_t GameOver = 0x013B81;
+  constexpr uint24_t Quit = 0x01424F;
+  constexpr uint24_t BG_00 = 0x0146D1;
+  constexpr uint24_t MG_00 = 0x015D53;
+  constexpr uint24_t FG_00 = 0x017855;
 }
 

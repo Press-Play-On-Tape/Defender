@@ -16,49 +16,7 @@ void updatePlayer(uint8_t frameCount) {
 
 void updateCamera(Player &player) {
 
-    /*
-    float tcamy = py - CAMERA_OFFSET_Y;
-    float tcamx = px - CAMERA_OFFSET_X;
-    float xmax = map_width * 16 - 129;
-    float ymax = map_height * 16 - 65;
-
-    tcamx += vx * (CAMERA_OFFSET_X_VEL_DELTA / PLAYER_MAX_MOVE_VEL_X);
-
-    if(player_facing_right)
-        tcamx += CAMERA_OFFSET_X_DELTA;
-    else
-        tcamx -= CAMERA_OFFSET_X_DELTA;
-    
-    {
-        float dy = tcamy - camy;
-        if(dy > CAMERA_Y_HYSTERESIS)
-            tcamy -= CAMERA_Y_HYSTERESIS;
-        else if(dy < -CAMERA_Y_HYSTERESIS)
-            tcamy += CAMERA_Y_HYSTERESIS;
-        else
-            tcamy = camy;
-    }
-    
-    if($pressed(UP_BUTTON))
-        tcamy -= CAMERA_OFFSET_Y_DELTA_UP;
-    if($pressed(DOWN_BUTTON))
-        tcamy += CAMERA_OFFSET_Y_DELTA_DOWN;
-    if(tcamx < 0) tcamx = 0;
-    if(tcamy < 0) tcamy = 0;
-    if(tcamx > xmax) tcamx = xmax;
-    if(tcamy > ymax) tcamy = ymax;
-    camy += (tcamy - camy) * CAMERA_UPDATE_Y_FACTOR;
-
-    float d2camx =
-        (tcamx - camx) * CAMERA_UPDATE_X_ALPHA -
-        dcamx * CAMERA_UPDATE_X_BETA;
-    camx += dcamx * CAMERA_UPDATE_X_DT;
-    dcamx += d2camx * CAMERA_UPDATE_X_DT;
-
-    */
-
     float tcamx = player.getX() - CAMERA_OFFSET_X;
-    //float xmax = 1000 * 16 - 129;
 
     tcamx += player.getVelocityX() * (CAMERA_OFFSET_X_VEL_DELTA / PLAYER_MAX_MOVE_VEL_X);
 
@@ -66,9 +24,6 @@ void updateCamera(Player &player) {
         tcamx += CAMERA_OFFSET_X_DELTA;
     else
         tcamx -= CAMERA_OFFSET_X_DELTA;
-    
-    //if (tcamx < 0) tcamx = 0;
-    //if(tcamx > xmax) tcamx = xmax;
 
     float d2camx =
         (tcamx - camera.getX()) * CAMERA_UPDATE_X_ALPHA -
@@ -76,8 +31,8 @@ void updateCamera(Player &player) {
 
     camera.incX(camera.getVelocityX() * CAMERA_UPDATE_X_DT);
     camera.incVelocityX(d2camx * CAMERA_UPDATE_X_DT);
-}
 
+}
 
 
 void updateBullets(int16_t player_x) {
@@ -99,10 +54,24 @@ void updateBullets(int16_t player_x) {
                     if (Arduboy2::collide(bulletRect, enemyRect)) {
 
                         bullet.setActive(false);
-                        Serial.println("Explode");
                         enemy.setImageIdx(1);
 
-                        launchParticles(static_cast<int16_t>(enemy.getX() - world.getX()), static_cast<int16_t>(enemy.getY()));
+                        launchParticles(static_cast<int16_t>(enemy.getX() - camera.getX() + 6), static_cast<int16_t>(enemy.getY() + 6));
+
+                        switch (enemy.getEnemyType()) {
+
+                            case EnemyType::Mine:
+                                cookie.score = cookie.score + 25;
+                                break;
+
+                            case EnemyType::Plane:
+                                cookie.score = cookie.score + 50;
+                                break;
+
+                            case EnemyType::Heart:
+                                break;
+
+                        }
 
                     }
 
@@ -120,7 +89,45 @@ void updateEnemies() {
 
     for (Enemy &enemy : enemies) {
 
-        enemy.update();
+        if (enemy.isActive()) {
+                
+            enemy.update(player);
+
+            Rect enemyRect = enemy.getRect();
+            Rect playerRect = { static_cast<int16_t>(player.getX()), static_cast<int16_t>(player.getY()), 16, 9 };
+
+            if (Arduboy2::collide(playerRect, enemyRect)) {
+
+                switch (enemy.getEnemyType()) {
+
+                    case EnemyType::Mine:
+                    case EnemyType::Plane:
+
+                        health = health - 1;
+
+                        if (healthBlink == 0) {
+                            healthBlink = healthBlink + 15;
+                        }
+                        else if (healthBlink < 84) {
+                            healthBlink = healthBlink + 32;
+                        }
+
+                        break;
+
+                    case EnemyType::Heart:
+
+                        health = health + 90;
+                        if (health > 90) health = 90;
+                        enemy.setActive(false);
+                    
+                        break;
+
+                }
+
+
+            }
+
+        }
 
     }
 
