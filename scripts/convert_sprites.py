@@ -107,6 +107,7 @@ convert_header(IMAGES + 'Player/Player_Thrust.png',                             
 convert_header(IMAGES + 'Player/Bullets.png',                                                  BASE + 'Images.hpp', 'Bullets', 4, 20, 8)
 convert_header(IMAGES + 'Player/Health.png',                                                   BASE + 'Images.hpp', 'Health', 4, 30, 8)
 convert_header(IMAGES + 'Enemy/Enemy_00.png',                                                  BASE + 'Images.hpp', 'Enemy_00', 4, 21, 16, maskImage=True)
+convert_header(IMAGES + 'Enemy/Enemy_00_Pickup.png',                                           BASE + 'Images.hpp', 'Enemy_00', 4, 21, 24, maskImage=True)
 convert_header(IMAGES + 'Enemy/Enemy_01.png',                                                  BASE + 'Images.hpp', 'Enemy_01', 4, 9, 16, maskImage=True)
 convert_header(IMAGES + 'Enemy/Enemy_02.png',                                                  BASE + 'Images.hpp', 'Enemy_02', 4, 7, 8, maskImage=True)
 

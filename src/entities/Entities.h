@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Treasure.h"
 #include "Bullet.h"
 #include "World.h"
 #include "Camera.h"

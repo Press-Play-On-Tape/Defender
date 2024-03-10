@@ -58,12 +58,13 @@ namespace Constants {
     constexpr uint8_t CellHeight = 6;
     constexpr uint8_t MapTileWidth = 18;
     constexpr uint8_t MapTileHeight = 10;
-    constexpr uint8_t EnemyCount = 1;
+    constexpr uint8_t EnemyCount = 10;
     constexpr uint8_t EnemyWidth = 4;
 
     constexpr uint8_t Player_Width = 14;
     constexpr uint8_t ParticlesMax = 25;
     constexpr uint8_t BulletCount = 5;
+    constexpr uint8_t TreasureCount = 5;
 
     constexpr uint8_t HUD_Left = 40;
 
