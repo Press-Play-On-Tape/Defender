@@ -52,7 +52,7 @@ void play_Init() {
         else {        
             enemy.setEnemyType(EnemyType::Plane);
         }
-enemy.setEnemyType(EnemyType::Mine);
+// enemy.setEnemyType(EnemyType::Mine);
     }
 
     for (Particle &particle : particles) {
@@ -275,14 +275,14 @@ void render(uint8_t currentPlane) {
                     break;
 
                 case EnemyType::Mine:
-Serial.print(world.getX());
-Serial.print(" ");
-Serial.print(camera.getX());
-Serial.print(" ");
-Serial.print(enemy.getX());
-Serial.print(" ");
-Serial.print(player.getX());
-Serial.println(" ");
+// Serial.print(world.getX());
+// Serial.print(" ");
+// Serial.print(camera.getX());
+// Serial.print(" ");
+// Serial.print(enemy.getX());
+// Serial.print(" ");
+// Serial.print(player.getX());
+// Serial.println(" ");
         
                     SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY(), Images::Enemy_01, enemy.getImageIdx() + currentPlane);
                     break;

@@ -38,7 +38,7 @@ Enemy enemies[Constants::EnemyCount];
 Particle particles[Constants::ParticlesMax];
 GameState gameState = GameState::SplashScreen_Start;
 Bullet bullets[Constants::BulletCount];
-Treasure treasure[Constants::TreasureCount];
+// Treasure treasure[Constants::TreasureCount];
 World world;
 Camera camera;
 
