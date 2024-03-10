@@ -64,7 +64,7 @@ namespace Constants {
     constexpr uint8_t EnemyWidth = 4;
 
     constexpr uint8_t Player_Width = 14;
-    constexpr uint8_t ParticlesMax = 25;
+    constexpr uint8_t ParticlesMax = 20;
     constexpr uint8_t BulletCount_Player = 5;
     constexpr uint8_t BulletCount_Enemy = 5;
     constexpr uint8_t TreasureCount = 5;

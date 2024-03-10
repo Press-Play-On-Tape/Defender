@@ -21,7 +21,7 @@ void launchEnemy(Enemy &enemy) {
     enemy.setX(static_cast<SQ15x16>(random(-Constants::WorldWidth.getInteger() + 100, Constants::WorldWidth.getInteger() - 100)));
     // enemy.setX(500 + (56 - 4));
     enemy.setY(random(0, 42));
-    enemy.setSpeed(static_cast<SQ15x16>(random(2, 4)));
+    enemy.setSpeed(static_cast<SQ15x16>(static_cast<SQ15x16>(random(16, 32)) / 8));
     
     if (random(0, 2) == 0) {
         enemy.setDirection(Direction::Left);
@@ -39,7 +39,8 @@ void launchEnemy(Enemy &enemy, SQ15x16 xOffset) {
     enemy.setX(enemy.getX() + xOffset);
     // enemy.setX(500 + (56 - 4));
     enemy.setY(random(0, 42));
-    enemy.setSpeed(static_cast<SQ15x16>(random(1, 3)));
+    enemy.setSpeed(static_cast<SQ15x16>(static_cast<SQ15x16>(random(16, 32)) / 8));
+    // enemy.setSpeed(static_cast<SQ15x16>(random(16, 32) / 8));
 
 }
 

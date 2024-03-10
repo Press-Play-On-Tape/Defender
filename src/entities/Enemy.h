@@ -23,15 +23,18 @@ class Enemy {
 
         Direction getDirection()                        { return this->direction; }
         EnemyType getEnemyType()                        { return this->enemyType; }
-        SQ15x16 getSpeed()                                { return this->speed; }
-        SQ15x16 getX()                                    { return this->x; }        
-        SQ15x16 getY()                                    { return this->y; }        
+        SQ15x16 getSpeed()                              { return this->speed; }
+        SQ15x16 getX()                                  { return this->x; }        
+        SQ15x16 getY()                                  { return this->y; }        
         bool isActive()                                 { return this->active; }        
         uint8_t getImageIdx()                           { return this->imageIdx; }        
 
         void setDirection(Direction val)                { this->direction = val; }
         void setEnemyType(EnemyType val)                { this->enemyType = val; }
-        void setSpeed(SQ15x16 val)                        { this->speed = val; }
+        void setSpeed(SQ15x16 val)                      { 
+            
+            Serial.println((float)val);
+            this->speed = val; }
         void setX(SQ15x16 val)                            { this->x = val; }
         void setY(SQ15x16 val)                            { this->y = val; }
         void setActive(bool val)                        { this->active = val; }
