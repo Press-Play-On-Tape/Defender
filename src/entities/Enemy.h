@@ -39,7 +39,13 @@ class Enemy {
 
     public:
 
-        void update(Player &player) {
+        void incX(float inc) {
+
+            this->x = this->x + inc;
+
+        }
+
+        bool update(Player &player) {
 
             switch (this->enemyType) {
 
@@ -81,6 +87,8 @@ class Enemy {
                 }
 
             }
+
+            return this->x < -Constants::WorldWidth || this->x > Constants::WorldWidth;
 
         }
 

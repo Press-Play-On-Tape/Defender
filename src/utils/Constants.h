@@ -54,6 +54,8 @@ constexpr float PLAYER_MAX_VEL_X = 4.0;
 
 namespace Constants {
 
+    constexpr float WorldWidth = 96 * 4 * 4;
+
     constexpr uint8_t CellWidth = 6;
     constexpr uint8_t CellHeight = 6;
     constexpr uint8_t MapTileWidth = 18;

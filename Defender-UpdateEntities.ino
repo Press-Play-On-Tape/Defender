@@ -6,10 +6,11 @@
 #include "src/entities/Entities.h"
 #include "src/utils/SpritesU.hpp"
 
-void updatePlayer(uint8_t frameCount) {
+bool updatePlayer(uint8_t frameCount) {
 
     player.incX(player.getVelocityX());
     player.incY(player.getVelocityY());
+
 
 }
 
@@ -93,6 +94,19 @@ void updateEnemies() {
                 
             enemy.update(player);
 
+            float diffX = enemy.getX() - player.getX();
+
+
+            // If the enemy has moved beyond the 'HUD' then wrap them ..
+
+            if (diffX < -Constants::WorldWidth) {
+                enemy.incX(2 * Constants::WorldWidth);
+            }
+
+            if (diffX > Constants::WorldWidth) {
+                enemy.incX(-2 * Constants::WorldWidth);
+            }
+
             Rect enemyRect = enemy.getRect();
             Rect playerRect = { static_cast<int16_t>(player.getX()), static_cast<int16_t>(player.getY()), 16, 9 };
 
@@ -123,7 +137,6 @@ void updateEnemies() {
                         break;
 
                 }
-
 
             }
 

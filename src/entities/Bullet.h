@@ -26,6 +26,12 @@ class Bullet {
         void setActive(bool val)                        { this->active = val; }
 
     public:
+        
+        void incX(float val) {
+        
+            this->x = this->x + val;
+        
+        }
 
         bool update(int16_t playerX) {
 

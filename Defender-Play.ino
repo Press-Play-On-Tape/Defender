@@ -9,7 +9,7 @@
 void launchEnemy(Enemy &enemy) {
 
     enemy.setActive(true);
-    enemy.setX(random(-3000, 3000));
+    enemy.setX(random(-Constants::WorldWidth + 100, Constants::WorldWidth - 100));
     // enemy.setX(500 + (56 - 4));
     enemy.setY(random(0, 42));
     enemy.setSpeed(static_cast<float>(random(2, 4)));
@@ -68,17 +68,17 @@ void play_Init() {
     }
 
     // player.setX(500 + (64 - 4));
-    player.setX(500 + (56 - 4));
+    player.setX(0 + (56 - 4));
     player.setY(16);
 
     gameState = GameState::Play;
     cookie.score = 0;
 
-    camera.setX(500);
+    camera.setX(0);
 
-    world.setX(500);
-    world.setBackgroundX(500);
-    world.setForegroundX(500);
+    world.setX(0);
+    world.setBackgroundX(0);
+    world.setForegroundX(0);
 
 }
 
@@ -141,18 +141,7 @@ void render(uint8_t currentPlane) {
         
             float diffX = enemy.getX() - player.getX();
             uint8_t y = static_cast<uint8_t>(enemy.getY()) / 10;
-
-            if (diffX > -1530 && diffX < 1530) {
-                SpritesU::fillRect(Constants::HUD_Left + (48 / 2) + (diffX / 64), y, 2, 2, a.color(LIGHT_GRAY));
-            }
-
-            if (diffX < -2500) {
-                launchEnemy(enemy, 5000);
-            }
-
-            if (diffX > 2500) {
-                launchEnemy(enemy, -5000);
-            }
+            SpritesU::fillRect(Constants::HUD_Left + (48 / 2) + (diffX / 64), y, 2, 2, a.color(LIGHT_GRAY));
 
         }
 
@@ -329,7 +318,9 @@ void render(uint8_t currentPlane) {
 
 
 void play_Update() {
-
+// Serial.print(player.getX());
+// Serial.print(" < ");
+// Serial.println(static_cast<float>(-Constants::WorldWidth));
     frameCount++;
 
     uint8_t justPressed = getJustPressedButtons();
@@ -345,6 +336,42 @@ void play_Update() {
 
             updateBullets(player.getX());
             updateEnemies();
+
+
+            float offset = 0;
+            bool wrap = false;
+
+            if (player.getX() < -Constants::WorldWidth) {
+
+                offset = Constants::WorldWidth;
+                wrap = true;
+
+            }
+            else if (player.getX() > Constants::WorldWidth) {
+
+                offset = -Constants::WorldWidth;
+                wrap = true;
+            
+            }
+
+            if (wrap) {
+
+                player.incX(offset);
+                camera.incX(offset);
+
+                for (Enemy &enemy : enemies) {
+
+                    enemy.incX(offset);
+                    
+                }
+
+                for (Bullet &bullet : bullets) {
+
+                    bullet.incX(offset);
+                    
+                }
+
+            }
 
             if (justPressed & B_BUTTON) { 
                 gameState = GameState::Play_Quit;
