@@ -35,7 +35,6 @@ class Bullet {
 
         bool update(int16_t playerX) {
 
-
             switch (this->direction) {
 
                 case Direction::Right:

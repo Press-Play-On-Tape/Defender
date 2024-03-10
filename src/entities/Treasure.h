@@ -24,9 +24,9 @@ class Treasure {
 
     public:
 
-        bool update() {
+        void incX(float inc) {
 
-            return true;
+            this->x = this->x + inc;
 
         }
 };

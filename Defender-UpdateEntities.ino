@@ -36,9 +36,9 @@ void updateCamera(Player &player) {
 }
 
 
-void updateBullets(int16_t player_x) {
+void updatePlayerBullets(int16_t player_x) {
 
-    for (Bullet &bullet : bullets) {
+    for (Bullet &bullet : playerBullets) {
 
         if (bullet.isActive()) {
 
@@ -86,6 +86,33 @@ void updateBullets(int16_t player_x) {
     
 }
 
+
+
+void updateEnemyBullets(int16_t player_x) {
+
+    for (Bullet &bullet : enemyBullets) {
+
+        if (bullet.isActive()) {
+
+            bullet.update(player_x);
+
+            Rect bulletRect = { bullet.getX(), bullet.getY(), 8, 1 };
+            Rect playerRect = { static_cast<int16_t>(player.getX()), static_cast<int16_t>(player.getY()), 16, 9 };
+
+            if (Arduboy2::collide(bulletRect, playerRect)) {
+
+                bullet.setActive(false);
+                launchParticles(static_cast<int16_t>(player.getX() - camera.getX() + 6), static_cast<int16_t>(player.getY() + 6));
+                decHealth();
+
+            }
+
+        }
+
+    }
+    
+}
+
 void updateEnemies() {
 
     for (Enemy &enemy : enemies) {
@@ -117,15 +144,7 @@ void updateEnemies() {
                     case EnemyType::Mine:
                     case EnemyType::Plane:
 
-                        health = health - 1;
-
-                        if (healthBlink == 0) {
-                            healthBlink = healthBlink + 15;
-                        }
-                        else if (healthBlink < 84) {
-                            healthBlink = healthBlink + 32;
-                        }
-
+                        decHealth();
                         break;
 
                     case EnemyType::Heart:
@@ -144,4 +163,43 @@ void updateEnemies() {
 
     }
 
+}
+
+void updateTreasures() {
+
+    for (Treasure &treasure : treasures) {
+
+        if (treasure.isActive()) {
+
+            float diffX = treasure.getX() - player.getX();
+
+            // If the treasures has moved beyond the 'HUD' then wrap them ..
+
+            if (diffX < -Constants::WorldWidth) {
+                treasure.incX(2 * Constants::WorldWidth);
+            }
+
+            if (diffX > Constants::WorldWidth) {
+                treasure.incX(-2 * Constants::WorldWidth);
+            }
+
+        }
+
+    }
+
+}
+
+void decHealth() {
+
+    if (health  > 0) {
+        health = health - 1;
+    }
+
+    if (healthBlink == 0) {
+        healthBlink = healthBlink + 15;
+    }
+    else if (healthBlink < 84) {
+        healthBlink = healthBlink + 32;
+    }
+    
 }

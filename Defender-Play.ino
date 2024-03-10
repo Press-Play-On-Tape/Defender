@@ -6,6 +6,15 @@
 #include "src/entities/Entities.h"
 #include "src/utils/SpritesU.hpp"
 
+
+void launchTreasure(Treasure &treasure) {
+
+    treasure.setActive(true);
+    treasure.setX(random(-Constants::WorldWidth + 100, Constants::WorldWidth - 100));
+    treasure.setY(54);
+
+}
+
 void launchEnemy(Enemy &enemy) {
 
     enemy.setActive(true);
@@ -61,9 +70,21 @@ void play_Init() {
 
     }
 
-    for (Bullet &bullet : bullets) {
+    for (Bullet &bullet : playerBullets) {
 
         bullet.setActive(false);
+
+    }
+
+    for (Bullet &bullet : enemyBullets) {
+
+        bullet.setActive(false);
+
+    }
+
+    for (Treasure &treasure : treasures) {
+
+        launchTreasure(treasure);
 
     }
 
@@ -147,13 +168,52 @@ void render(uint8_t currentPlane) {
 
     }
 
+    if ((frameCount % 64)  < 32) {
+            
+        for (Treasure &treasure : treasures) {
+
+            if (treasure.isActive()) {
+            
+                float diffX = treasure.getX() - player.getX();
+                uint8_t y = static_cast<uint8_t>(treasure.getY()) / 10;
+                a.drawPixel(Constants::HUD_Left + (48 / 2) + (diffX / 64), y, WHITE);
+
+            }
+
+        }
+
+    }
+
 
     // Render bullets ..
 
     uint8_t playerX_Offset = (player.getX() - camera.getX());
     uint8_t playerY = player.getY();
 
-    for (Bullet &bullet : bullets) {
+    for (Bullet &bullet : playerBullets) {
+
+        if (bullet.isActive()) {
+
+            int16_t xDiff = (bullet.getX() - player.getX());
+
+            switch (bullet.getDirection()) {
+
+                case Direction::Left:
+                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY(), Images::Player_Bullets, currentPlane);
+                    break;
+
+                case Direction::Right:
+                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY(), Images::Player_Bullets, 3 + currentPlane);
+                    break;
+
+                
+            }
+
+        }
+
+    }
+
+    for (Bullet &bullet : enemyBullets) {
 
         if (bullet.isActive()) {
 
@@ -238,7 +298,6 @@ void render(uint8_t currentPlane) {
 
     // Render enemies ..
 
-
     for (Enemy &enemy : enemies) {
 
         if (enemy.isActive()) {
@@ -264,14 +323,6 @@ void render(uint8_t currentPlane) {
                     break;
 
                 case EnemyType::Mine:
-// Serial.print(world.getX());
-// Serial.print(" ");
-// Serial.print(camera.getX());
-// Serial.print(" ");
-// Serial.print(enemy.getX());
-// Serial.print(" ");
-// Serial.print(player.getX());
-// Serial.println(" ");
         
                     SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY(), Images::Enemy_01, enemy.getImageIdx() + currentPlane);
                     break;
@@ -287,6 +338,18 @@ void render(uint8_t currentPlane) {
 
     }
 
+
+    // Render treasures ..
+
+    for (Treasure &treasure : treasures) {
+
+        if (treasure.isActive()) {
+
+            SpritesU::drawPlusMaskFX((treasure.getX() - camera.getX()), treasure.getY(), Images::Treasure, (((frameCount / 12) % 4) * 3) + currentPlane);
+
+        }
+
+    }
 
 
     // Render foregorund ..
@@ -334,9 +397,10 @@ void play_Update() {
             updateCamera(player);
             world.update(player.getVelocityIdxX());
 
-            updateBullets(player.getX());
+            updatePlayerBullets(player.getX());
+            updateEnemyBullets(player.getX());
             updateEnemies();
-
+            updateTreasures();
 
             float offset = 0;
             bool wrap = false;
@@ -365,9 +429,21 @@ void play_Update() {
                     
                 }
 
-                for (Bullet &bullet : bullets) {
+                for (Bullet &bullet : playerBullets) {
 
                     bullet.incX(offset);
+                    
+                }
+
+                for (Bullet &bullet : enemyBullets) {
+
+                    bullet.incX(offset);
+                    
+                }
+
+                for (Treasure &treasure : treasures) {
+
+                    treasure.incX(offset);
                     
                 }
 
@@ -457,7 +533,7 @@ void fireBullet() {
 
     // Otherwise look for an inactive bullet and fire ..
 
-    for (Bullet &bullet : bullets) {
+    for (Bullet &bullet : playerBullets) {
 
         if (!bullet.isActive()) {
 
