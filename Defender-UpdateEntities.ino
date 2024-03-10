@@ -149,8 +149,8 @@ void updateEnemies() {
 
                     case EnemyType::Heart:
 
-                        health = health + 90;
-                        if (health > 90) health = 90;
+                        health = health + Constants::HealthMax;
+                        if (health > Constants::HealthMax) health = Constants::HealthMax;
                         enemy.setActive(false);
                     
                         break;

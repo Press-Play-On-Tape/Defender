@@ -11,7 +11,7 @@ void launchTreasure(Treasure &treasure) {
 
     treasure.setActive(true);
     treasure.setX(static_cast<SQ15x16>(random(-Constants::WorldWidth.getInteger() + 100, Constants::WorldWidth.getInteger() - 100)));
-    treasure.setY(54);
+    treasure.setY(51);
 
 }
 
@@ -21,7 +21,7 @@ void launchEnemy(Enemy &enemy) {
     enemy.setX(static_cast<SQ15x16>(random(-Constants::WorldWidth.getInteger() + 100, Constants::WorldWidth.getInteger() - 100)));
     // enemy.setX(500 + (56 - 4));
     enemy.setY(random(0, 42));
-    enemy.setSpeed(static_cast<SQ15x16>(static_cast<SQ15x16>(random(16, 32)) / 8));
+    enemy.setSpeed(static_cast<SQ15x16>(static_cast<SQ15x16>(random(12, 24)) / 8));
     
     if (random(0, 2) == 0) {
         enemy.setDirection(Direction::Left);
@@ -39,7 +39,7 @@ void launchEnemy(Enemy &enemy, SQ15x16 xOffset) {
     enemy.setX(enemy.getX() + xOffset);
     // enemy.setX(500 + (56 - 4));
     enemy.setY(random(0, 42));
-    enemy.setSpeed(static_cast<SQ15x16>(static_cast<SQ15x16>(random(16, 32)) / 8));
+    enemy.setSpeed(static_cast<SQ15x16>(static_cast<SQ15x16>(random(12, 24)) / 8));
     // enemy.setSpeed(static_cast<SQ15x16>(random(16, 32) / 8));
 
 }
@@ -53,16 +53,17 @@ void play_Init() {
 
         launchEnemy(enemy);
 
-        if (i < 1) {
+        if (i < Constants::EnemyCount_Heart) {
             enemy.setEnemyType(EnemyType::Heart);
         }
-        else if (i < 6) {
+        else if (i < Constants::EnemyCount_Heart + Constants::EnemyCount_Mine) {
             enemy.setEnemyType(EnemyType::Mine);
         }
         else {        
             enemy.setEnemyType(EnemyType::Plane);
         }
-// enemy.setEnemyType(EnemyType::Mine);
+// enemy.setEnemyType(EnemyType::Plane);
+// enemy.setSpeed(1);
     }
 
     for (Particle &particle : particles) {
@@ -154,7 +155,8 @@ void render(uint8_t currentPlane) {
 
     SpritesU::fillRect(Constants::HUD_Left, 6, 48, 1, a.color(DARK_GRAY));
     SpritesU::fillRect(Constants::HUD_Left - 1 + (48 / 2), 0, 1, 6, a.color(DARK_GRAY));
-    SpritesU::fillRect(Constants::HUD_Left - 2 + (48 / 2), y, 3, 2, a.color(WHITE));
+    // SpritesU::fillRect(Constants::HUD_Left - 2 + (48 / 2), y, 3, 2, a.color(WHITE));
+    a.drawPixel(Constants::HUD_Left - 1 + (48 / 2), y, WHITE);
 
     for (Enemy &enemy : enemies) {
 
@@ -162,7 +164,8 @@ void render(uint8_t currentPlane) {
         
             SQ15x16 diffX = enemy.getX() - player.getX();
             uint8_t y = static_cast<uint8_t>(enemy.getY()) / 10;
-            SpritesU::fillRect(Constants::HUD_Left + (48 / 2) + (diffX.getInteger() / 64), y, 2, 2, a.color(LIGHT_GRAY));
+            // SpritesU::fillRect(Constants::HUD_Left + (48 / 2) + (diffX.getInteger() / 64), y, 2, 2, a.color(LIGHT_GRAY));
+            a.drawPixel(Constants::HUD_Left - 1 + (48 / 2) + (diffX.getInteger() / 64), y, LIGHT_GRAY);
 
         }
 
@@ -401,6 +404,7 @@ void play_Update() {
             updateEnemyBullets(player.getX().getInteger());
             updateEnemies();
             updateTreasures();
+            enemyFreBullet();
 
             SQ15x16 offset = 0;
             bool wrap = false;
@@ -455,7 +459,7 @@ void play_Update() {
 
             if (justPressed & A_BUTTON) { 
 
-                fireBullet();
+                playerFireBullet();
 
             }
 
@@ -523,7 +527,7 @@ void play(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
 }
 
 
-void fireBullet() {
+void playerFireBullet() {
 
 
     // Cannot fire a bullet when facing the screen ..
@@ -555,6 +559,72 @@ void fireBullet() {
             }
 
             break;
+
+        }
+
+    }
+
+}
+
+
+
+void enemyFreBullet() {
+
+    if (random(0, 16) != 0) return;
+
+
+    uint8_t i = 0;
+    bool found = false;
+
+    // Bullet &bullet = enemyBullets[i];
+
+    for (i = 0; i < Constants::BulletCount_Enemy; i++) {
+
+        Bullet &bullet = enemyBullets[i];
+
+        if (!bullet.isActive()) {
+
+            found = true;
+            break;
+
+        }
+
+    }
+
+    if (found) {
+            
+        Bullet &bullet = enemyBullets[i];
+
+        uint8_t iStart = Constants::EnemyCount_Heart + Constants::EnemyCount_Mine; // 5
+        uint8_t r = random(0, Constants::EnemyCount);
+
+        for (uint8_t enemyIdx = iStart + r; enemyIdx < r + Constants::EnemyCount; enemyIdx++) {
+
+            i = enemyIdx;
+            if (i >= Constants::EnemyCount) i = i - Constants::EnemyCount + iStart;
+            Enemy &enemy = enemies[i];
+
+            if (enemy.isActive()) {
+                bullet.setActive(true);
+                bullet.setY(enemy.getY() + 4);
+
+                switch (enemy.getDirection()) {
+
+                    case Direction::Right:
+                        bullet.setX(enemy.getX() + Constants::Player_Width);
+                        bullet.setDirection(Direction::Right);
+                        break;
+
+                    case Direction::Left:
+                        bullet.setX(enemy.getX() - 2);
+                        bullet.setDirection(Direction::Left);
+                        break;
+                    
+                }
+
+                return;
+
+            }
 
         }
 

@@ -31,12 +31,9 @@ class Enemy {
 
         void setDirection(Direction val)                { this->direction = val; }
         void setEnemyType(EnemyType val)                { this->enemyType = val; }
-        void setSpeed(SQ15x16 val)                      { 
-            
-            Serial.println((float)val);
-            this->speed = val; }
-        void setX(SQ15x16 val)                            { this->x = val; }
-        void setY(SQ15x16 val)                            { this->y = val; }
+        void setSpeed(SQ15x16 val)                      { this->speed = val; }
+        void setX(SQ15x16 val)                          { this->x = val; }
+        void setY(SQ15x16 val)                          { this->y = val; }
         void setActive(bool val)                        { this->active = val; }
         void setImageIdx(uint8_t val)                   { this->imageIdx = val; }
 
