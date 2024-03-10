@@ -4,6 +4,7 @@
 #define SPRITESU_IMPLEMENTATION
 
 #include <ArduboyFX.h>  
+#include <FixedPointsCommon.h>
 #include "src/utils/ArduboyG.h"
 #include "src/utils/Constants.h"
 #include "src/utils/Enums.h"

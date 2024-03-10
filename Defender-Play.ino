@@ -10,7 +10,7 @@
 void launchTreasure(Treasure &treasure) {
 
     treasure.setActive(true);
-    treasure.setX(random(-Constants::WorldWidth + 100, Constants::WorldWidth - 100));
+    treasure.setX(static_cast<SQ15x16>(random(-Constants::WorldWidth.getInteger() + 100, Constants::WorldWidth.getInteger() - 100)));
     treasure.setY(54);
 
 }
@@ -18,10 +18,10 @@ void launchTreasure(Treasure &treasure) {
 void launchEnemy(Enemy &enemy) {
 
     enemy.setActive(true);
-    enemy.setX(random(-Constants::WorldWidth + 100, Constants::WorldWidth - 100));
+    enemy.setX(static_cast<SQ15x16>(random(-Constants::WorldWidth.getInteger() + 100, Constants::WorldWidth.getInteger() - 100)));
     // enemy.setX(500 + (56 - 4));
     enemy.setY(random(0, 42));
-    enemy.setSpeed(static_cast<float>(random(2, 4)));
+    enemy.setSpeed(static_cast<SQ15x16>(random(2, 4)));
     
     if (random(0, 2) == 0) {
         enemy.setDirection(Direction::Left);
@@ -33,13 +33,13 @@ void launchEnemy(Enemy &enemy) {
 }
 
 
-void launchEnemy(Enemy &enemy, float xOffset) {
+void launchEnemy(Enemy &enemy, SQ15x16 xOffset) {
 
     enemy.setActive(true);
     enemy.setX(enemy.getX() + xOffset);
     // enemy.setX(500 + (56 - 4));
     enemy.setY(random(0, 42));
-    enemy.setSpeed(static_cast<float>(random(1, 3)));
+    enemy.setSpeed(static_cast<SQ15x16>(random(1, 3)));
 
 }
 
@@ -105,19 +105,18 @@ void play_Init() {
 
 void render(uint8_t currentPlane) {
 
-    float diffX = world.getX() - camera.getX();// + camera.getX();
+    SQ15x16 diffX = world.getX() - camera.getX();// + camera.getX();
   
 
     // Render background and middle ground ..
 
-    int16_t bg_Pos = static_cast<int32_t>(world.getBackgroundX() + diffX) % (96);
-    int16_t mg_Pos = static_cast<int32_t>(world.getX() + diffX) % (96);
-    int16_t fg_Pos = static_cast<int32_t>(world.getForegroundX() + diffX) % (96);
+    int16_t bg_Pos = (world.getBackgroundX() + diffX).getInteger() % (96);
+    int16_t mg_Pos = (world.getX() + diffX).getInteger() % (96);
+    int16_t fg_Pos = (world.getForegroundX() + diffX).getInteger() % (96);
 
-    int8_t bgIdx =   static_cast<int32_t>((world.getBackgroundX() + diffX) / 96) % 4;
-    int8_t mgIdx =   static_cast<int32_t>((world.getX() + diffX) / 96) % 4;
-    int8_t fgIdx =   static_cast<int32_t>((world.getForegroundX() + diffX) / 96) % 4;
-
+    int8_t bgIdx =   ((world.getBackgroundX() + diffX).getInteger() / 96) % 4;
+    int8_t mgIdx =   ((world.getX() + diffX).getInteger() / 96) % 4;
+    int8_t fgIdx =   ((world.getForegroundX() + diffX).getInteger() / 96) % 4;
 
     SpritesU::drawOverwriteFX(bg_Pos - 96, 22, Images::BG_00, (((bgIdx + 8) % 4) * 3) + currentPlane);
     SpritesU::drawOverwriteFX(bg_Pos, 22, Images::BG_00, (((bgIdx - 1 + 8) % 4) * 3) + currentPlane);
@@ -150,7 +149,7 @@ void render(uint8_t currentPlane) {
 
     // HUD
 
-    uint8_t y = static_cast<uint8_t>(player.getY()) / 10;
+    uint8_t y = static_cast<uint8_t>(player.getY().getInteger()) / 10;
 
     SpritesU::fillRect(Constants::HUD_Left, 6, 48, 1, a.color(DARK_GRAY));
     SpritesU::fillRect(Constants::HUD_Left - 1 + (48 / 2), 0, 1, 6, a.color(DARK_GRAY));
@@ -160,9 +159,9 @@ void render(uint8_t currentPlane) {
 
         if (enemy.isActive()) {
         
-            float diffX = enemy.getX() - player.getX();
+            SQ15x16 diffX = enemy.getX() - player.getX();
             uint8_t y = static_cast<uint8_t>(enemy.getY()) / 10;
-            SpritesU::fillRect(Constants::HUD_Left + (48 / 2) + (diffX / 64), y, 2, 2, a.color(LIGHT_GRAY));
+            SpritesU::fillRect(Constants::HUD_Left + (48 / 2) + (diffX.getInteger() / 64), y, 2, 2, a.color(LIGHT_GRAY));
 
         }
 
@@ -174,9 +173,9 @@ void render(uint8_t currentPlane) {
 
             if (treasure.isActive()) {
             
-                float diffX = treasure.getX() - player.getX();
+                SQ15x16 diffX = treasure.getX() - player.getX();
                 uint8_t y = static_cast<uint8_t>(treasure.getY()) / 10;
-                a.drawPixel(Constants::HUD_Left + (48 / 2) + (diffX / 64), y, WHITE);
+                a.drawPixel(Constants::HUD_Left + (48 / 2) + (diffX.getInteger() / 64), y, WHITE);
 
             }
 
@@ -187,23 +186,23 @@ void render(uint8_t currentPlane) {
 
     // Render bullets ..
 
-    uint8_t playerX_Offset = (player.getX() - camera.getX());
-    uint8_t playerY = player.getY();
+    uint8_t playerX_Offset = (player.getX() - camera.getX()).getInteger();
+    uint8_t playerY = player.getY().getInteger();
 
     for (Bullet &bullet : playerBullets) {
 
         if (bullet.isActive()) {
 
-            int16_t xDiff = (bullet.getX() - player.getX());
+            int16_t xDiff = (bullet.getX() - player.getX()).getInteger();
 
             switch (bullet.getDirection()) {
 
                 case Direction::Left:
-                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY(), Images::Player_Bullets, currentPlane);
+                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY().getInteger(), Images::Player_Bullets, currentPlane);
                     break;
 
                 case Direction::Right:
-                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY(), Images::Player_Bullets, 3 + currentPlane);
+                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY().getInteger(), Images::Player_Bullets, 3 + currentPlane);
                     break;
 
                 
@@ -217,16 +216,16 @@ void render(uint8_t currentPlane) {
 
         if (bullet.isActive()) {
 
-            int16_t xDiff = (bullet.getX() - player.getX());
+            int16_t xDiff = (bullet.getX() - player.getX()).getInteger();
 
             switch (bullet.getDirection()) {
 
                 case Direction::Left:
-                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY(), Images::Player_Bullets, currentPlane);
+                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY().getInteger(), Images::Player_Bullets, currentPlane);
                     break;
 
                 case Direction::Right:
-                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY(), Images::Player_Bullets, 3 + currentPlane);
+                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY().getInteger(), Images::Player_Bullets, 3 + currentPlane);
                     break;
 
                 
@@ -310,12 +309,12 @@ void render(uint8_t currentPlane) {
 
                         case Direction::Right:
 
-                            SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY(), Images::Enemy_00, (12 + enemy.getImageIdx()) + currentPlane);
+                            SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()).getInteger(), enemy.getY().getInteger(), Images::Enemy_00, (12 + enemy.getImageIdx()) + currentPlane);
                             break;
 
                         default:
 
-                            SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY() , Images::Enemy_00, enemy.getImageIdx() + currentPlane);
+                            SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()).getInteger(), enemy.getY().getInteger(), Images::Enemy_00, enemy.getImageIdx() + currentPlane);
                             break;
 
                     }
@@ -324,12 +323,12 @@ void render(uint8_t currentPlane) {
 
                 case EnemyType::Mine:
         
-                    SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY(), Images::Enemy_01, enemy.getImageIdx() + currentPlane);
+                    SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()).getInteger(), enemy.getY().getInteger(), Images::Enemy_01, enemy.getImageIdx() + currentPlane);
                     break;
 
                 case EnemyType::Heart:
         
-                    SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()), enemy.getY(), Images::Enemy_02, (((frameCount / 12) % 4) * 3) + currentPlane);
+                    SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()).getInteger(), enemy.getY().getInteger(), Images::Enemy_02, (((frameCount / 12) % 4) * 3) + currentPlane);
                     break;
                     
             }
@@ -345,7 +344,7 @@ void render(uint8_t currentPlane) {
 
         if (treasure.isActive()) {
 
-            SpritesU::drawPlusMaskFX((treasure.getX() - camera.getX()), treasure.getY(), Images::Treasure, (((frameCount / 12) % 4) * 3) + currentPlane);
+            SpritesU::drawPlusMaskFX((treasure.getX() - camera.getX()).getInteger(), treasure.getY().getInteger(), Images::Treasure, (((frameCount / 12) % 4) * 3) + currentPlane);
 
         }
 
@@ -383,7 +382,7 @@ void render(uint8_t currentPlane) {
 void play_Update() {
 // Serial.print(player.getX());
 // Serial.print(" < ");
-// Serial.println(static_cast<float>(-Constants::WorldWidth));
+// Serial.println(static_cast<SQ15x16>(-Constants::WorldWidth));
     frameCount++;
 
     uint8_t justPressed = getJustPressedButtons();
@@ -397,12 +396,12 @@ void play_Update() {
             updateCamera(player);
             world.update(player.getVelocityIdxX());
 
-            updatePlayerBullets(player.getX());
-            updateEnemyBullets(player.getX());
+            updatePlayerBullets(player.getX().getInteger());
+            updateEnemyBullets(player.getX().getInteger());
             updateEnemies();
             updateTreasures();
 
-            float offset = 0;
+            SQ15x16 offset = 0;
             bool wrap = false;
 
             if (player.getX() < -Constants::WorldWidth) {

@@ -17,7 +17,7 @@ bool updatePlayer(uint8_t frameCount) {
 
 void updateCamera(Player &player) {
 
-    float tcamx = player.getX() - CAMERA_OFFSET_X;
+    SQ15x16 tcamx = player.getX() - CAMERA_OFFSET_X;
 
     tcamx += player.getVelocityX() * (CAMERA_OFFSET_X_VEL_DELTA / PLAYER_MAX_MOVE_VEL_X);
 
@@ -26,7 +26,7 @@ void updateCamera(Player &player) {
     else
         tcamx -= CAMERA_OFFSET_X_DELTA;
 
-    float d2camx =
+    SQ15x16 d2camx =
         (tcamx - camera.getX()) * CAMERA_UPDATE_X_ALPHA -
         camera.getVelocityX() * CAMERA_UPDATE_X_BETA;
 
@@ -44,7 +44,7 @@ void updatePlayerBullets(int16_t player_x) {
 
             bullet.update(player_x);
 
-            Rect bulletRect = { bullet.getX(), bullet.getY(), 8, 1 };
+            Rect bulletRect = { bullet.getX().getInteger(), bullet.getY().getInteger(), 8, 1 };
 
             for (Enemy &enemy : enemies) {
 
@@ -57,7 +57,7 @@ void updatePlayerBullets(int16_t player_x) {
                         bullet.setActive(false);
                         enemy.setImageIdx(1);
 
-                        launchParticles(static_cast<int16_t>(enemy.getX() - camera.getX() + 6), static_cast<int16_t>(enemy.getY() + 6));
+                        launchParticles((enemy.getX() - camera.getX() + 6).getInteger(), enemy.getY().getInteger() + 6);
 
                         switch (enemy.getEnemyType()) {
 
@@ -96,13 +96,13 @@ void updateEnemyBullets(int16_t player_x) {
 
             bullet.update(player_x);
 
-            Rect bulletRect = { bullet.getX(), bullet.getY(), 8, 1 };
-            Rect playerRect = { static_cast<int16_t>(player.getX()), static_cast<int16_t>(player.getY()), 16, 9 };
+            Rect bulletRect = { bullet.getX().getInteger(), bullet.getY().getInteger(), 8, 1 };
+            Rect playerRect = { player.getX().getInteger(), player.getY().getInteger(), 16, 9 };
 
             if (Arduboy2::collide(bulletRect, playerRect)) {
 
                 bullet.setActive(false);
-                launchParticles(static_cast<int16_t>(player.getX() - camera.getX() + 6), static_cast<int16_t>(player.getY() + 6));
+                launchParticles((player.getX() - camera.getX() + 6).getInteger(), (player.getY() + 6).getInteger());
                 decHealth();
 
             }
@@ -121,7 +121,7 @@ void updateEnemies() {
                 
             enemy.update(player);
 
-            float diffX = enemy.getX() - player.getX();
+            SQ15x16 diffX = enemy.getX() - player.getX();
 
 
             // If the enemy has moved beyond the 'HUD' then wrap them ..
@@ -171,7 +171,7 @@ void updateTreasures() {
 
         if (treasure.isActive()) {
 
-            float diffX = treasure.getX() - player.getX();
+            SQ15x16 diffX = treasure.getX() - player.getX();
 
             // If the treasures has moved beyond the 'HUD' then wrap them ..
 

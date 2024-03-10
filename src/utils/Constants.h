@@ -36,25 +36,25 @@ struct Point_S8 {
 };
 
 
-// constexpr float CAMERA_OFFSET_X = 64;
-constexpr float CAMERA_OFFSET_X = 58;
-constexpr float CAMERA_OFFSET_X_DELTA = 8;
-constexpr float CAMERA_OFFSET_X_VEL_DELTA = 100;
+// constexpr SQ15x16 CAMERA_OFFSET_X = 64;
+constexpr SQ15x16 CAMERA_OFFSET_X = 58;
+constexpr SQ15x16 CAMERA_OFFSET_X_DELTA = 8;
+constexpr SQ15x16 CAMERA_OFFSET_X_VEL_DELTA = 100;
 
-constexpr float CAMERA_UPDATE_X_OMEGA = 45;
-constexpr float CAMERA_UPDATE_X_ZETA = 1;
-constexpr float CAMERA_UPDATE_X_ALPHA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_OMEGA;
-constexpr float CAMERA_UPDATE_X_BETA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_ZETA * 2;
-//constexpr float CAMERA_UPDATE_X_DT = 0.004;
-constexpr float CAMERA_UPDATE_X_DT = 0.007;
+constexpr SQ15x16 CAMERA_UPDATE_X_OMEGA = 45;
+constexpr SQ15x16 CAMERA_UPDATE_X_ZETA = 1;
+constexpr SQ15x16 CAMERA_UPDATE_X_ALPHA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_OMEGA;
+constexpr SQ15x16 CAMERA_UPDATE_X_BETA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_ZETA * 2;
+//constexpr SQ15x16 CAMERA_UPDATE_X_DT = 0.004;
+constexpr SQ15x16 CAMERA_UPDATE_X_DT = 0.007;
 
-constexpr float PLAYER_MAX_MOVE_VEL_X = 4.0;
-constexpr float PLAYER_MAX_VEL_X = 4.0;
+constexpr SQ15x16 PLAYER_MAX_MOVE_VEL_X = 4.0;
+constexpr SQ15x16 PLAYER_MAX_VEL_X = 4.0;
 
 
 namespace Constants {
 
-    constexpr float WorldWidth = 96 * 4 * 4;
+    constexpr SQ15x16 WorldWidth = 96 * 4 * 4;
 
     constexpr uint8_t CellWidth = 6;
     constexpr uint8_t CellHeight = 6;

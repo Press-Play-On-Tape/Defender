@@ -16,8 +16,8 @@ class Player {
         uint8_t velocityIdxX = 14;
         uint8_t velocityIdxY = 14;
 
-        float x = 0;
-        float y = 0;
+        SQ15x16 x = 0;
+        SQ15x16 y = 0;
         bool deccelerateXFlag = false;
         bool deccelerateYFlag = false;
         
@@ -28,26 +28,26 @@ class Player {
         Direction getDirectionY()                       { return this->directionY; }
         uint8_t getVelocityIdxX()                       { return this->velocityIdxX; }
         uint8_t getVelocityIdxY()                       { return this->velocityIdxY; }
-        float getX()                                    { return this->x; }        
-        float getY()                                    { return this->y; }        
+        SQ15x16 getX()                                    { return this->x; }        
+        SQ15x16 getY()                                    { return this->y; }        
         bool isDecceleratingX()                         { return this->deccelerateXFlag; }
         bool getDeccelerateY()                          { return this->deccelerateYFlag; }
 
         void setVelocityIdxX(uint8_t val)               { this->velocityIdxX = val; }
         void setDirectionX(Direction val)               { this->directionX = val; }
         void setDirectionY(Direction val)               { this->directionY = val; }
-        void setX(float val)                            { this->x = val; }
-        void setY(float val)                            { this->y = val; }
+        void setX(SQ15x16 val)                            { this->x = val; }
+        void setY(SQ15x16 val)                            { this->y = val; }
 
     public:
 
-        float getVelocityX()                           { return static_cast<float>(Constants::Velocity_X[this->velocityIdxX]) / 16; }
+        SQ15x16 getVelocityX()                           { return static_cast<SQ15x16>(Constants::Velocity_X[this->velocityIdxX]) / 16; }
 
-        float getVelocityY()                           { return Constants::Velocity_Y[this->velocityIdxY] / 16; }
+        SQ15x16 getVelocityY()                           { return Constants::Velocity_Y[this->velocityIdxY] / 16; }
 
-        void incX(float val)                           { this->x = this->x + val; }
+        void incX(SQ15x16 val)                           { this->x = this->x + val; }
 
-        void incY(float val) { 
+        void incY(SQ15x16 val) { 
             
             this->y = this->y + val; 
 

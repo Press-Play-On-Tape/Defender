@@ -12,9 +12,9 @@ class Enemy {
         Direction direction = Direction::Left;
         EnemyType enemyType = EnemyType::Mine;
 
-        float speed = 0;
-        float x = 0;
-        float y = 0;
+        SQ15x16 speed = 0;
+        SQ15x16 x = 0;
+        SQ15x16 y = 0;
 
         bool active = false;
         uint8_t imageIdx = 0;
@@ -23,23 +23,23 @@ class Enemy {
 
         Direction getDirection()                        { return this->direction; }
         EnemyType getEnemyType()                        { return this->enemyType; }
-        float getSpeed()                                { return this->speed; }
-        float getX()                                    { return this->x; }        
-        float getY()                                    { return this->y; }        
+        SQ15x16 getSpeed()                                { return this->speed; }
+        SQ15x16 getX()                                    { return this->x; }        
+        SQ15x16 getY()                                    { return this->y; }        
         bool isActive()                                 { return this->active; }        
         uint8_t getImageIdx()                           { return this->imageIdx; }        
 
         void setDirection(Direction val)                { this->direction = val; }
         void setEnemyType(EnemyType val)                { this->enemyType = val; }
-        void setSpeed(float val)                        { this->speed = val; }
-        void setX(float val)                            { this->x = val; }
-        void setY(float val)                            { this->y = val; }
+        void setSpeed(SQ15x16 val)                        { this->speed = val; }
+        void setX(SQ15x16 val)                            { this->x = val; }
+        void setY(SQ15x16 val)                            { this->y = val; }
         void setActive(bool val)                        { this->active = val; }
         void setImageIdx(uint8_t val)                   { this->imageIdx = val; }
 
     public:
 
-        void incX(float inc) {
+        void incX(SQ15x16 inc) {
 
             this->x = this->x + inc;
 
@@ -99,22 +99,22 @@ class Enemy {
             switch (this->enemyType) {
 
                 case EnemyType::Mine:
-                    rect.x = this->getX() + 1;
-                    rect.y = this->getY() + 1;
+                    rect.x = this->getX().getInteger() + 1;
+                    rect.y = this->getY().getInteger() + 1;
                     rect.width = 7;
                     rect.height = 7;
                     break;
 
                 case EnemyType::Plane:
-                    rect.x = this->getX() + 1;
-                    rect.y = this->getY() + 1;
+                    rect.x = this->getX().getInteger() + 1;
+                    rect.y = this->getY().getInteger() + 1;
                     rect.width = 19;
                     rect.height = 10;
                     break;
 
                 case EnemyType::Heart:
-                    rect.x = this->getX() + 1;
-                    rect.y = this->getY() + 1;
+                    rect.x = this->getX().getInteger() + 1;
+                    rect.y = this->getY().getInteger() + 1;
                     rect.width = 5;
                     rect.height = 8;
                     break;

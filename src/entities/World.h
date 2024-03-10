@@ -8,21 +8,21 @@ class World {
 
     private:
 
-        float x = 0;
+        SQ15x16 x = 0;
         int8_t sceneryVelocityIdxX = 0;
 
-        float backgroundX = 0;
-        float foregroundX = 0;
+        SQ15x16 backgroundX = 0;
+        SQ15x16 foregroundX = 0;
         
     public:
 
-        float getX()                                  { return this->x; }        
-        float getBackgroundX()                        { return this->backgroundX; }        
-        float getForegroundX()                        { return this->foregroundX; }        
+        SQ15x16 getX()                                  { return this->x; }        
+        SQ15x16 getBackgroundX()                        { return this->backgroundX; }        
+        SQ15x16 getForegroundX()                        { return this->foregroundX; }        
 
-        void setX(float val)                          { this->x = val; }
-        void setBackgroundX(float val)                { this->backgroundX = val; }
-        void setForegroundX(float val)                { this->foregroundX = val; }
+        void setX(SQ15x16 val)                          { this->x = val; }
+        void setBackgroundX(SQ15x16 val)                { this->backgroundX = val; }
+        void setForegroundX(SQ15x16 val)                { this->foregroundX = val; }
 
     public:
 
@@ -40,8 +40,8 @@ class World {
                 
             }
 
-            this->backgroundX = this->backgroundX + (static_cast<float>(Constants::Velocity_X[this->sceneryVelocityIdxX]) / 32);
-            this->foregroundX = this->foregroundX - (static_cast<float>(Constants::Velocity_X[this->sceneryVelocityIdxX]) / 32);
+            this->backgroundX = this->backgroundX + (static_cast<SQ15x16>(Constants::Velocity_X[this->sceneryVelocityIdxX]) / 32);
+            this->foregroundX = this->foregroundX - (static_cast<SQ15x16>(Constants::Velocity_X[this->sceneryVelocityIdxX]) / 32);
             
         }
 };

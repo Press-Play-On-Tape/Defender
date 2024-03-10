@@ -8,23 +8,23 @@ class Treasure {
 
     private:
 
-        float x = 40;
-        float y = 47;
+        SQ15x16 x = 40;
+        SQ15x16 y = 47;
         bool active = false;
         
     public:
 
-        float getX()                                    { return this->x; }        
-        float getY()                                    { return this->y; }        
+        SQ15x16 getX()                                    { return this->x; }        
+        SQ15x16 getY()                                    { return this->y; }        
         bool isActive()                                 { return this->active; }        
 
-        void setX(float val)                            { this->x = val; }
-        void setY(float val)                            { this->y = val; }
+        void setX(SQ15x16 val)                            { this->x = val; }
+        void setY(SQ15x16 val)                            { this->y = val; }
         void setActive(bool val)                        { this->active = val; }
 
     public:
 
-        void incX(float inc) {
+        void incX(SQ15x16 inc) {
 
             this->x = this->x + inc;
 
