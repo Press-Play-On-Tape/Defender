@@ -15,11 +15,29 @@ void launchTreasure(Treasure &treasure) {
 
 }
 
+void relaunchEnemy(Enemy &enemy) {
+
+    if (random(0, 2) == 0) {
+        enemy.setDirection(Direction::Left);
+        enemy.setX(player.getX() + Constants::WorldWidth.getInteger() - 10);
+    }
+    else {
+        enemy.setDirection(Direction::Right);
+        enemy.setX(player.getX() - Constants::WorldWidth.getInteger() + 10);
+    }
+
+    enemy.setActive(true);
+    enemy.setImageIdx(0);
+    enemy.setY(random(0, 42));
+    enemy.setSpeed(static_cast<SQ15x16>(static_cast<SQ15x16>(random(12, 24)) / 8));
+
+}
+
+
 void launchEnemy(Enemy &enemy) {
 
     enemy.setActive(true);
     enemy.setX(static_cast<SQ15x16>(random(-Constants::WorldWidth.getInteger() + 100, Constants::WorldWidth.getInteger() - 100)));
-    // enemy.setX(500 + (56 - 4));
     enemy.setY(random(0, 42));
     enemy.setSpeed(static_cast<SQ15x16>(static_cast<SQ15x16>(random(12, 24)) / 8));
     
@@ -29,18 +47,6 @@ void launchEnemy(Enemy &enemy) {
     else {
         enemy.setDirection(Direction::Right);
     }
-
-}
-
-
-void launchEnemy(Enemy &enemy, SQ15x16 xOffset) {
-
-    enemy.setActive(true);
-    enemy.setX(enemy.getX() + xOffset);
-    // enemy.setX(500 + (56 - 4));
-    enemy.setY(random(0, 42));
-    enemy.setSpeed(static_cast<SQ15x16>(static_cast<SQ15x16>(random(12, 24)) / 8));
-    // enemy.setSpeed(static_cast<SQ15x16>(random(16, 32) / 8));
 
 }
 
@@ -63,8 +69,9 @@ void play_Init() {
             enemy.setEnemyType(EnemyType::Plane);
         }
 // enemy.setEnemyType(EnemyType::Plane);
-// enemy.setSpeed(1);
+// enemy.setSpeed(1.5f);
     }
+
 
     for (Particle &particle : particles) {
 
@@ -90,9 +97,18 @@ void play_Init() {
 
     }
 
+
+    for (uint8_t i = 0; i < Constants::TreasureCount; i++) {
+
+        Treasure &treasure = treasures[i];
+        treasure.setX(5 + (i * 200));
+
+    }
+
     // player.setX(500 + (64 - 4));
     player.setX(0 + (56 - 4));
     player.setY(16);
+    player.setY(0);
 
     gameState = GameState::Play;
     cookie.score = 0;
@@ -144,8 +160,8 @@ void render(uint8_t currentPlane) {
 
     // Health
 
-    uint8_t i = health / 16;
-    if ((healthBlink / 16) % 2 == 0)
+    uint8_t i = cookie.health / 16;
+    if ((cookie.healthBlink / 16) % 2 == 0)
     SpritesU::drawOverwriteFX(2, 1, Images::Health, (i * 3) + currentPlane);
 
 
@@ -214,6 +230,12 @@ void render(uint8_t currentPlane) {
 
         }
 
+        if (currentPlane == 2) {
+
+            updatePlayerBullet(player.getX().getInteger(), bullet);
+        
+        }
+
     }
 
     for (Bullet &bullet : enemyBullets) {
@@ -235,6 +257,12 @@ void render(uint8_t currentPlane) {
                 
             }
 
+        }
+
+        if (currentPlane == 2) {
+
+            updateEnemyBullet(player.getX().getInteger(), bullet);
+        
         }
 
     }
@@ -269,6 +297,7 @@ void render(uint8_t currentPlane) {
                     break;
                     
             }
+
             break;
 
         default:
@@ -293,6 +322,7 @@ void render(uint8_t currentPlane) {
                     break;
                     
             }
+
             break;
 
     }
@@ -308,6 +338,9 @@ void render(uint8_t currentPlane) {
             switch (enemy.getEnemyType()) {
 
                 case EnemyType::Plane:
+                case EnemyType::Plane_Accelerate:
+                case EnemyType::Plane_Decelerate:
+                case EnemyType::Plane_SetHeight:
                 
                     switch (enemy.getDirection()) {
 
@@ -325,6 +358,25 @@ void render(uint8_t currentPlane) {
 
                     break;
 
+                case EnemyType::Plane_Pickup:
+                
+                    switch (enemy.getDirection()) {
+
+                        case Direction::Right:
+
+                            SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()).getInteger(), 36, Images::Enemy_00_Pickup, ((9 + enemy.getPickupImageIdx()) * 3) + currentPlane);
+                            break;
+
+                        default:
+
+                            SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()).getInteger(), enemy.getY().getInteger(), Images::Enemy_00_Pickup, (enemy.getPickupImageIdx() * 3) + currentPlane);
+                            break;
+
+                    }
+
+                    break;
+
+
                 case EnemyType::Mine:
         
                     SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()).getInteger(), enemy.getY().getInteger(), Images::Enemy_01, enemy.getImageIdx() + currentPlane);
@@ -336,6 +388,22 @@ void render(uint8_t currentPlane) {
                     break;
                     
             }
+
+        }
+
+        if (currentPlane == 2) {
+    
+            updateEnemy(enemy);
+
+            // if (frameCount % 4 == 0) {
+
+                if (enemy.getEnemyType() == EnemyType::Plane && frameCount % 4 == 0) {
+
+                    testForTreasures(enemy);
+
+                }
+
+            // }            
 
         }
 
@@ -389,6 +457,8 @@ void play_Update() {
 // Serial.println(static_cast<SQ15x16>(-Constants::WorldWidth));
     frameCount++;
 
+    if (frameCount % 128 == 0) cookie.score++;
+
     uint8_t justPressed = getJustPressedButtons();
     uint8_t pressed = getPressedButtons();
 
@@ -400,11 +470,15 @@ void play_Update() {
             updateCamera(player);
             world.update(player.getVelocityIdxX());
 
-            updatePlayerBullets(player.getX().getInteger());
-            updateEnemyBullets(player.getX().getInteger());
-            updateEnemies();
+            // updatePlayerBullets(player.getX().getInteger());
+            // updateEnemyBullets(player.getX().getInteger());
+            // updateEnemies();
             updateTreasures();
-            enemyFreBullet();
+            enemyFireBullet();
+
+            // if (frameCount % 16 == 0) {
+            //     testForTreasures();
+            // }
 
             SQ15x16 offset = 0;
             bool wrap = false;
@@ -454,7 +528,11 @@ void play_Update() {
             }
 
             if (justPressed & B_BUTTON) { 
-                gameState = GameState::Play_Quit;
+                // gameState = GameState::Play_Quit;
+                Enemy &enemy = enemies[5];
+                // Serial.println((float)enemy.getX());
+                enemy.setEnemyType(EnemyType::Plane_Decelerate);
+
             }
 
             if (justPressed & A_BUTTON) { 
@@ -487,8 +565,8 @@ void play_Update() {
 
             }
 
-            if (healthBlink > 0) healthBlink--;
-            // Serial.println(healthBlink);
+            if (cookie.healthBlink > 0) cookie.healthBlink--;
+            // Serial.println(cookie.healthBlink);
 
             break;
 
@@ -568,7 +646,7 @@ void playerFireBullet() {
 
 
 
-void enemyFreBullet() {
+void enemyFireBullet() {
 
     if (random(0, 16) != 0) return;
 

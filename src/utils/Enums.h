@@ -115,7 +115,11 @@ enum class CellOwner : uint8_t {
 };
 
 enum class EnemyType : uint8_t {
+    Heart,
     Mine,
     Plane,
-    Heart,
+    Plane_Decelerate,
+    Plane_SetHeight,
+    Plane_Pickup,
+    Plane_Accelerate,
 };

@@ -36,9 +36,60 @@ void updateCamera(Player &player) {
 }
 
 
-void updatePlayerBullets(int16_t player_x) {
+// void updatePlayerBullets(int16_t player_x) {
 
-    for (Bullet &bullet : playerBullets) {
+//     for (Bullet &bullet : playerBullets) {
+
+//         if (bullet.isActive()) {
+
+//             bullet.update(player_x);
+
+//             Rect bulletRect = { bullet.getX().getInteger(), bullet.getY().getInteger(), 8, 1 };
+
+//             for (Enemy &enemy : enemies) {
+
+//                 if (enemy.isActive() && enemy.getImageIdx() == 0) {
+
+//                     Rect enemyRect = enemy.getRect();
+
+//                     if (Arduboy2::collide(bulletRect, enemyRect)) {
+
+//                         bullet.setActive(false);
+//                         enemy.setImageIdx(1);
+
+//                         launchParticles((enemy.getX() - camera.getX() + 6).getInteger(), enemy.getY().getInteger() + 6);
+
+//                         switch (enemy.getEnemyType()) {
+
+//                             case EnemyType::Mine:
+//                                 cookie.score = cookie.score + 25;
+//                                 break;
+
+//                             case EnemyType::Plane:
+//                                 cookie.score = cookie.score + 50;
+//                                 break;
+
+//                             case EnemyType::Heart:
+//                                 break;
+
+//                         }
+
+//                     }
+
+//                 }
+
+//             }
+
+//         }
+
+//     }
+    
+// }
+
+
+void updatePlayerBullet(int16_t player_x, Bullet &bullet) {
+
+    // for (Bullet &bullet : playerBullets) {
 
         if (bullet.isActive()) {
 
@@ -82,15 +133,39 @@ void updatePlayerBullets(int16_t player_x) {
 
         }
 
-    }
+    // }
     
 }
 
+// void updateEnemyBullets(int16_t player_x) {
+
+//     for (Bullet &bullet : enemyBullets) {
+
+//         if (bullet.isActive()) {
+
+//             bullet.update(player_x);
+
+//             Rect bulletRect = { bullet.getX().getInteger(), bullet.getY().getInteger(), 8, 1 };
+//             Rect playerRect = { player.getX().getInteger(), player.getY().getInteger(), 16, 9 };
+
+//             if (Arduboy2::collide(bulletRect, playerRect)) {
+
+//                 bullet.setActive(false);
+//                 launchParticles((player.getX() - camera.getX() + 6).getInteger(), (player.getY() + 6).getInteger());
+//                 cookie.decHealth(Constants::Health_Bullet);
+
+//             }
+
+//         }
+
+//     }
+    
+// }
 
 
-void updateEnemyBullets(int16_t player_x) {
+void updateEnemyBullet(int16_t player_x, Bullet &bullet) {
 
-    for (Bullet &bullet : enemyBullets) {
+    // for (Bullet &bullet : enemyBullets) {
 
         if (bullet.isActive()) {
 
@@ -103,65 +178,156 @@ void updateEnemyBullets(int16_t player_x) {
 
                 bullet.setActive(false);
                 launchParticles((player.getX() - camera.getX() + 6).getInteger(), (player.getY() + 6).getInteger());
-                decHealth();
+                cookie.decHealth(Constants::Health_Bullet);
 
             }
 
         }
 
-    }
+    // }
     
 }
 
-void updateEnemies() {
+// void updateEnemies() {
 
-    for (Enemy &enemy : enemies) {
+//     for (Enemy &enemy : enemies) {
+
+//         if (enemy.isActive()) {
+
+//             bool enemyInactive = enemy.update();
+
+//             if (!enemyInactive) {
+                    
+//                 SQ15x16 diffX = enemy.getX() - player.getX();
+
+
+//                 // If the enemy has moved beyond the 'HUD' then wrap them ..
+
+//                 if (diffX < -Constants::WorldWidth) {
+//                     enemy.incX(2 * Constants::WorldWidth);
+//                 }
+
+//                 if (diffX > Constants::WorldWidth) {
+//                     enemy.incX(-2 * Constants::WorldWidth);
+//                 }
+
+//                 Rect enemyRect = enemy.getRect();
+//                 Rect playerRect = { static_cast<int16_t>(player.getX()), static_cast<int16_t>(player.getY()), 16, 9 };
+
+//                 if (Arduboy2::collide(playerRect, enemyRect)) {
+
+//                     switch (enemy.getEnemyType()) {
+
+//                         case EnemyType::Mine:
+//                         case EnemyType::Plane:
+
+//                             if (enemy.getImageIdx() == 0) {
+
+//                                 cookie.decHealth(Constants::Health_Plane);
+//                                 enemy.setImageIdx(1);
+//                                 launchParticles((enemy.getX() - camera.getX() + 6).getInteger(), enemy.getY().getInteger() + 6);
+                            
+//                             }
+
+//                             break;
+
+//                         case EnemyType::Heart:
+
+//                             if (enemy.getImageIdx() == 0) {
+
+//                                 cookie.incHealth(random(Constants::HealthMax / 2, Constants::HealthMax + 1));
+//                                 enemy.setImageIdx(11);
+
+//                             }
+                        
+//                             break;
+
+//                     }
+
+//                 }
+
+//             }
+//             else {
+                    
+//                 relaunchEnemy(enemy);
+
+//             }
+
+//         }
+
+//     }
+
+// }
+
+
+void updateEnemy(Enemy &enemy) {
+
+    // for (Enemy &enemy : enemies) {
 
         if (enemy.isActive()) {
-                
-            enemy.update(player);
 
-            SQ15x16 diffX = enemy.getX() - player.getX();
+            bool enemyInactive = enemy.update();
 
-
-            // If the enemy has moved beyond the 'HUD' then wrap them ..
-
-            if (diffX < -Constants::WorldWidth) {
-                enemy.incX(2 * Constants::WorldWidth);
-            }
-
-            if (diffX > Constants::WorldWidth) {
-                enemy.incX(-2 * Constants::WorldWidth);
-            }
-
-            Rect enemyRect = enemy.getRect();
-            Rect playerRect = { static_cast<int16_t>(player.getX()), static_cast<int16_t>(player.getY()), 16, 9 };
-
-            if (Arduboy2::collide(playerRect, enemyRect)) {
-
-                switch (enemy.getEnemyType()) {
-
-                    case EnemyType::Mine:
-                    case EnemyType::Plane:
-
-                        decHealth();
-                        break;
-
-                    case EnemyType::Heart:
-
-                        health = health + Constants::HealthMax;
-                        if (health > Constants::HealthMax) health = Constants::HealthMax;
-                        enemy.setActive(false);
+            if (!enemyInactive) {
                     
-                        break;
+                SQ15x16 diffX = enemy.getX() - player.getX();
+
+
+                // If the enemy has moved beyond the 'HUD' then wrap them ..
+
+                if (diffX < -Constants::WorldWidth) {
+                    enemy.incX(2 * Constants::WorldWidth);
+                }
+
+                if (diffX > Constants::WorldWidth) {
+                    enemy.incX(-2 * Constants::WorldWidth);
+                }
+
+                Rect enemyRect = enemy.getRect();
+                Rect playerRect = { static_cast<int16_t>(player.getX()), static_cast<int16_t>(player.getY()), 16, 9 };
+
+                if (Arduboy2::collide(playerRect, enemyRect)) {
+
+                    switch (enemy.getEnemyType()) {
+
+                        case EnemyType::Mine:
+                        case EnemyType::Plane:
+
+                            if (enemy.getImageIdx() == 0) {
+
+                                cookie.decHealth(Constants::Health_Plane);
+                                enemy.setImageIdx(1);
+                                launchParticles((enemy.getX() - camera.getX() + 6).getInteger(), enemy.getY().getInteger() + 6);
+                            
+                            }
+
+                            break;
+
+                        case EnemyType::Heart:
+
+                            if (enemy.getImageIdx() == 0) {
+
+                                cookie.incHealth(random(Constants::HealthMax / 2, Constants::HealthMax + 1));
+                                enemy.setImageIdx(11);
+
+                            }
+                        
+                            break;
+
+                    }
 
                 }
 
             }
+            else {
+                    
+                relaunchEnemy(enemy);
+
+            }
 
         }
 
-    }
+    //}
 
 }
 
@@ -189,17 +355,116 @@ void updateTreasures() {
 
 }
 
-void decHealth() {
+// void testForTreasures() {
 
-    if (health  > 0) {
-        health = health - 1;
-    }
+//                     // Is the enemy near a treasure?
+//     for (Enemy &enemy : enemies) {
 
-    if (healthBlink == 0) {
-        healthBlink = healthBlink + 15;
-    }
-    else if (healthBlink < 84) {
-        healthBlink = healthBlink + 32;
-    }
-    
+//         if (enemy.isActive() && enemy.getImageIdx() == 0) {
+            
+//             bool pickup = false;
+
+//             for (Treasure &treasure : treasures) {
+
+//                 SQ15x16 xDiff = treasure.getX() - enemy.getX();
+//                 SQ15x16 xRatio = xDiff / enemy.getSpeed();
+
+//                 switch (enemy.getDirection()) {
+
+//                     case Direction::Right:
+
+//                         if (xRatio >= static_cast<SQ15x16>(18.0f) && xRatio <= static_cast<SQ15x16>(22.0f)) {
+
+//                             Serial.println("Right");
+
+//                         }
+
+//                         break;
+
+//                 }
+
+//             }
+
+//         }
+
+//     }
+
+// }
+
+void testForTreasures(Enemy &enemy) {
+
+                    // Is the enemy near a treasure?
+    //for (Enemy &enemy : enemies) {
+
+        if (enemy.isActive() && enemy.getImageIdx() == 0) {
+            
+            bool pickup = false;
+
+            for (Treasure &treasure : treasures) {
+
+
+
+                switch (enemy.getDirection()) {
+
+                    case Direction::Right:
+                        {
+
+                            if (treasure.getX() < enemy.getX()) continue;
+                SQ15x16 xDiff = treasure.getX() - enemy.getX();
+
+                if (xDiff < static_cast<SQ15x16>(-75.0f) || xDiff > static_cast<SQ15x16>(75.0f)) continue;
+
+                SQ15x16 xRatio = xDiff / enemy.getSpeed();
+// Serial.print((float)xDiff);
+// Serial.print(" ");
+// Serial.print((float)enemy.getSpeed());
+// Serial.print(" ");
+// Serial.println((float)xRatio);
+                        if (xRatio >= static_cast<SQ15x16>(18.0f) && xRatio <= static_cast<SQ15x16>(22.0f)) {
+
+                            // Serial.println("Right");
+                            // Serial.println(enemy.getY().getInteger());
+                            enemy.setEnemyType(EnemyType::Plane_Decelerate);
+                            enemy.setTreasure(treasure);
+
+// Serial.print("found treasure ");                            
+// Serial.println((float)treasure.getX());
+
+                        }
+
+                        }
+
+                        break;
+
+                    case Direction::Left:
+                        {
+                            if (treasure.getX() > enemy.getX()) continue;
+                SQ15x16 xDiff = treasure.getX() - enemy.getX();
+
+                if (xDiff < static_cast<SQ15x16>(-75.0f) || xDiff > static_cast<SQ15x16>(75.0f)) continue;
+
+                SQ15x16 xRatio = xDiff / enemy.getSpeed();
+// Serial.print((float)xDiff);
+// Serial.print(" ");
+// Serial.print((float)enemy.getSpeed());
+// Serial.print(" ");
+// Serial.println((float)xRatio);
+                        if (xRatio >= static_cast<SQ15x16>(-22.0f) && xRatio <= static_cast<SQ15x16>(-18.0f)) {
+
+                            Serial.println("Left");
+                            enemy.setEnemyType(EnemyType::Plane_Decelerate);
+                            enemy.setTreasure(treasure);
+
+                        }
+                        }
+
+                        break;
+                }
+
+            }
+
+        }
+
+    //}
+
 }

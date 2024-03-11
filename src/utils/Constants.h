@@ -45,7 +45,6 @@ constexpr SQ15x16 CAMERA_UPDATE_X_OMEGA = 45;
 constexpr SQ15x16 CAMERA_UPDATE_X_ZETA = 1;
 constexpr SQ15x16 CAMERA_UPDATE_X_ALPHA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_OMEGA;
 constexpr SQ15x16 CAMERA_UPDATE_X_BETA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_ZETA * 2;
-//constexpr SQ15x16 CAMERA_UPDATE_X_DT = 0.004;
 constexpr SQ15x16 CAMERA_UPDATE_X_DT = 0.007;
 
 constexpr SQ15x16 PLAYER_MAX_MOVE_VEL_X = 4.0;
@@ -55,15 +54,13 @@ constexpr SQ15x16 PLAYER_MAX_VEL_X = 4.0;
 namespace Constants {
 
     constexpr SQ15x16 WorldWidth = 96 * 4 * 4;
+    constexpr SQ15x16 DecSpeed = 0.01f;
 
     constexpr uint8_t HealthMax = 80;
-    // constexpr uint8_t CellWidth = 6;
-    // constexpr uint8_t CellHeight = 6;
-    // constexpr uint8_t MapTileWidth = 18;
-    // constexpr uint8_t MapTileHeight = 10;
-    // constexpr uint8_t EnemyWidth = 4;
+    constexpr uint8_t Health_Plane = 10;
+    constexpr uint8_t Health_Bullet = 5;
 
-    constexpr uint8_t EnemyCount = 10;
+    constexpr uint8_t EnemyCount = 6;//12;
     constexpr uint8_t EnemyCount_Heart = 1;
     constexpr uint8_t EnemyCount_Mine = 4;
 
