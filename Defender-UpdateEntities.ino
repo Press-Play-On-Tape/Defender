@@ -412,7 +412,7 @@ void testForTreasures(Enemy &enemy) {
                             if (treasure.getX() < enemy.getX()) continue;
                 SQ15x16 xDiff = treasure.getX() - enemy.getX();
 
-                if (xDiff < static_cast<SQ15x16>(-75.0f) || xDiff > static_cast<SQ15x16>(75.0f)) continue;
+                if (xDiff < static_cast<SQ15x16>(-60.0f) || xDiff > static_cast<SQ15x16>(60.0f)) continue;
 
                 SQ15x16 xRatio = xDiff / enemy.getSpeed();
 // Serial.print((float)xDiff);

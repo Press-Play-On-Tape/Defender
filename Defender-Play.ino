@@ -328,6 +328,19 @@ void render(uint8_t currentPlane) {
     }
 
 
+    // Render treasures ..
+
+    for (Treasure &treasure : treasures) {
+
+        if (treasure.isActive()) {
+
+            SpritesU::drawPlusMaskFX((treasure.getX() - camera.getX()).getInteger(), treasure.getY().getInteger(), Images::Treasure, (((frameCount / 12) % 4) * 3) + currentPlane);
+
+        }
+
+    }
+    
+
 
     // Render enemies ..
 
@@ -364,7 +377,7 @@ void render(uint8_t currentPlane) {
 
                         case Direction::Right:
 
-                            SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()).getInteger(), 36, Images::Enemy_00_Pickup, ((9 + enemy.getPickupImageIdx()) * 3) + currentPlane);
+                            SpritesU::drawPlusMaskFX((enemy.getX() - camera.getX()).getInteger(), enemy.getY().getInteger(), Images::Enemy_00_Pickup, ((9 + enemy.getPickupImageIdx()) * 3) + currentPlane);
                             break;
 
                         default:
@@ -410,17 +423,6 @@ void render(uint8_t currentPlane) {
     }
 
 
-    // Render treasures ..
-
-    for (Treasure &treasure : treasures) {
-
-        if (treasure.isActive()) {
-
-            SpritesU::drawPlusMaskFX((treasure.getX() - camera.getX()).getInteger(), treasure.getY().getInteger(), Images::Treasure, (((frameCount / 12) % 4) * 3) + currentPlane);
-
-        }
-
-    }
 
 
     // Render foregorund ..
