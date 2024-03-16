@@ -6,8 +6,8 @@ using uint24_t = __uint24;
 
 // Initialize FX hardware using  FX::begin(FX_DATA_PAGE); in the setup() function.
 
-constexpr uint16_t FX_DATA_PAGE  = 0xfe4e;
-constexpr uint24_t FX_DATA_BYTES = 106967;
+constexpr uint16_t FX_DATA_PAGE  = 0xfe65;
+constexpr uint24_t FX_DATA_BYTES = 100967;
 
 constexpr uint16_t FX_SAVE_PAGE  = 0xfff0;
 constexpr uint24_t FX_SAVE_BYTES = 2;
@@ -25,27 +25,21 @@ namespace Music
 namespace Images
 {
   constexpr uint24_t Player = 0x001951;
-  constexpr uint24_t Player_Thrust = 0x001D13;
-  constexpr uint24_t Bullets = 0x0023D5;
-  constexpr uint24_t Health = 0x00253F;
-  constexpr uint24_t Enemy_00 = 0x00275D;
-  constexpr uint24_t Enemy_00_Pickup = 0x002F3F;
-  constexpr uint24_t Enemy_01 = 0x0049D5;
-  constexpr uint24_t Enemy_02 = 0x004B87;
-  constexpr uint24_t Treasure = 0x004C31;
-  constexpr uint24_t HUD = 0x004CDB;
-  constexpr uint24_t PPOT = 0x004D79;
-  constexpr uint24_t Sound_Volume = 0x007D7B;
-  constexpr uint24_t Sound_Checkbox = 0x0085BD;
-  constexpr uint24_t Title = 0x0085CB;
-  constexpr uint24_t Numbers_5x3_1D_WB = 0x0145CD;
-  constexpr uint24_t Numbers_5x3_2D_WB = 0x014629;
-  constexpr uint24_t Numbers_5x3_1D_MB = 0x014E5F;
-  constexpr uint24_t Numbers_5x3_2D_MB = 0x014EBB;
-  constexpr uint24_t GameOver = 0x0156F1;
-  constexpr uint24_t Quit = 0x015DBF;
-  constexpr uint24_t BG_00 = 0x016241;
-  constexpr uint24_t MG_00 = 0x0178C3;
-  constexpr uint24_t FG_00 = 0x0193C5;
+  constexpr uint24_t Player_Thrust = 0x001E93;
+  constexpr uint24_t Bullets = 0x002555;
+  constexpr uint24_t Enemy_00 = 0x0026BF;
+  constexpr uint24_t Enemy_00_Pickup = 0x002EA1;
+  constexpr uint24_t Enemy_01 = 0x004937;
+  constexpr uint24_t Enemy_02 = 0x004AE9;
+  constexpr uint24_t Treasure = 0x004B93;
+  constexpr uint24_t PPOT = 0x004C3D;
+  constexpr uint24_t Sound_Volume = 0x007C3F;
+  constexpr uint24_t Sound_Checkbox = 0x008481;
+  constexpr uint24_t Title = 0x00848F;
+  constexpr uint24_t GameOver = 0x014491;
+  constexpr uint24_t Quit = 0x014B5F;
+  constexpr uint24_t BG_00 = 0x014FE1;
+  constexpr uint24_t MG_00 = 0x016663;
+  constexpr uint24_t FG_00 = 0x018165;
 }
 
