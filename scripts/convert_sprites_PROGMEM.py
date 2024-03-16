@@ -103,7 +103,7 @@ openFile(BASE + 'Images.h', 'Images')
 
 convert_header_PROGMEM(IMAGES + '/Player/Player_Bullets.png',                                      BASE + 'Images.h', 'Player_Bullets', 4, 8, 8)
 convert_header_PROGMEM(IMAGES + '/Arrows.png',                                                     BASE + 'Images.h', 'Arrows', 4, 3, 8)
-convert_header_PROGMEM(IMAGES + '/HUD_Treasue.png',                                                BASE + 'Images.h', 'HUD_Treasue', 4, 3, 8)
+convert_header_PROGMEM(IMAGES + '/HUD_Treasure.png',                                               BASE + 'Images.h', 'HUD_Treasure', 4, 3, 8)
 #convert_header_PROGMEM(IMAGES + 'Numbers/Numbers_5x3_1D_MB.png',                                   BASE + 'Images.h', 'Numbers_5x3_1D_MB', 4, 3, 8)
 convert_header_PROGMEM(IMAGES + 'Numbers/Numbers_5x3_2D_MB.png',                                   BASE + 'Images.h', 'Numbers_5x3_2D_MB', 4, 7, 8)
 convert_header_PROGMEM(IMAGES + 'Player/Health.png',                                               BASE + 'Images.h', 'Health', 4, 30, 8)
