@@ -185,4 +185,37 @@ class Player {
             this->velocityIdxY = Constants::Player_Velocity_Stationary;
 
         }        
+
+        Rect getRect() {
+
+            Rect rect;
+
+            rect.x = this->getX().getInteger();
+            rect.y = this->getY().getInteger();
+            rect.width = 16;
+            rect.height = 14;
+
+            return rect;
+
+        }
+
+        #ifdef DEBUG
+
+            void printRect() {
+
+                Rect r = this->getRect();
+
+                DEBUG_PRINT("Player ");
+                DEBUG_PRINT(r.x);
+                DEBUG_PRINT(",");
+                DEBUG_PRINT(r.y);
+                DEBUG_PRINT(",");
+                DEBUG_PRINT(r.width);
+                DEBUG_PRINT(",");
+                DEBUG_PRINT(r.height);
+            
+            }
+
+        #endif
+        
 };

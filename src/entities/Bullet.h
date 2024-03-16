@@ -59,4 +59,37 @@ class Bullet {
             return true;
 
         }
+
+
+        Rect getRect() {
+
+            Rect rect;
+
+            rect.x = this->getX().getInteger();
+            rect.y = this->getY().getInteger();
+            rect.width = 8;
+            rect.height = 1;
+
+            return rect;
+
+        }
+
+        #ifdef DEBUG
+
+            void printRect() {
+
+                Rect r = this->getRect();
+
+                DEBUG_PRINT("Player ");
+                DEBUG_PRINT(r.x);
+                DEBUG_PRINT(",");
+                DEBUG_PRINT(r.y);
+                DEBUG_PRINT(",");
+                DEBUG_PRINT(r.width);
+                DEBUG_PRINT(",");
+                DEBUG_PRINT(r.height);
+            
+            }
+
+        #endif        
 };

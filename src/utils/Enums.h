@@ -117,9 +117,19 @@ enum class CellOwner : uint8_t {
 enum class EnemyType : uint8_t {
     Heart,
     Mine,
-    Plane,
-    Plane_Decelerate,
-    Plane_SetHeight,
-    Plane_Pickup,
-    Plane_Accelerate,
+    Plane_Start,
+        Plane = Plane_Start,
+        Plane_Decelerate,
+        Plane_SetHeight,
+        Plane_Pickup,
+        Plane_Accelerate,
+    Plane_End,
+};
+
+
+enum class EnemyUpdate : uint8_t {
+    Normal,
+    Inactive,
+    Treasure_StartPickup,
+    Treasure_PickedUp,
 };
