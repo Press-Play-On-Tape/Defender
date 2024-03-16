@@ -62,3 +62,39 @@ void deactivateLEDs() {
     #endif
 
 }
+
+void decHealth(uint8_t val) {
+
+    if (health > val) {
+        health = health - val;
+    }
+    else {
+        health = 0;
+    }
+
+    if (healthBlink == 0) {
+        healthBlink = healthBlink + 15;
+    }
+    else if (healthBlink < 84) {
+        healthBlink = healthBlink + 32;
+    }
+    
+}
+
+void incHealth(uint8_t val) {
+
+    if (health + val < Constants::HealthMax) {
+        health = health + val;
+    }
+    else {
+        health = Constants::HealthMax;
+    }
+
+    if (healthBlink == 0) {
+        healthBlink = healthBlink + 15;
+    }
+    else if (healthBlink < 84) {
+        healthBlink = healthBlink + 32;
+    }
+    
+}
