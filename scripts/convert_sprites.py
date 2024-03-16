@@ -110,7 +110,8 @@ convert_header(IMAGES + 'Enemy/Enemy_00.png',                                   
 convert_header(IMAGES + 'Enemy/Enemy_00_Pickup.png',                                           BASE + 'Images.hpp', 'Enemy_00_Pickup', 4, 21, 24, maskImage=True)
 convert_header(IMAGES + 'Enemy/Enemy_01.png',                                                  BASE + 'Images.hpp', 'Enemy_01', 4, 9, 16, maskImage=True)
 convert_header(IMAGES + 'Enemy/Enemy_02.png',                                                  BASE + 'Images.hpp', 'Enemy_02', 4, 7, 8, maskImage=True)
-convert_header(IMAGES + 'Treasure.png',                                                        BASE + 'Images.hpp', 'Treasure', 4, 7, 8, maskImage=True)
+convert_header(IMAGES + 'Enemy/Enemy_03.png',                                                  BASE + 'Images.hpp', 'Enemy_03', 4, 8, 16, maskImage=True)
+# convert_header(IMAGES + 'Treasure.png',                                                        BASE + 'Images.hpp', 'Treasure', 4, 7, 8, maskImage=True)
 
 # convert_header(IMAGES + 'HUD.png',                                                             BASE + 'Images.hpp', 'HUD', 4)
 

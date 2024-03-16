@@ -44,7 +44,7 @@ Treasure treasures[Constants::TreasureCount];
 World world;
 Camera camera;
 
-uint8_t frameCount = 0;
+uint16_t frameCount = 0;
 bool particlesNeedRendering = false;
 bool scoresNeedRendering = false;
 uint8_t titleCounter = 0;
@@ -52,6 +52,7 @@ Enemy *enemyPickup = nullptr;
 uint8_t health = Constants::HealthMax;
 uint8_t healthBlink = 0;
 uint8_t treasureCount = Constants::TreasureCount;
+uint8_t zapFlash = 0;
 
 
 void setup() {
@@ -72,7 +73,16 @@ void setup() {
 void loop() {
 
     FX::enableOLED();
-    a.waitForNextPlane(BLACK);
+// Serial.println((zapFlash / 3) % 2);
+    if ((zapFlash / 3) % 2 == 0) {
+        a.waitForNextPlane(BLACK);
+// Serial.println(" BLACK");        
+    }
+    else {
+        a.waitForNextPlane(WHITE);
+// Serial.println(" WHITE");        
+    }
+
     FX::disableOLED();
 
     switch (gameState) {
@@ -106,6 +116,10 @@ void loop() {
     }
 
     audioUpdate();
+
+    if (zapFlash > 0) {
+        zapFlash--;
+    }
 
 }
 

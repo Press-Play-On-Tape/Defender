@@ -52,7 +52,7 @@ class Bullet {
             int16_t xDiff = abs(playerX - this->x.getInteger());
 // Serial.print(" ");
 // Serial.println(xDiff);
-            if (xDiff > 150) { 
+            if (xDiff > 128) { 
                 this->active = false; 
             }
 

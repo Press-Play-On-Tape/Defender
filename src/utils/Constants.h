@@ -60,21 +60,18 @@ namespace Constants {
     constexpr uint8_t Health_Plane = 10;
     constexpr uint8_t Health_Bullet = 5;
 
-    constexpr uint8_t EnemyCount = 6;//12;
+    constexpr uint8_t EnemyCount = 10;
     constexpr uint8_t EnemyCount_Heart = 1;
-    constexpr uint8_t EnemyCount_Mine = 4;
+    constexpr uint8_t EnemyCount_Mine = 3;
+    constexpr uint8_t EnemyCount_Zap = 2;
 
     constexpr uint8_t Player_Width = 14;
-    constexpr uint8_t ParticlesMax = 20;
+    constexpr uint8_t ParticlesMax = 30;
     constexpr uint8_t BulletCount_Player = 5;
     constexpr uint8_t BulletCount_Enemy = 5;
     constexpr uint8_t TreasureCount = 5;
 
     constexpr uint8_t HUD_Left = 40;
-
-    // constexpr int16_t Player_Offset_X_Min = 0;
-    // constexpr int16_t Player_Offset_X_Mid = 60 * 16;            // 960
-    // constexpr int16_t Player_Offset_X_Max = 60 * 16 * 2;        // 1920
 
     constexpr int16_t Player_Velocity_Left_Max = 0;
     constexpr int16_t Player_Velocity_Left_Min = 13;

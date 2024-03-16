@@ -124,6 +124,7 @@ enum class EnemyType : uint8_t {
         Plane_Pickup,
         Plane_Accelerate,
     Plane_End,
+    Zap
 };
 
 
