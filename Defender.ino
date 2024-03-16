@@ -48,6 +48,10 @@ uint8_t frameCount = 0;
 bool particlesNeedRendering = false;
 bool scoresNeedRendering = false;
 uint8_t titleCounter = 0;
+Enemy *enemyPickup = nullptr;
+uint8_t health = Constants::HealthMax;
+uint8_t healthBlink = 0;
+uint8_t treasureCount = Constants::TreasureCount;
 
 
 void setup() {
