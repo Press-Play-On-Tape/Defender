@@ -53,6 +53,7 @@ uint8_t health = Constants::HealthMax;
 uint8_t healthBlink = 0;
 uint8_t treasureCount = Constants::TreasureCount;
 uint8_t zapFlash = 0;
+bool gameOver = false;
 
 
 void setup() {
@@ -83,6 +84,9 @@ void loop() {
 // Serial.println(" WHITE");        
     }
 
+// if (enemyPickup != nullptr) {
+//     Serial.println(frameCount);
+// }
     FX::disableOLED();
 
     switch (gameState) {

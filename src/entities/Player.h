@@ -5,6 +5,7 @@
 #include "../utils/Enums.h"
 #include "../../fxdata/fxdata.h"
 
+
 class Player {
 
     private:
@@ -18,8 +19,11 @@ class Player {
 
         SQ15x16 x = 0;
         SQ15x16 y = 0;
+
         bool deccelerateXFlag = false;
         bool deccelerateYFlag = false;
+        bool deathSeq = false;
+        uint8_t deathSeqIdx = 0;
         
 
     public:
@@ -28,16 +32,19 @@ class Player {
         Direction getDirectionY()                       { return this->directionY; }
         uint8_t getVelocityIdxX()                       { return this->velocityIdxX; }
         uint8_t getVelocityIdxY()                       { return this->velocityIdxY; }
-        SQ15x16 getX()                                    { return this->x; }        
-        SQ15x16 getY()                                    { return this->y; }        
+        SQ15x16 getX()                                  { return this->x; }        
+        SQ15x16 getY()                                  { return this->y; }        
         bool isDecceleratingX()                         { return this->deccelerateXFlag; }
         bool getDeccelerateY()                          { return this->deccelerateYFlag; }
+        bool getDeathSeq()                              { return this->deathSeq; }
+        uint8_t getDeathSeqIdx()                        { return this->deathSeqIdx; }
 
         void setVelocityIdxX(uint8_t val)               { this->velocityIdxX = val; }
         void setDirectionX(Direction val)               { this->directionX = val; }
         void setDirectionY(Direction val)               { this->directionY = val; }
-        void setX(SQ15x16 val)                            { this->x = val; }
-        void setY(SQ15x16 val)                            { this->y = val; }
+        void setX(SQ15x16 val)                          { this->x = val; }
+        void setY(SQ15x16 val)                          { this->y = val; }
+        void setDeathSeq(bool val)                      { this->deathSeq = val; deathSeqIdx = 0; }
 
     public:
 
@@ -184,7 +191,32 @@ class Player {
             this->deccelerateYFlag = false;
             this->velocityIdxY = Constants::Player_Velocity_Stationary;
 
-        }        
+        }     
+
+        PlayerUpdate update(uint8_t frameCount) {
+
+            this->incX(this->getVelocityX());
+            this->incY(this->getVelocityY());
+
+            if (this->deathSeq == true) {
+
+                if (this->deathSeqIdx < Constants::DeathSeq_Final && frameCount % 2 == 0) {
+
+                    this->deathSeqIdx++;
+
+                    if (this->deathSeqIdx == Constants::DeathSeq_ExplodePlane) {
+
+                        return PlayerUpdate::Dead;
+                        
+                    }
+
+                }
+
+            }
+
+            return PlayerUpdate::Normal;
+
+        }   
 
         Rect getRect() {
 

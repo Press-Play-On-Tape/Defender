@@ -9,6 +9,18 @@
 void title_Init() {
 
     gameState = GameState::Title_OptPlay;
+    titleCounter = 0;
+
+    camera.setX(0);
+    
+    for (uint8_t i = 0; i < Constants::EnemyCount; i++) {
+
+        Enemy &enemy = enemies[i];
+
+        launchEnemy(enemy);
+        enemy.setEnemyType(EnemyType::Plane);
+
+    }
 
 }
 
@@ -178,10 +190,10 @@ void title_Update() {
 
         #endif
         
-
     }
-       
 
+    if (titleCounter < 72) titleCounter++;
+      
 }
 
 void title(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
@@ -191,9 +203,11 @@ void title(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
     uint8_t currentPlane = a.currentPlane();
     uint8_t idx = static_cast<uint8_t>(gameState) - static_cast<uint8_t>(GameState::Title_Start);
 
+    SpritesU::drawOverwriteFX(0, 22, Images::BG_00, currentPlane);
+    SpritesU::drawOverwriteFX(96, 22, Images::BG_00, currentPlane);
 
-
-    SpritesU::drawPlusMaskFX(0, 0, Images::Title, (3 * idx) + currentPlane);
+    SpritesU::drawPlusMaskFX(0, Constants::Title_YPos[titleCounter / 2], Images::Title_Text, currentPlane);
+    SpritesU::drawPlusMaskFX(0, 40, Images::Title, (3 * idx) + currentPlane);
 
 
     switch (gameState) {
@@ -221,5 +235,6 @@ void title(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
 
     }
 
+    renderEnemies(currentPlane, false);
 
 }

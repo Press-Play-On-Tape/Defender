@@ -127,10 +127,14 @@ enum class EnemyType : uint8_t {
     Zap
 };
 
-
 enum class EnemyUpdate : uint8_t {
     Normal,
     Inactive,
     Treasure_StartPickup,
     Treasure_PickedUp,
+};
+
+enum class PlayerUpdate : uint8_t {
+    Normal,
+    Dead,
 };

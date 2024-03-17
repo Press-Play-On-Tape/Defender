@@ -23,7 +23,6 @@ class Enemy {
         bool active = false;
         uint8_t imageIdx = 0;
         uint8_t pickupImageIdx = 0;
-        uint8_t treasureIdx = 0;
         
     public:
 
@@ -204,7 +203,7 @@ class Enemy {
 
                     this->pickupImageIdx++;
 
-                    if (this->pickupImageIdx == 160) {
+                    if (this->pickupImageIdx == 160 && this->imageIdx == 0) {
                         treasure->setActive(false);
                         return EnemyUpdate::Treasure_PickedUp;
                     }

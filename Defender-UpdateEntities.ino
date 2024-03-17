@@ -8,8 +8,15 @@
 
 bool updatePlayer(uint8_t frameCount) {
 
-    player.incX(player.getVelocityX());
-    player.incY(player.getVelocityY());
+    PlayerUpdate playerUpdate = player.update(frameCount);
+
+    if (playerUpdate == PlayerUpdate::Dead) {
+
+        gameOver = true;
+        gameState = GameState::Play_EndOfGame;
+        launchParticles((player.getX() - camera.getX() + 6).getInteger(), player.getY().getInteger() + 6);
+
+    }
 
 }
 
@@ -131,52 +138,56 @@ void updateEnemy(Enemy &enemy) {
                 enemy.incX(-2 * Constants::WorldWidth);
             }
 
-            Rect enemyRect = enemy.getRect();
-            Rect playerRect = player.getRect();
+            if (gameState == GameState::Play) {
 
-            if (Arduboy2::collide(playerRect, enemyRect)) {
+                Rect enemyRect = enemy.getRect();
+                Rect playerRect = player.getRect();
 
-                switch (enemy.getEnemyType()) {
+                if (Arduboy2::collide(playerRect, enemyRect)) {
 
-                    case EnemyType::Mine:
-                    case EnemyType::Plane_Start ... EnemyType::Plane_End:
+                    switch (enemy.getEnemyType()) {
 
-                        if (enemy.getImageIdx() == 0) {
+                        case EnemyType::Mine:
+                        case EnemyType::Plane_Start ... EnemyType::Plane_End:
 
-                            decHealth(Constants::Health_Plane);
-                            enemy.setImageIdx(1);
-                            launchParticles((enemy.getX() - camera.getX() + 6).getInteger(), enemy.getY().getInteger() + 6);
+                            if (enemy.getImageIdx() == 0) {
+
+                                decHealth(Constants::Health_Plane);
+                                enemy.setImageIdx(1);
+                                launchParticles((enemy.getX() - camera.getX() + 6).getInteger(), enemy.getY().getInteger() + 6);
+                            
+                            }
+
+                            break;
+
+                        case EnemyType::Zap:
+
+                            if (enemy.getImageIdx() == 0) {
+
+                                decHealth(Constants::Health_Plane);
+                                enemy.setImageIdx(1);
+                                launchParticles((enemy.getX() - camera.getX() + 6).getInteger(), enemy.getY().getInteger() + 6);
+                                zapFlash = 11 * 3;
+
+                            }
+
+                            break;
+
+                        case EnemyType::Heart:
+
+                            if (enemy.getImageIdx() == 0) {
+
+                                incHealth(random(Constants::HealthMax / 2, Constants::HealthMax + 1));
+                                enemy.setImageIdx(11);
+
+                            }
                         
-                        }
+                            break;
 
-                        break;
-
-                    case EnemyType::Zap:
-
-                        if (enemy.getImageIdx() == 0) {
-
-                            decHealth(Constants::Health_Plane);
-                            enemy.setImageIdx(1);
-                            launchParticles((enemy.getX() - camera.getX() + 6).getInteger(), enemy.getY().getInteger() + 6);
-                            zapFlash = 11 * 3;
-
-                        }
-
-                        break;
-
-                    case EnemyType::Heart:
-
-                        if (enemy.getImageIdx() == 0) {
-
-                            incHealth(random(Constants::HealthMax / 2, Constants::HealthMax + 1));
-                            enemy.setImageIdx(11);
-
-                        }
-                    
-                        break;
+                    }
 
                 }
-
+            
             }
 
 
@@ -190,8 +201,18 @@ void updateEnemy(Enemy &enemy) {
             else if (enemyUpdateStatus == EnemyUpdate::Treasure_PickedUp) {
 
                 enemyPickup = nullptr;
-                treasureCount--;
 
+                if (treasureCount > 0) {
+                    
+                    treasureCount--;
+
+                    if (treasureCount == 0) {
+
+                        player.setDeathSeq(true);
+    
+                    }
+
+                }
 
             }
 
@@ -253,50 +274,54 @@ void testForTreasures(Player &player, Enemy &enemy) {
 
             Treasure *treasure = &treasures[i];
 
-            switch (enemy.getDirection()) {
+            if (treasure->isActive()) {
+                    
+                switch (enemy.getDirection()) {
 
-                case Direction::Right:
-                    {
+                    case Direction::Right:
+                        {
 
-                        if (treasure->getX() < enemy.getX()) continue;
+                            if (treasure->getX() < enemy.getX()) continue;
 
-                        SQ15x16 xDiff = treasure->getX() - enemy.getX();
-                        if (xDiff < static_cast<SQ15x16>(-60.0f) || xDiff > static_cast<SQ15x16>(60.0f)) continue;
+                            SQ15x16 xDiff = treasure->getX() - enemy.getX();
+                            if (xDiff < static_cast<SQ15x16>(-60.0f) || xDiff > static_cast<SQ15x16>(60.0f)) continue;
 
-                        SQ15x16 xRatio = xDiff / enemy.getSpeed();
+                            SQ15x16 xRatio = xDiff / enemy.getSpeed();
 
-                        if (xRatio >= static_cast<SQ15x16>(18.0f) && xRatio <= static_cast<SQ15x16>(22.0f)) {
+                            if (xRatio >= static_cast<SQ15x16>(18.0f) && xRatio <= static_cast<SQ15x16>(22.0f)) {
 
-                            enemy.setEnemyType(EnemyType::Plane_Decelerate);
-                            enemy.setTreasure(treasure);
-                            enemyPickup = &enemy;
+                                enemy.setEnemyType(EnemyType::Plane_Decelerate);
+                                enemy.setTreasure(treasure);
+                                enemyPickup = &enemy;
 
-                        }
-
-                    }
-
-                    break;
-
-                case Direction::Left:
-                    {
-                        if (treasure->getX() > enemy.getX()) continue;
-
-                        SQ15x16 xDiff = treasure->getX() - enemy.getX();
-                        if (xDiff < static_cast<SQ15x16>(-75.0f) || xDiff > static_cast<SQ15x16>(75.0f)) continue;
-
-                        SQ15x16 xRatio = xDiff / enemy.getSpeed();
-
-                        if (xRatio >= static_cast<SQ15x16>(-22.0f) && xRatio <= static_cast<SQ15x16>(-18.0f)) {
-
-                            enemy.setEnemyType(EnemyType::Plane_Decelerate);
-                            enemy.setTreasure(treasure);
-                            enemyPickup = &enemy;
+                            }
 
                         }
 
-                    }
+                        break;
 
-                    break;
+                    case Direction::Left:
+                        {
+                            if (treasure->getX() > enemy.getX()) continue;
+
+                            SQ15x16 xDiff = treasure->getX() - enemy.getX();
+                            if (xDiff < static_cast<SQ15x16>(-75.0f) || xDiff > static_cast<SQ15x16>(75.0f)) continue;
+
+                            SQ15x16 xRatio = xDiff / enemy.getSpeed();
+
+                            if (xRatio >= static_cast<SQ15x16>(-22.0f) && xRatio <= static_cast<SQ15x16>(-18.0f)) {
+
+                                enemy.setEnemyType(EnemyType::Plane_Decelerate);
+                                enemy.setTreasure(treasure);
+                                enemyPickup = &enemy;
+
+                            }
+
+                        }
+
+                        break;
+
+                }
 
             }
 

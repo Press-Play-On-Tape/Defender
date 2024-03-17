@@ -41,7 +41,7 @@ constexpr SQ15x16 CAMERA_OFFSET_X = 58;
 constexpr SQ15x16 CAMERA_OFFSET_X_DELTA = 8;
 constexpr SQ15x16 CAMERA_OFFSET_X_VEL_DELTA = 100;
 
-constexpr SQ15x16 CAMERA_UPDATE_X_OMEGA = 45;
+constexpr SQ15x16 CAMERA_UPDATE_X_OMEGA = 30;
 constexpr SQ15x16 CAMERA_UPDATE_X_ZETA = 1;
 constexpr SQ15x16 CAMERA_UPDATE_X_ALPHA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_OMEGA;
 constexpr SQ15x16 CAMERA_UPDATE_X_BETA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_ZETA * 2;
@@ -72,6 +72,8 @@ namespace Constants {
     constexpr uint8_t TreasureCount = 5;
 
     constexpr uint8_t HUD_Left = 40;
+    constexpr uint8_t DeathSeq_ExplodePlane = 10;
+    constexpr uint8_t DeathSeq_Final = 56;
 
     constexpr int16_t Player_Velocity_Left_Max = 0;
     constexpr int16_t Player_Velocity_Left_Min = 13;
@@ -88,4 +90,6 @@ namespace Constants {
     constexpr int8_t Camera_Offset_X[29] = { 26, 26, 18, 18, 12, 12, 8, 8, 6, 6, 4, 4, 2, 2, 0, 2, 2, 4, 4, 6, 6, 8, 8, 12, 12, 18, 18, 26, 26 };
     constexpr int8_t Thrust_Img[29] = { 2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4,4, 5, 5, 5, 5 };
 
+    constexpr int8_t Title_YPos[37] = { -48, -45, -42, -39, -36, -33, -30, -27, -24, -21, -18, -15, -12, -9, -6, -3, 0, 3, 6, 9, 6, 3, 1, 0, 0, 1, 3, 6, 9, 7, 6, 6, 7, 9, 8, 8, 9 };
+    
 };
