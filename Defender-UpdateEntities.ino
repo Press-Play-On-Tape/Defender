@@ -50,11 +50,7 @@ void updatePlayerBullet(int16_t player_x, Bullet &bullet) {
         Rect bulletRect = bullet.getRect();
 
         for (Enemy &enemy : enemies) {
-// if (enemy.getEnemyType() >= EnemyType::Plane_Start) {
-// Serial.print("updatePlayerBullet ");
-// Serial.println(enemy.getImageIdx());
 
-// }
             if (enemy.isActive() && enemy.getImageIdx() == 0) {
 
                 Rect enemyRect = enemy.getRect();
@@ -81,7 +77,7 @@ void updatePlayerBullet(int16_t player_x, Bullet &bullet) {
 
                         case EnemyType::Zap:
                             player.decHealth(Constants::Health_Zap);
-                            zapFlash = 11 * 3;
+                            world.setZapFlash(11 * 3);
                             break;
 
                     }
@@ -167,7 +163,7 @@ void updateEnemy(Enemy &enemy) {
                                 player.decHealth(Constants::Health_Plane);
                                 enemy.setImageIdx(1);
                                 launchParticles((enemy.getX() - camera.getX() + 12).getInteger(), enemy.getY().getInteger() + 6);
-                                zapFlash = 11 * 3;
+                                world.setZapFlash(11 * 3);
 
                             }
 
@@ -201,16 +197,13 @@ void updateEnemy(Enemy &enemy) {
             else if (enemyUpdateStatus == EnemyUpdate::Treasure_PickedUp) {
 
                 enemyPickup = nullptr;
+                
+                player.decTreasureCount();
+                player.setTreasureBlink(128);
 
-                if (treasureCount > 0) {
-                    
-                    treasureCount--;
+                if (player.getTreasureCount() == 0) {
 
-                    if (treasureCount == 0) {
-
-                        player.setDeathSeq(true);
-    
-                    }
+                    player.setDeathSeq(true);
 
                 }
 

@@ -13,6 +13,8 @@ class Player {
         PlayerMovement playerMovement = PlayerMovement::Up_Middle;
         uint8_t health = Constants::HealthMax;
         uint8_t healthBlink = 0;
+        uint8_t treasureCount = Constants::TreasureCount;
+        uint8_t treasureBlink = 0;
 
         Direction directionX = Direction::Right;
         Direction directionY = Direction::None;
@@ -43,6 +45,8 @@ class Player {
         uint8_t getDeathSeqIdx()                        { return this->deathSeqIdx; }
         uint8_t getHealth()                             { return this->health; }
         uint8_t getHealthBlink()                        { return this->healthBlink; }
+        uint8_t getTreasureCount()                      { return this->treasureCount; }
+        uint8_t getTreasureBlink()                      { return this->treasureBlink; }
 
         void setVelocityIdxX(uint8_t val)               { this->velocityIdxX = val; }
         void setDirectionX(Direction val)               { this->directionX = val; }
@@ -52,20 +56,42 @@ class Player {
         void setDeathSeq(bool val)                      { this->deathSeq = val; deathSeqIdx = 0; }
         void setHealth(uint8_t val)                     { this->health = val; }
         void setHealthBlink(uint8_t val)                { this->healthBlink = val; }
+        void setTreasureCount(uint8_t val)              { this->treasureCount = val; }
+        void setTreasureBlink(uint8_t val)              { this->treasureBlink = val; }
 
     public:
 
+        void decHealthBlink() {
+
+            if (this->healthBlink > 0) this->healthBlink--;
+
+        }
+
+        void decTreasureCount() {
+
+            if (this->treasureCount > 0) this->treasureCount--;
+
+        }
+
+        void decTreasureBlink() {
+
+            if (this->treasureBlink > 0) this->treasureBlink--;
+
+        }
+
         void init() {
 
-            this->health = Constants::HealthMax;
             this->setX(0 + (56 - 4));
             this->setY(12);
             this->setDeathSeq(false);
 
+            this->health = Constants::HealthMax;
+            this->healthBlink = 0;            
+            this->treasureCount = Constants::TreasureCount;
+            this->treasureBlink = 0;
         }
 
         SQ15x16 getVelocityX()                           { return static_cast<SQ15x16>(Constants::Velocity_X[this->velocityIdxX]) / 16; }
-
         SQ15x16 getVelocityY()                           { return Constants::Velocity_Y[this->velocityIdxY] / 16; }
 
         void incX(SQ15x16 val)                           { this->x = this->x + val; }

@@ -150,4 +150,6 @@ def convert_sym(sym, outfile, **args):
 
 #convert_sym('../music/Death', 'SFX_Death', tracks=1)
 #convert_sym('../music/Victory', 'SFX_Victory', tracks=1)
-convert_sym('../music/PaintBall', 'PaintBall', tracks=4)
+convert_sym('../music/PlayerBlib', 'SFX_PlayerBlib', tracks=1)
+convert_sym('../music/EnemyBlib', 'SFX_EnemyBlib', tracks=1)
+convert_sym('../music/Defender', 'Defender', tracks=4)

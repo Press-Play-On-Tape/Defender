@@ -10,6 +10,8 @@ enum class MusicSFX : uint8_t {
     SFX_XPGain,
     SFX_Three_Inc,
     SFX_Three_Dec,
+    SFX_PlayerBlib,
+    SFX_EnemyBlib,
 };
 
 enum class GameState : uint8_t {

@@ -32,9 +32,6 @@ void play_Init() {
             enemy.setEnemyType(EnemyType::Plane);
         }
 
-        // enemy.setEnemyType(EnemyType::Plane);
-        // enemy.setSpeed(1.5f);
-
     }
 
 
@@ -83,7 +80,7 @@ void play_Init() {
 
 void render(uint8_t currentPlane) {
 
-    SQ15x16 diffX = world.getX() - camera.getX();// + camera.getX();
+    SQ15x16 diffX = world.getX() - camera.getX();
   
 
     // Render background and middle ground ..
@@ -92,7 +89,7 @@ void render(uint8_t currentPlane) {
     int16_t mg_Pos = (world.getX() + diffX).getInteger() % (96);
     int16_t fg_Pos = (world.getForegroundX() + diffX).getInteger() % (96);
 
-    int8_t bgIdx =   ((zapFlash / 3) % 2);
+    int8_t bgIdx =   ((world.getZapFlash() / 3) % 2);
     int8_t mgIdx =   ((world.getX() + diffX).getInteger() / 96) % 4;
     int8_t fgIdx =   ((world.getForegroundX() + diffX).getInteger() / 96) % 4;
 
@@ -100,7 +97,6 @@ void render(uint8_t currentPlane) {
     SpritesU::drawOverwriteFX(bg_Pos, 22, Images::BG_00, (bgIdx * 3) + currentPlane);
     SpritesU::drawOverwriteFX(bg_Pos + 96, 22, Images::BG_00, (bgIdx * 3) + currentPlane);
     SpritesU::drawOverwriteFX(bg_Pos + 96 + 96, 22, Images::BG_00, (bgIdx * 3) + currentPlane);
-
 
     if (gameOver && gameState == GameState::Play_EndOfGame) {
 
@@ -110,7 +106,6 @@ void render(uint8_t currentPlane) {
 
     }
 
-
     SpritesU::drawPlusMaskFX(mg_Pos - 96, 30, Images::MG_00, (((mgIdx + 8) % 4) * 3) + currentPlane);
     SpritesU::drawPlusMaskFX(mg_Pos, 30, Images::MG_00, (((mgIdx - 1 + 8) % 4) * 3) + currentPlane);
     SpritesU::drawPlusMaskFX(mg_Pos + 96, 30, Images::MG_00, (((mgIdx - 2 + 8) % 4) * 3) + currentPlane);
@@ -118,7 +113,7 @@ void render(uint8_t currentPlane) {
 
 
 
-        // Render scoreboard ..
+    // Render scoreboard ..
 
     if (bgIdx == 0 && ((!player.getDeathSeq() || player.getDeathSeqIdx() == Constants::DeathSeq_Final || player.getDeathSeqIdx() <= Constants::DeathSeq_ExplodePlane))) {
 
@@ -127,7 +122,10 @@ void render(uint8_t currentPlane) {
         score = cookie.score % 100;
         SpritesU::drawOverwrite(128 - 9, 0, Images::Numbers_5x3_2D_MB, (score * 3) + currentPlane);
 
-        SpritesU::drawOverwrite(95, 0, Images::Numbers_5x3_2D_MB, (treasureCount * 3) + currentPlane);
+        if ((player.getTreasureBlink() / 16) % 2 == 0) {
+            SpritesU::drawOverwrite(95, 0, Images::Numbers_5x3_2D_MB, (player.getTreasureCount() * 3) + currentPlane);
+        }
+        
         SpritesU::drawOverwrite(104, 1, Images::HUD_Treasure, currentPlane);
 
 
@@ -141,7 +139,7 @@ void render(uint8_t currentPlane) {
         else {
 
             uint8_t i = player.getHealth() / 16;
-Serial.println(player.getHealthBlink());
+
             if (i == 0) {
 
                 if ((frameCount % 32) < 16) {
@@ -459,7 +457,8 @@ void play_Update() {
 
             }
 
-            if (player.getHealthBlink() > 0) player.setHealthBlink(player.getHealthBlink() - 1);
+            player.decHealthBlink();
+            player.decTreasureBlink();
 
             break;
 
@@ -482,7 +481,8 @@ void play_Update() {
 
             }
 
-            if (player.getHealthBlink() > 0) player.setHealthBlink(player.getHealthBlink() - 1);
+            player.decHealthBlink();
+            player.decTreasureBlink();
 
             break;
 
@@ -535,6 +535,7 @@ void playerFireBullet() {
 
         if (!bullet.isActive()) {
 
+            //playSFX(MusicSFX::SFX_PlayerBlib);
             bullet.setActive(true);
             bullet.setY(player.getY() + 6);
 
@@ -561,16 +562,12 @@ void playerFireBullet() {
 }
 
 
-
 void enemyFireBullet() {
 
     if (random(0, 16) != 0) return;
 
-
     uint8_t i = 0;
     bool found = false;
-
-    // Bullet &bullet = enemyBullets[i];
 
     for (i = 0; i < Constants::BulletCount_Enemy; i++) {
 
@@ -599,6 +596,9 @@ void enemyFireBullet() {
             Enemy &enemy = enemies[i];
 
             if (enemy.isActive()) {
+
+                // playSFX(MusicSFX::SFX_EnemyBlib);
+
                 bullet.setActive(true);
                 bullet.setY(enemy.getY() + 4);
 

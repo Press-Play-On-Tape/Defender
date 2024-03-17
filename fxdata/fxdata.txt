@@ -1,11 +1,13 @@
 namespace Music {
    
-    raw_t Song_MainTheme = "music/PaintBall.bin"
+    raw_t Song_MainTheme = "music/Defender.bin"
     raw_t SFX_Three_Inc = "music/SFX_ThreeInc.bin"
     raw_t SFX_Three_Dec = "music/SFX_ThreeDec.bin"
     raw_t SFX_Death = "music/SFX_Death.bin"
     raw_t SFX_Victory = "music/SFX_Victory.bin"
     raw_t SFX_XPGain = "music/SFX_XPGain.bin"
+    raw_t SFX_PlayerBlib = "music/SFX_PlayerBlib.bin"
+    raw_t SFX_EnemyBlib = "music/SFX_EnemyBlib.bin"
     
 };
 namespace_end   

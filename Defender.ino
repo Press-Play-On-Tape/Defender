@@ -46,11 +46,8 @@ Camera camera;
 
 uint16_t frameCount = 0;
 bool particlesNeedRendering = false;
-bool scoresNeedRendering = false;
 uint8_t titleCounter = 0;
 Enemy *enemyPickup = nullptr;
-uint8_t treasureCount = Constants::TreasureCount;
-uint8_t zapFlash = 0;
 bool gameOver = false;
 
 
@@ -63,28 +60,25 @@ void setup() {
     FX::begin(FX_DATA_PAGE, FX_SAVE_PAGE);
     FX::loadGameState((uint8_t*)&cookie, sizeof(cookie));
 
-    //SJH audioInit();
-    //SJH setAudioOn();
+    audioInit();
+    setAudioOn();
 
 }
 
 
 void loop() {
 
+    //Serial.println(isSFXPlaying());
+
     FX::enableOLED();
-// Serial.println((zapFlash / 3) % 2);
-    if ((zapFlash / 3) % 2 == 0) {
+
+    if ((world.getZapFlash() / 3) % 2 == 0) {
         a.waitForNextPlane(BLACK);
-// Serial.println(" BLACK");        
     }
     else {
         a.waitForNextPlane(WHITE);
-// Serial.println(" WHITE");        
     }
 
-// if (enemyPickup != nullptr) {
-//     Serial.println(frameCount);
-// }
     FX::disableOLED();
 
     switch (gameState) {
@@ -119,9 +113,7 @@ void loop() {
 
     audioUpdate();
 
-    if (zapFlash > 0) {
-        zapFlash--;
-    }
+    world.decZapFlash();
 
 }
 
