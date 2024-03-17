@@ -58,6 +58,7 @@ namespace Constants {
 
     constexpr uint8_t HealthMax = 80;
     constexpr uint8_t Health_Plane = 10;
+    constexpr uint8_t Health_Zap = 20;
     constexpr uint8_t Health_Bullet = 5;
 
     constexpr uint8_t EnemyCount = 10;

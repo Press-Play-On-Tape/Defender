@@ -11,6 +11,8 @@ class Player {
     private:
 
         PlayerMovement playerMovement = PlayerMovement::Up_Middle;
+        uint8_t health = Constants::HealthMax;
+        uint8_t healthBlink = 0;
 
         Direction directionX = Direction::Right;
         Direction directionY = Direction::None;
@@ -23,6 +25,7 @@ class Player {
         bool deccelerateXFlag = false;
         bool deccelerateYFlag = false;
         bool deathSeq = false;
+
         uint8_t deathSeqIdx = 0;
         
 
@@ -38,6 +41,8 @@ class Player {
         bool getDeccelerateY()                          { return this->deccelerateYFlag; }
         bool getDeathSeq()                              { return this->deathSeq; }
         uint8_t getDeathSeqIdx()                        { return this->deathSeqIdx; }
+        uint8_t getHealth()                             { return this->health; }
+        uint8_t getHealthBlink()                        { return this->healthBlink; }
 
         void setVelocityIdxX(uint8_t val)               { this->velocityIdxX = val; }
         void setDirectionX(Direction val)               { this->directionX = val; }
@@ -45,8 +50,19 @@ class Player {
         void setX(SQ15x16 val)                          { this->x = val; }
         void setY(SQ15x16 val)                          { this->y = val; }
         void setDeathSeq(bool val)                      { this->deathSeq = val; deathSeqIdx = 0; }
+        void setHealth(uint8_t val)                     { this->health = val; }
+        void setHealthBlink(uint8_t val)                { this->healthBlink = val; }
 
     public:
+
+        void init() {
+
+            this->health = Constants::HealthMax;
+            this->setX(0 + (56 - 4));
+            this->setY(12);
+            this->setDeathSeq(false);
+
+        }
 
         SQ15x16 getVelocityX()                           { return static_cast<SQ15x16>(Constants::Velocity_X[this->velocityIdxX]) / 16; }
 
@@ -217,6 +233,45 @@ class Player {
             return PlayerUpdate::Normal;
 
         }   
+
+        void decHealth(uint8_t val) {
+
+            if (this->health > 0 && this->health > val) {
+                this->health = this->health - val;
+            }
+            else {
+
+                this->health = 0;
+                this->setDeathSeq(true);
+
+            }
+
+            if (this->healthBlink == 0) {
+                this->healthBlink = this->healthBlink + 96;
+            }
+            else if (this->healthBlink < 84) {
+                this->healthBlink = this->healthBlink + 32;
+            }
+            
+        }
+
+        void incHealth(uint8_t val) {
+
+            if (this->health + val < Constants::HealthMax) {
+                this->health =this-> health + val;
+            }
+            else {
+                this->health = Constants::HealthMax;
+            }
+
+            if (this->healthBlink == 0) {
+                this->healthBlink = this->healthBlink + 96;
+            }
+            else if (healthBlink < 84) {
+                this->healthBlink = this->healthBlink + 32;
+            }
+            
+        }
 
         Rect getRect() {
 

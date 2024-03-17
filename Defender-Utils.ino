@@ -63,44 +63,6 @@ void deactivateLEDs() {
 
 }
 
-void decHealth(uint8_t val) {
-
-    if (health > 0 && health > val) {
-        health = health - val;
-    }
-    else {
-
-        health = 0;
-        player.setDeathSeq(true);
-
-    }
-
-    if (healthBlink == 0) {
-        healthBlink = healthBlink + 15;
-    }
-    else if (healthBlink < 84) {
-        healthBlink = healthBlink + 32;
-    }
-    
-}
-
-void incHealth(uint8_t val) {
-
-    if (health + val < Constants::HealthMax) {
-        health = health + val;
-    }
-    else {
-        health = Constants::HealthMax;
-    }
-
-    if (healthBlink == 0) {
-        healthBlink = healthBlink + 15;
-    }
-    else if (healthBlink < 84) {
-        healthBlink = healthBlink + 32;
-    }
-    
-}
 
 void renderEnemies(uint8_t currentPlane, bool pickupTreasures) {
 
@@ -216,7 +178,14 @@ void relaunchEnemy(Enemy &enemy) {
 void launchEnemy(Enemy &enemy) {
 
     enemy.setActive(true);
-    enemy.setX(static_cast<SQ15x16>(random(-Constants::WorldWidth.getInteger() + 100, Constants::WorldWidth.getInteger() - 100)));
+
+    if (random(0, 2) == 0) {
+        enemy.setX(static_cast<SQ15x16>(random(-Constants::WorldWidth.getInteger() + 100, -50)));
+    }
+    else {
+        enemy.setX(static_cast<SQ15x16>(50, Constants::WorldWidth.getInteger() - 100));
+    }
+
     enemy.setY(random(0, 42));
     enemy.setSpeed(static_cast<SQ15x16>(static_cast<SQ15x16>(random(12, 24)) / 8));
     

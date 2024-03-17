@@ -64,7 +64,7 @@ void updatePlayerBullet(int16_t player_x, Bullet &bullet) {
                     bullet.setActive(false);
                     enemy.setImageIdx(1);
 
-                    launchParticles((enemy.getX() - camera.getX() + 6).getInteger(), enemy.getY().getInteger() + 6);
+                    launchParticles((enemy.getX() - camera.getX() + 12).getInteger(), enemy.getY().getInteger() + 6);
 
                     switch (enemy.getEnemyType()) {
 
@@ -80,7 +80,7 @@ void updatePlayerBullet(int16_t player_x, Bullet &bullet) {
                             break;
 
                         case EnemyType::Zap:
-                            decHealth(10);
+                            player.decHealth(Constants::Health_Zap);
                             zapFlash = 11 * 3;
                             break;
 
@@ -108,8 +108,8 @@ void updateEnemyBullet(int16_t player_x, Bullet &bullet) {
         if (Arduboy2::collide(bulletRect, playerRect)) {
 
             bullet.setActive(false);
-            launchParticles((player.getX() - camera.getX() + 6).getInteger(), (player.getY() + 6).getInteger());
-            decHealth(Constants::Health_Bullet);
+            launchParticles((player.getX() - camera.getX() + 12).getInteger(), (player.getY() + 6).getInteger());
+            player.decHealth(Constants::Health_Bullet);
 
         }
 
@@ -152,9 +152,9 @@ void updateEnemy(Enemy &enemy) {
 
                             if (enemy.getImageIdx() == 0) {
 
-                                decHealth(Constants::Health_Plane);
+                                player.decHealth(Constants::Health_Plane);
                                 enemy.setImageIdx(1);
-                                launchParticles((enemy.getX() - camera.getX() + 6).getInteger(), enemy.getY().getInteger() + 6);
+                                launchParticles((enemy.getX() - camera.getX() + 12).getInteger(), enemy.getY().getInteger() + 6);
                             
                             }
 
@@ -164,9 +164,9 @@ void updateEnemy(Enemy &enemy) {
 
                             if (enemy.getImageIdx() == 0) {
 
-                                decHealth(Constants::Health_Plane);
+                                player.decHealth(Constants::Health_Plane);
                                 enemy.setImageIdx(1);
-                                launchParticles((enemy.getX() - camera.getX() + 6).getInteger(), enemy.getY().getInteger() + 6);
+                                launchParticles((enemy.getX() - camera.getX() + 12).getInteger(), enemy.getY().getInteger() + 6);
                                 zapFlash = 11 * 3;
 
                             }
@@ -177,7 +177,7 @@ void updateEnemy(Enemy &enemy) {
 
                             if (enemy.getImageIdx() == 0) {
 
-                                incHealth(random(Constants::HealthMax / 2, Constants::HealthMax + 1));
+                                player.incHealth(random(Constants::HealthMax / 2, Constants::HealthMax + 1));
                                 enemy.setImageIdx(11);
 
                             }

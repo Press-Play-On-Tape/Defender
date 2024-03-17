@@ -10,7 +10,8 @@
 void play_Init() {
 
     gameOver = false;
-    health = 2;//Constants::HealthMax;
+
+    player.init();
 
     for (uint8_t i = 0; i < Constants::EnemyCount; i++) {
 
@@ -68,12 +69,6 @@ void play_Init() {
         treasure.setX(5 + (i * 200));
 
     }
-
-    // player.setX(500 + (64 - 4));
-    player.setX(0 + (56 - 4));
-    player.setY(12);
-    // player.setY(0);
-    player.setDeathSeq(false);
 
     gameState = GameState::Play;
     cookie.score = 0;
@@ -138,9 +133,30 @@ void render(uint8_t currentPlane) {
 
         // Health
 
-        uint8_t i = health / 16;
-        if ((healthBlink / 16) % 2 == 0)
-        SpritesU::drawOverwrite(2, 1, Images::Health, (i * 3) + currentPlane);
+        if (player.getHealth() == 0) {
+
+            SpritesU::drawOverwrite(2, 1, Images::Health, (6 * 3) + currentPlane);
+
+        }
+        else {
+
+            uint8_t i = player.getHealth() / 16;
+Serial.println(player.getHealthBlink());
+            if (i == 0) {
+
+                if ((frameCount % 32) < 16) {
+                    SpritesU::drawOverwrite(2, 1, Images::Health, (i * 3) + currentPlane);
+                }
+                else {
+                    SpritesU::drawOverwrite(2, 1, Images::Health, (6 * 3) + currentPlane);
+                }
+
+            }
+            else if ((player.getHealthBlink() / 16) % 2 == 0) {
+                SpritesU::drawOverwrite(2, 1, Images::Health, (i * 3) + currentPlane);
+            }
+
+        }
 
 
         // HUD
@@ -443,7 +459,7 @@ void play_Update() {
 
             }
 
-            if (healthBlink > 0) healthBlink--;
+            if (player.getHealthBlink() > 0) player.setHealthBlink(player.getHealthBlink() - 1);
 
             break;
 
@@ -456,10 +472,6 @@ void play_Update() {
             updateTreasures();
             wrapWorld();
 
-            // if (justPressed & B_BUTTON) { 
-            //     gameState = GameState::Play_Quit;
-            // }
-
             if ((justPressed & A_BUTTON) && player.getDeathSeqIdx() == Constants::DeathSeq_Final) { 
                 gameState= GameState::Title_Init;
             }
@@ -470,31 +482,7 @@ void play_Update() {
 
             }
 
-
-            //     if (pressed & LEFT_BUTTON) { 
-            //         player.acccelerateX(Direction::Left);
-            //     }
-            //     else if (pressed & RIGHT_BUTTON) { 
-            //         player.acccelerateX(Direction::Right);
-            //     }
-            //     else if (frameCount % 8 == 0) {
-            //         player.deccelerateX();
-            //     }
-
-            //     if (pressed & UP_BUTTON) { 
-            //         player.acccelerateY(Direction::Up);
-            //     }
-            //     else if (pressed & DOWN_BUTTON) { 
-            //         player.acccelerateY(Direction::Down);
-            //     }
-            //     else if (frameCount % 8 == 0) {
-            //         player.deccelerateY();
-            //     }
-
-            // }
-
-            if (healthBlink > 0) healthBlink--;
-            // Serial.println(healthBlink);
+            if (player.getHealthBlink() > 0) player.setHealthBlink(player.getHealthBlink() - 1);
 
             break;
 
