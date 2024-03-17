@@ -22,19 +22,19 @@ void splashScreen_Update() {
 
 void splashScreen(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
     
-    if (a.needsUpdate()) splashScreen_Update();
-
     uint8_t currentPlane = a.currentPlane();
     uint8_t idx = static_cast<uint8_t>(gameState) - static_cast<uint8_t>(GameState::SplashScreen_Start);
 
     SpritesU::drawOverwriteFX(0, 0, Images::PPOT, (3 * idx) + currentPlane);
 
-    if (frameCount == 12 && gameState != GameState::Title_Init) {
+    if (frameCount == 12) {
 
         idx = (idx + 1) % 4;
         frameCount = 0;
         gameState = static_cast<GameState>(static_cast<uint8_t>(GameState::SplashScreen_Start) + idx);
 
     }
+
+    if (a.needsUpdate()) splashScreen_Update();
 
 }
