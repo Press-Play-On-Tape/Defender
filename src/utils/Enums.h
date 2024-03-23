@@ -13,6 +13,7 @@ enum class MusicSFX : uint8_t {
     SFX_PlayerBlip,
     SFX_EnemyBlip,
     SFX_Explosion,
+    SFX_DoubleBeep,
 };
 
 enum class GameState : uint8_t {
@@ -39,7 +40,6 @@ enum class GameState : uint8_t {
     Play_Start,
         Play = Play_Start,
         Play_EndOfGame,
-        Play_Quit,
     Play_End,
 
 };

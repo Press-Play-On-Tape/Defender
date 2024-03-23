@@ -7,19 +7,18 @@ midi_file = MIDIFile(1)  # One track
 track = 0
 time = 0
 midi_file.addTrackName(track, time, "Sample Track")
-midi_file.addTempo(track, time, 306)
+midi_file.addTempo(track, time, 240)
 
 # Add the notes in a three-note increasing scale
 channel = 0
-volume = 100
+volume = 80
 time = 0  # In beats
 duration = 0.25  # In beats
 
 # Add the notes
-midi_file.addNote(track, channel, 55, time, duration, volume)  # Middle C
-midi_file.addNote(track, channel, 57, time + 0.25, duration, volume)  # D
-midi_file.addNote(track, channel, 53, time + 0.5, duration, volume)  # E
+midi_file.addNote(track, channel, 70, time, duration, volume)  # Middle C
+midi_file.addNote(track, channel, 72, time + 0.35, duration, volume)  # D
 
 # Write it to disk
-with open("../music/EnemyBlip.mid", "wb") as file:
+with open("../music/DoubleBeep.mid", "wb") as file:
     midi_file.writeFile(file)

@@ -2,6 +2,7 @@ python3 ./createExplosion.py
 python3 ./createPlayerBlip.py
 python3 ./createEnemyBlip.py
 python3 ./createThreeDec.py
+python3 ./createDoubleBeep.py
 
 python3 ../scripts/convert_sprites.py
 python3 ../scripts/convert_sprites_PROGMEM.py

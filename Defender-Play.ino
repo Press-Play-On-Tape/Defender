@@ -383,19 +383,6 @@ void render(uint8_t currentPlane) {
     SpritesU::drawPlusMaskFX(fg_Pos + 96 + 96, 36, Images::FG_00, (((fgIdx - 3 + 8) % 4) * 3) + currentPlane);
 
 
-    switch (gameState) {
-
-        case GameState::Play:
-        case GameState::Play_EndOfGame:
-            break;
-
-        case GameState::Play_Quit:
-            SpritesU::drawPlusMaskFX(20, 22, Images::Quit, currentPlane);
-            break;
-
-    }
-
-
     // Render particles and scores ..
 
     updateAndRenderParticles(frameCount);
@@ -424,10 +411,6 @@ void play_Update() {
             enemyFireBullet();
 
             wrapWorld();
-
-            if (justPressed & B_BUTTON) { 
-                gameState = GameState::Play_Quit;
-            }
 
             if (justPressed & A_BUTTON) { 
                 playerFireBullet();
@@ -483,18 +466,6 @@ void play_Update() {
 
             player.decHealthBlink();
             player.decTreasureBlink();
-
-            break;
-
-        case GameState::Play_Quit:
-
-            if (justPressed & A_BUTTON) { 
-                gameState = GameState::Title_Init;
-            }
-
-            if (justPressed & B_BUTTON) { 
-                gameState = GameState::Play;
-            }
 
             break;
 

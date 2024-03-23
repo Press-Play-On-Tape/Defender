@@ -201,6 +201,8 @@ void updateEnemy(Enemy &enemy) {
             if (enemyUpdateStatus == EnemyUpdate::Treasure_StartPickup) {
 
                 enemyPickup = &enemy;
+                playSFX(MusicSFX::SFX_DoubleBeep, true);
+
 
             }
             else if (enemyUpdateStatus == EnemyUpdate::Treasure_PickedUp) {
@@ -216,7 +218,7 @@ void updateEnemy(Enemy &enemy) {
 
                 }
 
-                playSFX(MusicSFX::SFX_Three_Dec, false);
+                playSFX(MusicSFX::SFX_Three_Dec, true);
 
             }
 
@@ -297,6 +299,8 @@ void testForTreasures(Player &player, Enemy &enemy) {
                                 enemy.setEnemyType(EnemyType::Plane_Decelerate);
                                 enemy.setTreasure(treasure);
                                 enemyPickup = &enemy;
+                                
+                                playSFX(MusicSFX::SFX_DoubleBeep, true);
 
                             }
 
@@ -318,6 +322,8 @@ void testForTreasures(Player &player, Enemy &enemy) {
                                 enemy.setEnemyType(EnemyType::Plane_Decelerate);
                                 enemy.setTreasure(treasure);
                                 enemyPickup = &enemy;
+
+                                playSFX(MusicSFX::SFX_DoubleBeep, true);
 
                             }
 

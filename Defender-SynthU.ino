@@ -101,9 +101,13 @@ void playSong(MusicSong song) {
 
 }
 
-void playSFX(MusicSFX sfx, bool overridenPlaying) {
+void playSFX(MusicSFX sfx, bool overridePlaying) {
 
-    if (isSFXPlaying() && !overridenPlaying) return;
+    if (isSFXPlaying() && !overridePlaying) {
+
+        return;
+
+    }
 
     if (soundSettings.getSFX() && isAudioEnabled()) {
 

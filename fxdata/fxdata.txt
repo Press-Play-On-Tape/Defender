@@ -10,6 +10,7 @@ namespace Music {
     raw_t SFX_PlayerBlip = "music/SFX_PlayerBlip.bin"
     raw_t SFX_EnemyBlip = "music/SFX_EnemyBlip.bin"
     raw_t SFX_Explosion = "music/SFX_Explosion.bin"
+    raw_t SFX_DoubleBeep = "music/SFX_DoubleBeep.bin"
     
 };
 namespace_end   

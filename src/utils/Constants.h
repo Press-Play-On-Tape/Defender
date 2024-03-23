@@ -25,6 +25,7 @@ namespace Music {
                                    Music::SFX_PlayerBlip,
                                    Music::SFX_EnemyBlip,
                                    Music::SFX_Explosion,
+                                   Music::SFX_DoubleBeep,
                                 };
 
 }

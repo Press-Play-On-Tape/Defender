@@ -68,8 +68,6 @@ void setup() {
 
 void loop() {
 
-    //Serial.println(isSFXPlaying());
-
     FX::enableOLED();
 
     if ((world.getZapFlash() / 3) % 2 == 0) {

@@ -6,8 +6,8 @@ using uint24_t = __uint24;
 
 // Initialize FX hardware using  FX::begin(FX_DATA_PAGE); in the setup() function.
 
-constexpr uint16_t FX_DATA_PAGE  = 0xfe72;
-constexpr uint24_t FX_DATA_BYTES = 97716;
+constexpr uint16_t FX_DATA_PAGE  = 0xfe76;
+constexpr uint24_t FX_DATA_BYTES = 96662;
 
 constexpr uint16_t FX_SAVE_PAGE  = 0xfff0;
 constexpr uint24_t FX_SAVE_BYTES = 2;
@@ -20,30 +20,30 @@ namespace Music
   constexpr uint24_t SFX_XPGain = 0x007D74;
   constexpr uint24_t SFX_Three_Inc = 0x007D88;
   constexpr uint24_t SFX_Three_Dec = 0x007DA4;
-  constexpr uint24_t SFX_PlayerBlip = 0x007DA8;
-  constexpr uint24_t SFX_EnemyBlip = 0x007DB0;
-  constexpr uint24_t SFX_Explosion = 0x007DB8;
+  constexpr uint24_t SFX_PlayerBlip = 0x007DC0;
+  constexpr uint24_t SFX_EnemyBlip = 0x007DD0;
+  constexpr uint24_t SFX_Explosion = 0x007DE0;
+  constexpr uint24_t SFX_DoubleBeep = 0x007E24;
 }
 
 namespace Images
 {
-  constexpr uint24_t Player = 0x007DD0;
-  constexpr uint24_t Player_Thrust = 0x008312;
-  constexpr uint24_t Bullets = 0x0089D4;
-  constexpr uint24_t Enemy_00 = 0x008B3E;
-  constexpr uint24_t Enemy_00_Pickup = 0x009320;
-  constexpr uint24_t Enemy_01 = 0x00ADB6;
-  constexpr uint24_t Enemy_02 = 0x00AF68;
-  constexpr uint24_t Enemy_03 = 0x00B012;
-  constexpr uint24_t PPOT = 0x00B194;
-  constexpr uint24_t Sound_Volume = 0x00E196;
-  constexpr uint24_t Sound_Checkbox = 0x00E9D8;
-  constexpr uint24_t Title = 0x00E9E6;
-  constexpr uint24_t Title_Text = 0x0131E8;
-  constexpr uint24_t GameOver = 0x013DEA;
-  constexpr uint24_t Quit = 0x0149EC;
-  constexpr uint24_t BG_00 = 0x014E6E;
-  constexpr uint24_t MG_00 = 0x0159B0;
-  constexpr uint24_t FG_00 = 0x0174B2;
+  constexpr uint24_t Player = 0x007E34;
+  constexpr uint24_t Player_Thrust = 0x008376;
+  constexpr uint24_t Bullets = 0x008A38;
+  constexpr uint24_t Enemy_00 = 0x008BA2;
+  constexpr uint24_t Enemy_00_Pickup = 0x009384;
+  constexpr uint24_t Enemy_01 = 0x00AE1A;
+  constexpr uint24_t Enemy_02 = 0x00AFCC;
+  constexpr uint24_t Enemy_03 = 0x00B076;
+  constexpr uint24_t PPOT = 0x00B1F8;
+  constexpr uint24_t Sound_Volume = 0x00E1FA;
+  constexpr uint24_t Sound_Checkbox = 0x00EA3C;
+  constexpr uint24_t Title = 0x00EA4A;
+  constexpr uint24_t Title_Text = 0x01324C;
+  constexpr uint24_t GameOver = 0x013E4E;
+  constexpr uint24_t BG_00 = 0x014A50;
+  constexpr uint24_t MG_00 = 0x015592;
+  constexpr uint24_t FG_00 = 0x017094;
 }
 

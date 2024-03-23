@@ -54,172 +54,174 @@ class Enemy {
 
         EnemyUpdate update() {
 
-            switch (this->enemyType) {
+            if (this->imageIdx == 0) {
 
-                case EnemyType::Plane:
+                switch (this->enemyType) {
 
-                    switch (this->direction) {
+                    case EnemyType::Plane:
 
-                        case Direction::Left:
-                              this->x = this->x - this->speed;
-                            break;
+                        switch (this->direction) {
 
-                        case Direction::Right:
-                            this->x = this->x + this->speed;
-                            break;
-                    
-                        default:
-                            break;
+                            case Direction::Left:
+                                this->x = this->x - this->speed;
+                                break;
 
-                    }
+                            case Direction::Right:
+                                this->x = this->x + this->speed;
+                                break;
+                        
+                            default:
+                                break;
 
-                    break;
+                        }
 
-                case EnemyType::Plane_Decelerate:
+                        break;
 
-                    this->speed = this->speed * 0.94;
+                    case EnemyType::Plane_Decelerate:
 
-                    switch (this->direction) {
+                        this->speed = this->speed * 0.94;
 
-                        case Direction::Left:
-                              this->x = this->x - this->speed;
-                            break;
+                        switch (this->direction) {
 
-                        case Direction::Right:
-                            this->x = this->x + this->speed;
-                            break;
-                    
-                        default:
-                            break;
+                            case Direction::Left:
+                                this->x = this->x - this->speed;
+                                break;
 
-                    }
+                            case Direction::Right:
+                                this->x = this->x + this->speed;
+                                break;
+                        
+                            default:
+                                break;
 
-                    if (this->y < 35) {
+                        }
 
-                        this->y = this->y * 1.01;
-                    }
-                    else if (this->y > 41) {
-
-                        this->y = this->y * 0.99;
-                    }
-
-                    if (this->speed <= Constants::DecSpeed) {
-
-                        this->enemyType = EnemyType::Plane_SetHeight;
-// Serial.println("SetHeight");
-
-                    }
-
-                    break;
-
-                case EnemyType::Plane_Accelerate:
-
-                    if (this->speed < this->speed_Orig) {
-
-                        this->speed = this->speed * 1.05;
-
-                    }
-
-                    switch (this->direction) {
-
-                        case Direction::Left:
-                              this->x = this->x - this->speed;
-                            break;
-
-                        case Direction::Right:
-                            this->x = this->x + this->speed;
-                            break;
-                    
-                        default:
-                            break;
-
-                    }
-
-                    if (this->speed > 1) {
-                            
-                        if (this->y.getInteger() < this->y_Orig.getInteger()) {
+                        if (this->y < 35) {
 
                             this->y = this->y * 1.01;
-    // Serial.println("PA IY ");
                         }
-                        else if (this->y.getInteger() > this->y_Orig.getInteger()) {
+                        else if (this->y > 41) {
 
-    // Serial.println("PA DY ");
                             this->y = this->y * 0.99;
                         }
 
-                    }
+                        if (this->speed <= Constants::DecSpeed) {
 
-
-                    if (this->speed > this->speed_Orig && this->y.getInteger() == this->y_Orig.getInteger()) {
-
-                        this->enemyType = EnemyType::Plane;
-
-                    }
-
-                    break;
-
-                case EnemyType::Plane_SetHeight:
-                    {
-                        if (this->x < treasure->getX() - 2) {
-
-                            this->x = this->x  + 0.5f;
-
-                        }
-                        else if (this->x > treasure->getX() - 2) {
-
-                            this->x = this->x - 0.5f;
+                            this->enemyType = EnemyType::Plane_SetHeight;
 
                         }
 
-                        if (this->y < 37) {
+                        break;
 
-                            this->y = this->y + 0.5f;
+                    case EnemyType::Plane_Accelerate:
 
-                        }
-                        else if (this->y > 40) {
+                        if (this->speed < this->speed_Orig) {
 
-                            this->y = this->y - 0.5f;
-
-                        }
-
-                        SQ15x16 xDiff = this->x - treasure->getX();
-                        SQ15x16 yDiff = this->y - 38;
-
-                        if (xDiff > static_cast<SQ15x16>(-8.0f) && xDiff < static_cast<SQ15x16>(8.0f) && yDiff > static_cast<SQ15x16>(-1.5f) && yDiff < static_cast<SQ15x16>(1.5f)) {
-
-                            this->y = 38;
-                            this->pickupImageIdx = 0;
-                            this->enemyType = EnemyType::Plane_Pickup;
+                            this->speed = this->speed * 1.05;
 
                         }
 
-                    }
+                        switch (this->direction) {
 
-                    break;
-               
+                            case Direction::Left:
+                                this->x = this->x - this->speed;
+                                break;
 
-                case EnemyType::Plane_Pickup:
+                            case Direction::Right:
+                                this->x = this->x + this->speed;
+                                break;
+                        
+                            default:
+                                break;
 
-                    this->pickupImageIdx++;
+                        }
 
-                    if (this->pickupImageIdx == 160 && this->imageIdx == 0) {
-                        treasure->setActive(false);
-                        return EnemyUpdate::Treasure_PickedUp;
-                    }
+                        if (this->speed > 1) {
+                                
+                            if (this->y.getInteger() < this->y_Orig.getInteger()) {
 
-                    if (this->pickupImageIdx == 223) {
-                        this->enemyType = EnemyType::Plane_Accelerate;
-                    }
+                                this->y = this->y * 1.01;
 
-                    break;
+                            }
+                            else if (this->y.getInteger() > this->y_Orig.getInteger()) {
 
-                default:
-                    break;
+                                this->y = this->y * 0.99;
+
+                            }
+
+                        }
+
+
+                        if (this->speed > this->speed_Orig && this->y.getInteger() == this->y_Orig.getInteger()) {
+
+                            this->enemyType = EnemyType::Plane;
+
+                        }
+
+                        break;
+
+                    case EnemyType::Plane_SetHeight:
+                        {
+                            if (this->x < treasure->getX() - 2) {
+
+                                this->x = this->x  + 0.5f;
+
+                            }
+                            else if (this->x > treasure->getX() - 2) {
+
+                                this->x = this->x - 0.5f;
+
+                            }
+
+                            if (this->y < 37) {
+
+                                this->y = this->y + 0.5f;
+
+                            }
+                            else if (this->y > 40) {
+
+                                this->y = this->y - 0.5f;
+
+                            }
+
+                            SQ15x16 xDiff = this->x - treasure->getX();
+                            SQ15x16 yDiff = this->y - 38;
+
+                            if (xDiff > static_cast<SQ15x16>(-8.0f) && xDiff < static_cast<SQ15x16>(8.0f) && yDiff > static_cast<SQ15x16>(-1.5f) && yDiff < static_cast<SQ15x16>(1.5f)) {
+
+                                this->y = 38;
+                                this->pickupImageIdx = 0;
+                                this->enemyType = EnemyType::Plane_Pickup;
+
+                            }
+
+                        }
+
+                        break;
                 
-            }
 
-            if (this->imageIdx > 0) {
+                    case EnemyType::Plane_Pickup:
+
+                        this->pickupImageIdx++;
+
+                        if (this->pickupImageIdx == 160) {
+                            treasure->setActive(false);
+                            return EnemyUpdate::Treasure_PickedUp;
+                        }
+
+                        if (this->pickupImageIdx == 223) {
+                            this->enemyType = EnemyType::Plane_Accelerate;
+                        }
+
+                        break;
+
+                    default:
+                        break;
+                    
+                }
+
+            }
+            else {
 
                 this->imageIdx++;
 

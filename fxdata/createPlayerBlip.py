@@ -17,8 +17,8 @@ duration = 0.25  # In beats
 
 # Add the notes
 midi_file.addNote(track, channel, 65, time, duration, volume)  # Middle C
-midi_file.addNote(track, channel, 67, time + 0.25, duration, 0)  # D
-midi_file.addNote(track, channel, 63, time + 0.5, duration, 0)  # E
+midi_file.addNote(track, channel, 67, time + 0.25, duration, volume)  # D
+midi_file.addNote(track, channel, 63, time + 0.5, duration, volume)  # E
 
 # Write it to disk
 with open("../music/PlayerBlip.mid", "wb") as file:
