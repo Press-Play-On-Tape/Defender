@@ -7,7 +7,7 @@ using uint24_t = __uint24;
 // Initialize FX hardware using  FX::begin(FX_DATA_PAGE); in the setup() function.
 
 constexpr uint16_t FX_DATA_PAGE  = 0xfe72;
-constexpr uint24_t FX_DATA_BYTES = 97740;
+constexpr uint24_t FX_DATA_BYTES = 97716;
 
 constexpr uint16_t FX_SAVE_PAGE  = 0xfff0;
 constexpr uint24_t FX_SAVE_BYTES = 2;
@@ -15,34 +15,35 @@ constexpr uint24_t FX_SAVE_BYTES = 2;
 namespace Music
 {
   constexpr uint24_t Song_MainTheme = 0x000000;
-  constexpr uint24_t SFX_Three_Inc = 0x007C1C;
-  constexpr uint24_t SFX_Three_Dec = 0x007C38;
-  constexpr uint24_t SFX_Death = 0x007C54;
-  constexpr uint24_t SFX_Victory = 0x007D08;
-  constexpr uint24_t SFX_XPGain = 0x007DBC;
-  constexpr uint24_t SFX_PlayerBlib = 0x007DD0;
-  constexpr uint24_t SFX_EnemyBlib = 0x007DDC;
+  constexpr uint24_t SFX_Death = 0x007C1C;
+  constexpr uint24_t SFX_Victory = 0x007CC0;
+  constexpr uint24_t SFX_XPGain = 0x007D74;
+  constexpr uint24_t SFX_Three_Inc = 0x007D88;
+  constexpr uint24_t SFX_Three_Dec = 0x007DA4;
+  constexpr uint24_t SFX_PlayerBlip = 0x007DA8;
+  constexpr uint24_t SFX_EnemyBlip = 0x007DB0;
+  constexpr uint24_t SFX_Explosion = 0x007DB8;
 }
 
 namespace Images
 {
-  constexpr uint24_t Player = 0x007DE8;
-  constexpr uint24_t Player_Thrust = 0x00832A;
-  constexpr uint24_t Bullets = 0x0089EC;
-  constexpr uint24_t Enemy_00 = 0x008B56;
-  constexpr uint24_t Enemy_00_Pickup = 0x009338;
-  constexpr uint24_t Enemy_01 = 0x00ADCE;
-  constexpr uint24_t Enemy_02 = 0x00AF80;
-  constexpr uint24_t Enemy_03 = 0x00B02A;
-  constexpr uint24_t PPOT = 0x00B1AC;
-  constexpr uint24_t Sound_Volume = 0x00E1AE;
-  constexpr uint24_t Sound_Checkbox = 0x00E9F0;
-  constexpr uint24_t Title = 0x00E9FE;
-  constexpr uint24_t Title_Text = 0x013200;
-  constexpr uint24_t GameOver = 0x013E02;
-  constexpr uint24_t Quit = 0x014A04;
-  constexpr uint24_t BG_00 = 0x014E86;
-  constexpr uint24_t MG_00 = 0x0159C8;
-  constexpr uint24_t FG_00 = 0x0174CA;
+  constexpr uint24_t Player = 0x007DD0;
+  constexpr uint24_t Player_Thrust = 0x008312;
+  constexpr uint24_t Bullets = 0x0089D4;
+  constexpr uint24_t Enemy_00 = 0x008B3E;
+  constexpr uint24_t Enemy_00_Pickup = 0x009320;
+  constexpr uint24_t Enemy_01 = 0x00ADB6;
+  constexpr uint24_t Enemy_02 = 0x00AF68;
+  constexpr uint24_t Enemy_03 = 0x00B012;
+  constexpr uint24_t PPOT = 0x00B194;
+  constexpr uint24_t Sound_Volume = 0x00E196;
+  constexpr uint24_t Sound_Checkbox = 0x00E9D8;
+  constexpr uint24_t Title = 0x00E9E6;
+  constexpr uint24_t Title_Text = 0x0131E8;
+  constexpr uint24_t GameOver = 0x013DEA;
+  constexpr uint24_t Quit = 0x0149EC;
+  constexpr uint24_t BG_00 = 0x014E6E;
+  constexpr uint24_t MG_00 = 0x0159B0;
+  constexpr uint24_t FG_00 = 0x0174B2;
 }
 

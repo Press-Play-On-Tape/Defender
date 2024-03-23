@@ -278,7 +278,7 @@ class Enemy {
                     rect.x = this->getX().getInteger() + 1;
                     rect.y = this->getY().getInteger() + 1;
                     rect.width = 5;
-                    rect.height = 8;
+                    rect.height = 5;
                     break;
 
                 case EnemyType::Zap:

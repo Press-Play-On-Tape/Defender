@@ -21,7 +21,11 @@ namespace Music {
                                    Music::SFX_Victory,
                                    Music::SFX_XPGain,
                                    Music::SFX_Three_Inc,
-                                   Music::SFX_Three_Dec  };
+                                   Music::SFX_Three_Dec,
+                                   Music::SFX_PlayerBlip,
+                                   Music::SFX_EnemyBlip,
+                                   Music::SFX_Explosion,
+                                };
 
 }
 

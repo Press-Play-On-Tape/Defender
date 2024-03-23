@@ -535,7 +535,7 @@ void playerFireBullet() {
 
         if (!bullet.isActive()) {
 
-            //playSFX(MusicSFX::SFX_PlayerBlib);
+            playSFX(MusicSFX::SFX_PlayerBlip, false);
             bullet.setActive(true);
             bullet.setY(player.getY() + 6);
 
@@ -597,7 +597,13 @@ void enemyFireBullet() {
 
             if (enemy.isActive()) {
 
-                // playSFX(MusicSFX::SFX_EnemyBlib);
+                SQ15x16 xDiff = enemy.getX() - player.getX();
+
+                if (xDiff > -100 && xDiff < 100) {
+
+                    playSFX(MusicSFX::SFX_EnemyBlip, false);
+
+                }
 
                 bullet.setActive(true);
                 bullet.setY(enemy.getY() + 4);

@@ -15,6 +15,7 @@ bool updatePlayer(uint8_t frameCount) {
         gameOver = true;
         gameState = GameState::Play_EndOfGame;
         launchParticles((player.getX() - camera.getX() + 6).getInteger(), player.getY().getInteger() + 6);
+        playSFX(MusicSFX::SFX_Death, true);
 
     }
 
@@ -61,6 +62,7 @@ void updatePlayerBullet(int16_t player_x, Bullet &bullet) {
                     enemy.setImageIdx(1);
 
                     launchParticles((enemy.getX() - camera.getX() + 12).getInteger(), enemy.getY().getInteger() + 6);
+                    playSFX(MusicSFX::SFX_Explosion, true);
 
                     switch (enemy.getEnemyType()) {
 
@@ -106,6 +108,7 @@ void updateEnemyBullet(int16_t player_x, Bullet &bullet) {
             bullet.setActive(false);
             launchParticles((player.getX() - camera.getX() + 12).getInteger(), (player.getY() + 6).getInteger());
             player.decHealth(Constants::Health_Bullet);
+            playSFX(MusicSFX::SFX_Explosion, true);
 
         }
 
@@ -151,7 +154,9 @@ void updateEnemy(Enemy &enemy) {
                                 player.decHealth(Constants::Health_Plane);
                                 enemy.setImageIdx(1);
                                 launchParticles((enemy.getX() - camera.getX() + 12).getInteger(), enemy.getY().getInteger() + 6);
-                            
+       
+                                playSFX(MusicSFX::SFX_Explosion, true);
+
                             }
 
                             break;
@@ -164,6 +169,8 @@ void updateEnemy(Enemy &enemy) {
                                 enemy.setImageIdx(1);
                                 launchParticles((enemy.getX() - camera.getX() + 12).getInteger(), enemy.getY().getInteger() + 6);
                                 world.setZapFlash(11 * 3);
+       
+                                playSFX(MusicSFX::SFX_Explosion, true);
 
                             }
 
@@ -175,6 +182,8 @@ void updateEnemy(Enemy &enemy) {
 
                                 player.incHealth(random(Constants::HealthMax / 2, Constants::HealthMax + 1));
                                 enemy.setImageIdx(11);
+       
+                                playSFX(MusicSFX::SFX_XPGain, true);
 
                             }
                         
@@ -206,6 +215,8 @@ void updateEnemy(Enemy &enemy) {
                     player.setDeathSeq(true);
 
                 }
+
+                playSFX(MusicSFX::SFX_Three_Dec, false);
 
             }
 

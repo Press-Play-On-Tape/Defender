@@ -84,11 +84,14 @@ class Player {
             this->setX(0 + (56 - 4));
             this->setY(12);
             this->setDeathSeq(false);
+            this->setVelocityIdxX(17);
+            this->directionX = Direction::Right;
 
             this->health = Constants::HealthMax;
             this->healthBlink = 0;            
             this->treasureCount = Constants::TreasureCount;
             this->treasureBlink = 0;
+            
         }
 
         SQ15x16 getVelocityX()                           { return static_cast<SQ15x16>(Constants::Velocity_X[this->velocityIdxX]) / 16; }
@@ -260,7 +263,7 @@ class Player {
 
         }   
 
-        void decHealth(uint8_t val) {
+        bool decHealth(uint8_t val) {   // returns true when dead
 
             if (this->health > 0 && this->health > val) {
                 this->health = this->health - val;
@@ -269,6 +272,7 @@ class Player {
 
                 this->health = 0;
                 this->setDeathSeq(true);
+                return true;
 
             }
 
@@ -278,6 +282,8 @@ class Player {
             else if (this->healthBlink < 84) {
                 this->healthBlink = this->healthBlink + 32;
             }
+
+            return false;
             
         }
 
@@ -303,10 +309,10 @@ class Player {
 
             Rect rect;
 
-            rect.x = this->getX().getInteger();
-            rect.y = this->getY().getInteger();
-            rect.width = 16;
-            rect.height = 14;
+            rect.x = this->getX().getInteger() + 1;
+            rect.y = this->getY().getInteger() + 1;
+            rect.width = 14;
+            rect.height = 12;
 
             return rect;
 

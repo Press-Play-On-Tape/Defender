@@ -13,7 +13,7 @@ midi_file.addTempo(track, time, 120)
 channel = 0
 volume = 100
 time = 0  # In beats
-duration = 0.25  # In beats
+duration = 0.05  # In beats
 
 # Add the notes
 # midi_file.addNote(track, channel, 79, time, duration, volume)  # Middle C
