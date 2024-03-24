@@ -108,7 +108,7 @@ class Player {
 
         }
 
-        void acccelerateX(Direction direction) {
+        void accelerateX(Direction direction) {
 
             this->deccelerateXFlag = false;
 
@@ -170,50 +170,28 @@ class Player {
         }
 
 
-        void acccelerateY(Direction direction) {
+        void accelerateY(Direction direction) {
 
             this->deccelerateYFlag = false;
-            int8_t xMovementABS = (this->velocityIdxX > Constants::Player_Velocity_Stationary ? this->velocityIdxX - Constants::Player_Velocity_Stationary : abs(Constants::Player_Velocity_Stationary - this->velocityIdxX));
-            int8_t yMovementABS = (this->velocityIdxY > Constants::Player_Velocity_Stationary ? this->velocityIdxY - Constants::Player_Velocity_Stationary : abs(Constants::Player_Velocity_Stationary - this->velocityIdxY));
 
             switch (direction) {
 
                 case Direction::Up:
 
-                    if (this->velocityIdxY > Constants::Player_Velocity_Stationary) this->deccelerateYFlag = true;
-                        
-                    if (this->velocityIdxY > Constants::Player_Velocity_Stationary) {
-
-                        this->velocityIdxY = Constants::Player_Velocity_Up_Min;
-
+                    if (this->velocityIdxY > Constants::Player_Velocity_Down_Min) {
+                        this->velocityIdxY = this->velocityIdxY - 2;
+                        this->deccelerateYFlag = true;
                     }
-                    else {
-
-                        if (this->velocityIdxY > Constants::Player_Velocity_Up_Max && (xMovementABS >= yMovementABS)) {
-                            this->velocityIdxY--;
-                        }
-
-                    }
-
+                    if (this->velocityIdxY > Constants::Player_Velocity_Up_Max) this->velocityIdxY--;
                     break;
 
                 case Direction::Down:
 
-                    if (this->velocityIdxY < Constants::Player_Velocity_Stationary) this->deccelerateYFlag = true;
-
-                    if (this->velocityIdxY < Constants::Player_Velocity_Stationary) {
-
-                        this->velocityIdxY = Constants::Player_Velocity_Down_Min;
-
+                    if (this->velocityIdxY < Constants::Player_Velocity_Up_Min) {
+                        this->velocityIdxY = this->velocityIdxY + 2;
+                        this->deccelerateYFlag = true;
                     }
-                    else {
-
-                        if (this->velocityIdxY < Constants::Player_Velocity_Down_Max && (xMovementABS >= yMovementABS)) {
-                            this->velocityIdxY++;
-                        }
-
-                    }
-            
+                    if (this->velocityIdxY < Constants::Player_Velocity_Down_Max) this->velocityIdxY++;
                     break;
 
             }
@@ -234,7 +212,29 @@ class Player {
         void deccelerateY() {
 
             this->deccelerateYFlag = false;
-            this->velocityIdxY = Constants::Player_Velocity_Stationary;
+
+            switch (this->directionY) {
+
+                case Direction::Up:
+
+                    if (this->velocityIdxY < Constants::Player_Velocity_Up_Min) {
+                        this->velocityIdxY = this->velocityIdxY + 2;
+                        this->deccelerateYFlag = true;
+                    }
+
+                    break;
+
+                case Direction::Down:
+
+                    if (this->velocityIdxY > Constants::Player_Velocity_Down_Min) {
+                        this->velocityIdxY = this->velocityIdxY - 2;
+                        this->deccelerateYFlag = true;
+                    }
+
+                    break;
+            
+
+            }
 
         }     
 

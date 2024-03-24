@@ -162,14 +162,37 @@ class Enemy {
 
                     case EnemyType::Plane_SetHeight:
                         {
-                            if (this->x < treasure->getX() - 2) {
+                            switch (this->direction) {
 
-                                this->x = this->x  + 0.5f;
+                                case Direction::Left:
 
-                            }
-                            else if (this->x > treasure->getX() - 2) {
+                                    if (this->x < treasure->getX() - 8) {
 
-                                this->x = this->x - 0.5f;
+                                        this->x = this->x + 0.5f;
+
+                                    }
+                                    else if (this->x > treasure->getX() - 8) {
+
+                                        this->x = this->x - 0.5f;
+
+                                    }
+
+                                    break;
+
+                                case Direction::Right:
+
+                                    if (this->x < treasure->getX() - 2) {
+
+                                        this->x = this->x + 0.5f;
+
+                                    }
+                                    else if (this->x > treasure->getX() - 2) {
+
+                                        this->x = this->x - 0.5f;
+
+                                    }
+
+                                    break;
 
                             }
 
@@ -187,11 +210,31 @@ class Enemy {
                             SQ15x16 xDiff = this->x - treasure->getX();
                             SQ15x16 yDiff = this->y - 38;
 
-                            if (xDiff > static_cast<SQ15x16>(-8.0f) && xDiff < static_cast<SQ15x16>(8.0f) && yDiff > static_cast<SQ15x16>(-1.5f) && yDiff < static_cast<SQ15x16>(1.5f)) {
+                            switch (this->direction) {
 
-                                this->y = 38;
-                                this->pickupImageIdx = 0;
-                                this->enemyType = EnemyType::Plane_Pickup;
+                                case Direction::Left:
+
+                                    if (xDiff > static_cast<SQ15x16>(-16.0f) && xDiff < static_cast<SQ15x16>(-0.0f) && yDiff > static_cast<SQ15x16>(-1.5f) && yDiff < static_cast<SQ15x16>(1.5f)) {
+
+                                        this->y = 38;
+                                        this->pickupImageIdx = 0;
+                                        this->enemyType = EnemyType::Plane_Pickup;
+
+                                    }
+
+                                    break;
+
+                                case Direction::Right:
+
+                                    if (xDiff > static_cast<SQ15x16>(-8.0f) && xDiff < static_cast<SQ15x16>(8.0f) && yDiff > static_cast<SQ15x16>(-1.5f) && yDiff < static_cast<SQ15x16>(1.5f)) {
+
+                                        this->y = 38;
+                                        this->pickupImageIdx = 0;
+                                        this->enemyType = EnemyType::Plane_Pickup;
+
+                                    }
+
+                                    break;
 
                             }
 

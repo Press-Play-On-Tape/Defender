@@ -450,20 +450,20 @@ void play_Update() {
             if (frameCount % 4 == 0) {
 
                 if (pressed & LEFT_BUTTON) { 
-                    player.acccelerateX(Direction::Left);
+                    player.accelerateX(Direction::Left);
                 }
                 else if (pressed & RIGHT_BUTTON) { 
-                    player.acccelerateX(Direction::Right);
+                    player.accelerateX(Direction::Right);
                 }
                 else if (frameCount % 8 == 0) {
                     player.deccelerateX();
                 }
 
                 if (pressed & UP_BUTTON) { 
-                    player.acccelerateY(Direction::Up);
+                    player.accelerateY(Direction::Up);
                 }
                 else if (pressed & DOWN_BUTTON) { 
-                    player.acccelerateY(Direction::Down);
+                    player.accelerateY(Direction::Down);
                 }
                 else if (frameCount % 8 == 0) {
                     player.deccelerateY();

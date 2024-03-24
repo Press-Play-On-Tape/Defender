@@ -2,10 +2,10 @@
   "schemaVersion": 3,
   "binaries": [
     {
-      "title": "PaintBall",
-      "filename": "PaintBall.hex",
-      "flashdata": "PaintBall-data.bin",
-      "flashsave": "PaintBall-save.bin",
+      "title": "DefenderFX",
+      "filename": "DefenderFX.hex",
+      "flashdata": "DefenderFX-data.bin",
+      "flashsave": "DefenderFX-save.bin",
       "device": "ArduboyFX"
     }
   ]

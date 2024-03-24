@@ -312,10 +312,10 @@ void testForTreasures(Player &player, Enemy &enemy) {
 
                     case Direction::Left:
                         {
-                            if (treasure->getX() > enemy.getX()) continue;
+                            if (treasure->getX() + 10 > enemy.getX()) continue;
 
                             SQ15x16 xDiff = treasure->getX() - enemy.getX();
-                            if (xDiff < static_cast<SQ15x16>(-75.0f) || xDiff > static_cast<SQ15x16>(75.0f)) continue;
+                            if (xDiff < static_cast<SQ15x16>(-50.0f) || xDiff > static_cast<SQ15x16>(70.0f)) continue;
 
                             SQ15x16 xRatio = xDiff / enemy.getSpeed();
 
