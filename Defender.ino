@@ -48,6 +48,9 @@ uint16_t frameCount = 0;
 bool particlesNeedRendering = false;
 uint8_t titleCounter = 0;
 Enemy *enemyPickup = nullptr;
+uint8_t enemyPickupCounter = 0;
+uint8_t enemyPickupIdx = 0;
+
 bool gameOver = false;
 
 

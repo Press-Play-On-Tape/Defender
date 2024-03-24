@@ -105,12 +105,26 @@ void render(uint8_t currentPlane) {
         }
 
     }
+    else if (enemyPickupCounter > 0 && enemyPickup != nullptr) {
+
+        if (enemyPickup->getX() < player.getX()) {
+            
+            SpritesU::drawPlusMaskFX(32, 16, Images::EnemyLanding, (((frameCount %32) < 16) * 3) + currentPlane);
+
+        }
+        else {
+            
+            SpritesU::drawPlusMaskFX(32, 16, Images::EnemyLanding, ((2 + ((frameCount %32) < 16)) * 3) + currentPlane);
+
+        }
+
+    }
+
 
     SpritesU::drawPlusMaskFX(mg_Pos - 96, 30, Images::MG_00, (((mgIdx + 8) % 4) * 3) + currentPlane);
     SpritesU::drawPlusMaskFX(mg_Pos, 30, Images::MG_00, (((mgIdx - 1 + 8) % 4) * 3) + currentPlane);
     SpritesU::drawPlusMaskFX(mg_Pos + 96, 30, Images::MG_00, (((mgIdx - 2 + 8) % 4) * 3) + currentPlane);
     SpritesU::drawPlusMaskFX(mg_Pos + 96 + 96, 30, Images::MG_00, (((mgIdx - 3 + 8) % 4) * 3) + currentPlane);
-
 
 
     // Render scoreboard ..
@@ -219,69 +233,69 @@ void render(uint8_t currentPlane) {
 
     // Render bullets ..
 
-    uint8_t playerX_Offset = (player.getX() - camera.getX()).getInteger();
-    uint8_t playerY = player.getY().getInteger();
-
-    for (Bullet &bullet : playerBullets) {
-
-        if (bullet.isActive()) {
-
-            int16_t xDiff = (bullet.getX() - player.getX()).getInteger();
-
-            switch (bullet.getDirection()) {
-
-                case Direction::Left:
-                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY().getInteger(), Images::Player_Bullets, currentPlane);
-                    break;
-
-                case Direction::Right:
-                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY().getInteger(), Images::Player_Bullets, 3 + currentPlane);
-                    break;
-
-                
-            }
-
-        }
-
-        if (currentPlane == 2) {
-
-            updatePlayerBullet(player.getX().getInteger(), bullet);
-        
-        }
-
-    }
-
-    for (Bullet &bullet : enemyBullets) {
-
-        if (bullet.isActive()) {
-
-            int16_t xDiff = (bullet.getX() - player.getX()).getInteger();
-
-            switch (bullet.getDirection()) {
-
-                case Direction::Left:
-                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY().getInteger(), Images::Player_Bullets, currentPlane);
-                    break;
-
-                case Direction::Right:
-                    SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY().getInteger(), Images::Player_Bullets, 3 + currentPlane);
-                    break;
-
-                
-            }
-
-        }
-
-        if (currentPlane == 2) {
-
-            updateEnemyBullet(player.getX().getInteger(), bullet);
-        
-        }
-
-    }
-
-
     if (gameState == GameState::Play) {
+
+        uint8_t playerX_Offset = (player.getX() - camera.getX()).getInteger();
+        uint8_t playerY = player.getY().getInteger();
+
+        for (Bullet &bullet : playerBullets) {
+
+            if (bullet.isActive()) {
+
+                int16_t xDiff = (bullet.getX() - player.getX()).getInteger();
+
+                switch (bullet.getDirection()) {
+
+                    case Direction::Left:
+                        SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY().getInteger(), Images::Player_Bullets, currentPlane);
+                        break;
+
+                    case Direction::Right:
+                        SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY().getInteger(), Images::Player_Bullets, 3 + currentPlane);
+                        break;
+
+                    
+                }
+
+            }
+
+            if (currentPlane == 2) {
+
+                updatePlayerBullet(player.getX().getInteger(), bullet);
+            
+            }
+
+        }
+
+        for (Bullet &bullet : enemyBullets) {
+
+            if (bullet.isActive()) {
+
+                int16_t xDiff = (bullet.getX() - player.getX()).getInteger();
+
+                switch (bullet.getDirection()) {
+
+                    case Direction::Left:
+                        SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY().getInteger(), Images::Player_Bullets, currentPlane);
+                        break;
+
+                    case Direction::Right:
+                        SpritesU::drawPlusMask(playerX_Offset + xDiff, bullet.getY().getInteger(), Images::Player_Bullets, 3 + currentPlane);
+                        break;
+
+                    
+                }
+
+            }
+
+            if (currentPlane == 2) {
+
+                updateEnemyBullet(player.getX().getInteger(), bullet);
+            
+            }
+
+        }
+
 
         uint8_t thrustImg = Constants::Thrust_Img[player.getVelocityIdxX()];
         uint8_t thrustFrameCount = ((frameCount % 9 / 3));
@@ -352,27 +366,26 @@ void render(uint8_t currentPlane) {
 
         }
 
-    }
 
+        // Render treasures ..
 
-    // Render treasures ..
+        for (Treasure &treasure : treasures) {
 
-    for (Treasure &treasure : treasures) {
+            if (treasure.isActive()) {
 
-        if (treasure.isActive()) {
+                SpritesU::drawPlusMask((treasure.getX() - camera.getX()).getInteger(), treasure.getY().getInteger(), Images::Treasure, (((frameCount / 12) % 4) * 3) + currentPlane);
 
-            SpritesU::drawPlusMask((treasure.getX() - camera.getX()).getInteger(), treasure.getY().getInteger(), Images::Treasure, (((frameCount / 12) % 4) * 3) + currentPlane);
+            }
 
         }
 
+
+
+        // Render enemies ..
+
+        renderEnemies(currentPlane, gameState == GameState::Play);
+
     }
-
-
-
-    // Render enemies ..
-
-    renderEnemies(currentPlane, gameState == GameState::Play);
-
 
 
     // Render foregorund ..
@@ -381,6 +394,19 @@ void render(uint8_t currentPlane) {
     SpritesU::drawPlusMaskFX(fg_Pos, 36, Images::FG_00, (((fgIdx - 1 + 8) % 4) * 3) + currentPlane);
     SpritesU::drawPlusMaskFX(fg_Pos + 96, 36, Images::FG_00, (((fgIdx - 2 + 8) % 4) * 3) + currentPlane);
     SpritesU::drawPlusMaskFX(fg_Pos + 96 + 96, 36, Images::FG_00, (((fgIdx - 3 + 8) % 4) * 3) + currentPlane);
+
+
+    switch (gameState) {
+
+        case GameState::Play:
+        case GameState::Play_EndOfGame:
+            break;
+
+        case GameState::Play_Quit:
+            SpritesU::drawPlusMaskFX(28, 22, Images::Quit, currentPlane);
+            break;
+
+    }
 
 
     // Render particles and scores ..
@@ -395,6 +421,7 @@ void play_Update() {
     frameCount++;
 
     if (frameCount % 512 == 0) cookie.score++;
+    if (enemyPickupCounter > 0) enemyPickupCounter--;
 
     uint8_t justPressed = getJustPressedButtons();
     uint8_t pressed = getPressedButtons();
@@ -411,6 +438,10 @@ void play_Update() {
             enemyFireBullet();
 
             wrapWorld();
+            
+            if (justPressed & B_BUTTON) { 
+                gameState = GameState::Play_Quit;
+            }
 
             if (justPressed & A_BUTTON) { 
                 playerFireBullet();
@@ -466,6 +497,18 @@ void play_Update() {
 
             player.decHealthBlink();
             player.decTreasureBlink();
+
+            break;
+
+        case GameState::Play_Quit:
+
+            if (justPressed & A_BUTTON) { 
+                gameState = GameState::Title_Init;
+            }
+
+            if (justPressed & B_BUTTON) { 
+                gameState = GameState::Play;
+            }
 
             break;
 

@@ -40,6 +40,7 @@ enum class GameState : uint8_t {
     Play_Start,
         Play = Play_Start,
         Play_EndOfGame,
+        Play_Quit,
     Play_End,
 
 };

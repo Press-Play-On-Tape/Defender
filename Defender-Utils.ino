@@ -168,6 +168,11 @@ void relaunchEnemy(Enemy &enemy) {
         enemy.setX(player.getX() - Constants::WorldWidth.getInteger() + 10);
     }
 
+    if (enemy.getEnemyType() >= EnemyType::Plane_Start) {
+
+        enemy.setEnemyType(EnemyType::Plane);
+    }
+
     enemy.setActive(true);
     enemy.setImageIdx(0);
     enemy.setY(random(0, 42));

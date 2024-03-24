@@ -228,6 +228,7 @@ class Enemy {
                 if (this->imageIdx == 12) {
 
                     this->active = false;
+                    this->imageIdx = 0;
                     return EnemyUpdate::Inactive;
                     
                 }

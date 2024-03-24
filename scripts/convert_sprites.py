@@ -118,6 +118,8 @@ convert_header(IMAGES + 'Titles/Title.png',                                     
 convert_header(IMAGES + 'Titles/Title_Text.png',                                               BASE + 'Images.hpp', 'Title_Text', 4,maskImage=False)
 
 convert_header(IMAGES + 'Titles/GameOver.png',                                                 BASE + 'Images.hpp', 'GameOver', 4)
+convert_header(IMAGES + 'Titles/Quit.png',                                                     BASE + 'Images.hpp', 'Quit', 4)
+convert_header(IMAGES + 'Titles/EnemyLanding.png',                                             BASE + 'Images.hpp', 'EnemyLanding', 4, 64, 16, maskImage=True)
 
 convert_header(IMAGES + 'Scenery/BG_00.png',                                                   BASE + 'Images.hpp', 'BG_00', 4, 96, 40)
 convert_header(IMAGES + 'Scenery/MG_00.png',                                                   BASE + 'Images.hpp', 'MG_00', 4, 96, 24)

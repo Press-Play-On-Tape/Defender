@@ -76,6 +76,7 @@ namespace Constants {
     constexpr uint8_t BulletCount_Player = 5;
     constexpr uint8_t BulletCount_Enemy = 5;
     constexpr uint8_t TreasureCount = 5;
+    constexpr uint8_t EnemyPickup = 192;
 
     constexpr uint8_t HUD_Left = 40;
     constexpr uint8_t DeathSeq_ExplodePlane = 10;
