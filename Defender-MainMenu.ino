@@ -228,8 +228,20 @@ void title(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
                 }
 
             }
-            break;        
 
+            break;     
+
+        case GameState::Title_ShowCredits:
+            {
+                uint16_t score = cookie.highScore / 1000;
+                SpritesU::drawPlusMask(92 - 17, 53, Images::Numbers_5x3_2D_WB, (score * 3) + currentPlane);
+                score = cookie.highScore % 100;
+                SpritesU::drawPlusMask(92 - 9, 53, Images::Numbers_5x3_2D_WB, (score * 3) + currentPlane);
+
+            }
+
+            break;
+  
         default:
             break;    
 

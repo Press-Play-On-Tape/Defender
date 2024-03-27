@@ -17,7 +17,7 @@
             "intelliSenseMode": "gcc-x64",
             "includePath": [
                 "/Users/simonholmes/Library/Arduino15/packages/arduboy-homemade/hardware/avr/1.3.9/cores/arduboy",
-                "/Users/simonholmes/Library/Arduino15/packages/arduboy-homemade/hardware/avr/1.3.9/variants/arduboy-fx",
+                "/Users/simonholmes/Library/Arduino15/packages/arduboy-homemade/hardware/avr/1.3.9/variants/arduboy-mini",
                 "/Users/simonholmes/Library/Arduino15/packages/arduboy-homemade/hardware/avr/1.3.9/libraries/ArduboyFX/src",
                 "/Users/simonholmes/Library/Arduino15/packages/arduboy-homemade/hardware/avr/1.3.9/libraries/Arduboy2/src",
                 "/Users/simonholmes/Library/Arduino15/packages/arduboy-homemade/hardware/avr/1.3.9/libraries/EEPROM/src",
@@ -37,7 +37,7 @@
                 "ARDUINO_AVR_ARDUBOY",
                 "ARDUINO_ARCH_AVR",
                 "ARDUBOY_10",
-                "CART_CS_SDA",
+                "CART_CS_HWB",
                 "USB_VID=0x2341",
                 "USB_PID=0x8036",
                 "USB_MANUFACTURER=\"Arduboy Inc\"",

@@ -105,6 +105,7 @@ convert_header_PROGMEM(IMAGES + 'HUD/Arrows.png',                               
 convert_header_PROGMEM(IMAGES + 'HUD/HUD_Treasure.png',                                           BASE + 'Images.h', 'HUD_Treasure', 4)
 convert_header_PROGMEM(IMAGES + 'HUD/Treasure.png',                                               BASE + 'Images.h', 'Treasure', 4, 7, 8)
 convert_header_PROGMEM(IMAGES + 'Numbers/Numbers_5x3_2D_MB.png',                                  BASE + 'Images.h', 'Numbers_5x3_2D_MB', 4, 7, 8)
+convert_header_PROGMEM(IMAGES + 'Numbers/Numbers_5x3_2D_WB.png',                                  BASE + 'Images.h', 'Numbers_5x3_2D_WB', 4, 7, 8)
 convert_header_PROGMEM(IMAGES + 'Player/Health.png',                                              BASE + 'Images.h', 'Health', 4, 30, 8)
 
 closeFile(BASE + 'Images.h')

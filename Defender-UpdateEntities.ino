@@ -17,6 +17,13 @@ bool updatePlayer(uint8_t frameCount) {
         launchParticles((player.getX() - camera.getX() + 6).getInteger(), player.getY().getInteger() + 6);
         playSFX(MusicSFX::SFX_Death, true);
 
+        if (cookie.score > cookie.highScore) {
+
+            cookie.highScore = cookie.score;
+            saveCookie(true);
+
+        }
+
     }
 
 }
