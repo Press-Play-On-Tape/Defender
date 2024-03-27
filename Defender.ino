@@ -106,12 +106,6 @@ void loop() {
 
     }
 
-    if (cookie.score > cookie.highScore) {
-
-        cookie.highScore = cookie.score;
-
-    }
-
     audioUpdate();
 
     world.decZapFlash();
